@@ -1,13 +1,44 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="Chat_styles.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Billetera</title>
+  <link rel="stylesheet" href="estilos.css" />
 </head>
 <body>
-    <h1>Holaaaaaa</h1>
+  <!-- Rectángulo simulando barra de estado -->
+  <div class="barra-superior"></div>
+
+  <!-- Encabezado con flecha e imagen del logo -->
+  <div class="encabezado">
+    <button class="volver">&larr;</button>
+    <img src="logo-wibond.png" alt="Logo Wibond" class="logo-wibond" />
+  </div>
+
+  <!-- Título -->
+  <h1 class="titulo">Transferir dinero</h1>
+
+  <!-- Tarjeta de saldo disponible -->
+  <div class="saldo">
+    <p class="subtitulo-saldo">Dinero disponible</p>
+    <p class="monto-saldo">ARS $ 1.236,00</p>
+  </div>
+
+  <!-- Selección de tipo de destino -->
+  <div class="destino">
+    <p class="titulo-destino">Tipo de destino</p>
+    <label class="opcion">
+      <input type="radio" name="destino" checked />
+      Destinatario único
+    </label>
+    <label class="opcion">
+      <input type="radio" name="destino" />
+      Múltiples destinatarios
+    </label>
+  </div>
+
+  <!-- Botón siguiente -->
+  <button class="boton-siguiente">Siguiente</button>
 </body>
 </html>
