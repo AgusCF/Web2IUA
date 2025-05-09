@@ -1,2 +1,14 @@
-# Auto detect text files and perform LF normalization
+# filepath: /home/cegb03/Documentos/Programacion/Repos/Web2IUA/.gitattributes
+# Normaliza los finales de línea para todos los archivos de texto
 * text=auto
+
+# Asegúrate de que los archivos binarios no se modifiquen
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.exe binary
+*.dll binary
