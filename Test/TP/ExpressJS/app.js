@@ -1,13 +1,13 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const router = require('./routes/index.routes.js');
+const router = require('./src/routes/index.routes.js');
 dotenv.config();
 
-const app = express();
-
-app.use('/', router);
+// Configuración de Express
+const server = express();
+server.use('/api', router);
 
 // Iniciar el servidor
-app.listen(process.env.PORT || 3500, () => {
+server.listen(process.env.PORT || 3500, () => {
     console.log(`Servidor escuchando en el puerto ${process.env.PORT || 3500}`);
   });
