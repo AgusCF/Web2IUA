@@ -1,11 +1,76 @@
-const { Pool } = require("pg"); // Para manejar el Pool
-const dotenv = require("dotenv"); // Carga de variables de entorno
-const { neon } = require("@neondatabase/serverless"); // Conexión a Neon
+/*import { createPool } from 'mysql2/promise';
+import dotenv from 'dotenv';
+dotenv.config();
+
+// Configuración de la conexión a la base de datos
+export const pool = createPool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT || 3306, // Usa 3306 como predeterminado si no está definido
+    database: process.env.DB_NAME,
+});
+
+// Función para verificar la conexión
+export async function verifyDatabaseConnection() {
+    try {
+        const connection = await pool.getConnection();
+        console.log('✔️ Conexión a la base de datos establecida exitosamente.');
+        connection.release(); // Libera la conexión
+    } catch (error) {
+        console.error('❌ Error al conectar a la base de datos:', error.message);
+    }
+}
+
+// Llama a la función de verificación al iniciar
+verifyDatabaseConnection();
+
+/*
+import pkg from 'pg';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const { Pool } = pkg;
+
+// Configuración de la conexión a la base de datos
+export const pool = new Pool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT || 5432, // Usa 5432 como predeterminado si no está definido
+    database: process.env.DB_NAME,
+    ssl: {
+        require: true, // Requerir SSL
+    },
+});
+
+
+// Función para verificar la conexión
+export async function verifyDatabaseConnection() {
+    console.log('user: ', process.env.DB_USER);
+    console.log('pass: ', process.env.DB_PASSWORD);
+    try {
+        const client = await pool.connect();
+        console.log('✔️ Conexión a la base de datos establecida exitosamente.');
+        client.release(); // Libera la conexión
+    } catch (error) {
+        console.error('❌ Error al conectar a la base de datos:', error.message);
+    }
+}
+
+// Llama a la función de verificación al iniciar
+verifyDatabaseConnection();
+//*/
+import pkg from "pg"; // Para manejar el Pool
+import dotenv from "dotenv"; // Carga de variables de entorno
+import { neon } from "@neondatabase/serverless"; // Conexión a Neon
 
 dotenv.config();
 
+const { Pool } = pkg;
+
 // Configuración del Pool de PostgreSQL
-const pool = new Pool({
+export const pool = new Pool({
     connectionString: process.env.DATABASE_URL, // Usa DATABASE_URL directamente
     ssl: {
         require: true, // Requerir SSL
@@ -14,10 +79,10 @@ const pool = new Pool({
 });
 
 // Crear conexión con Neon usando el módulo @neondatabase/serverless
-const sql = neon(process.env.DATABASE_URL);
+export const sql = neon(process.env.DATABASE_URL);
 
 // Función para verificar la conexión al iniciar
-async function verifyDatabaseConnection() {
+export async function verifyDatabaseConnection() {
     try {
         console.log("Verificando conexión con el Pool...");
         const client = await pool.connect(); // Intenta conectar usando el Pool
@@ -35,5 +100,3 @@ async function verifyDatabaseConnection() {
 
 // Llama a la función de verificación al iniciar
 verifyDatabaseConnection();
-
-module.exports = { pool, sql, verifyDatabaseConnection };

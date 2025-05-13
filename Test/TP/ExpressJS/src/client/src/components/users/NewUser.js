@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useState } from 'react';
-import usuarioAxios from '../../config/axios.js';
+import usuarioAxios from '../../config/axio.js';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { reposteriaContext } from '../../context/reposteriaContext.js';
@@ -11,9 +11,12 @@ const NewUser = () => {
   // user = state, saveUser = funcion para guardar el state
   const [user, saveUser] = useState({
     username: '',
-    phoneNumber: '',
+    email: '',
     password: '',
     role: '',
+    departmentLetter: '',
+    phoneNumber: '',
+    floorNumber: ''
   });
 
   // Agregando a la RestApi un nuevo usuario
@@ -62,8 +65,8 @@ const NewUser = () => {
 
   // Validación del formulario
   const validateForm = () => {
-    const { username, password, phoneNumber } = user;
-    return !username || !password || !phoneNumber;
+    const { username, email, password, role, departmentLetter, floorNumber, phoneNumber } = user;
+    return !username || !email || !password || !role || !departmentLetter || !floorNumber || !phoneNumber;
   };
 
   return (
@@ -79,8 +82,32 @@ const NewUser = () => {
         </div>
 
         <div className="campo">
+          <label>Email:</label>
+          <input type="email" placeholder="Email de Usuario" name="email" onChange={updateState} />
+        </div>
+
+        <div className="campo">
           <label>Password:</label>
           <input type="password" placeholder="Password" name="password" onChange={updateState} />
+        </div>
+
+        <div className="campo">
+          <label>Role:</label>
+          <select name="role" onChange={updateState}>
+            <option value="">Seleccione un rol</option>
+            <option value="client">client</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+
+        <div className="campo">
+          <label>Departamento Letra:</label>
+          <input type="text" placeholder="Departamento" name="departmentLetter" onChange={updateState} />
+        </div>
+
+        <div className="campo">
+          <label>Piso Número:</label>
+          <input type="number" placeholder="Piso Número" name="floorNumber" onChange={updateState} />
         </div>
 
         <div className="campo">

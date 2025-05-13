@@ -1,9 +1,10 @@
 import React, { useState, useContext, Fragment } from "react";
 import Swal from "sweetalert2";
-import usuarioAxios from "../../config/axios.js";
+import usuarioAxios from "../../config/axio.js";
 import { useNavigate } from "react-router-dom";
 import { reposteriaContext } from "../../context/reposteriaContext.js";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
+import "./Logins.css"; // Importa el archivo CSS
 
 const Login = () => {
   const [, setAuth] = useContext(reposteriaContext);
@@ -12,29 +13,28 @@ const Login = () => {
 
   const iniciarSesion = async (e) => {
     e.preventDefault();
-    console.log("Iniciando sesión con credenciales:", credenciales);
+    //console.log("Iniciando sesión con credenciales:", credenciales);
   
     try {
-      
       const res = await usuarioAxios.post("/login", credenciales);
-      console.log("Respuesta del servidor:", res.data);
+      //console.log("Respuesta del servidor:", res.data);
   
       const { token } = res.data;
       const decodedToken = jwtDecode(token);
-      console.log("Token decodificado:", decodedToken);
+      //console.log("Token decodificado:", decodedToken);
   
-      const { role, departmentNumber, name, email, floorNumber } = decodedToken;
+      const { role, departmentLetter, name, email, floorNumber } = decodedToken;
   
       localStorage.setItem("token", token);
-      console.log('token', token);
-      console.log('role', role);
-      console.log('departmentNumber', departmentNumber);
+      //console.log('token', token);
+      //console.log('role', role);
+      //console.log('departmentLetter', departmentLetter);
   
       setAuth({
         token,
         auth: true,
         user: {
-          departmentNumber,
+          departmentLetter,
           role,
           name,
           email,
@@ -42,7 +42,7 @@ const Login = () => {
         }
       });
   
-      console.log('Auth', setAuth);
+      //console.log('Auth', setAuth);
       Swal.fire({
         icon: "success",
         title: "Login Correcto",
@@ -66,38 +66,39 @@ const Login = () => {
 
   return (
     <Fragment>
-      <div className="login">
-        <h2>Iniciar Sesion</h2>
-
-        <div className="contenedor-formulario">
-          <form onSubmit={iniciarSesion}>
-            <div className="campo">
-              <label>Email</label>
-              <input
-                type="text"
-                name="email"
-                placeholder="Correo electrónico"
-                required
-                onChange={leerDatos}
-              />
-            </div>
-            <div className="campo">
-              <label>Contraseña</label>
-              <input
-                type="password"
-                name="password"
-                placeholder="Contraseña"
-                required
-                onChange={leerDatos}
-              />
-            </div>
+      <div className="login-card">
+        <div className="card-header">
+          <div className="log">Iniciar Sesión</div>
+        </div>
+        <form onSubmit={iniciarSesion}>
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="text"
+              name="email"
+              placeholder="Correo electrónico"
+              required
+              onChange={leerDatos}
+            />
+          </div>
+          <div className="form-group">
+            <label>Contraseña</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Contraseña"
+              required
+              onChange={leerDatos}
+            />
+          </div>
+          <div className="form-group">
             <input
               type="submit"
               className="btn btn-verde btn-block"
               value="Iniciar Sesion"
             />
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </Fragment>
   );

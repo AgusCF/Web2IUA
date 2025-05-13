@@ -13,9 +13,12 @@ const Header = () => {
       token: '',
       auth: false,
       user: {
+        departmentLetter: null,
         role: '',
         name: null,
-        phoneNumber: null,
+        tel: null,
+        email: null,
+        floorNumber: null,
       }
     });
     localStorage.removeItem('token');
@@ -34,7 +37,7 @@ const Header = () => {
         <div className="contenido-barra">
           {auth.auth ? (
             <Fragment>
-              <h1>Administrador de Productos</h1>
+              <h1>Administrador de Edificio</h1>
               <button
                 type="button"
                 className="btn btn-rojo"

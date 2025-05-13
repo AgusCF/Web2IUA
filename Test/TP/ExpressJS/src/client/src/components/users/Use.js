@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import usuarioAxios from "../../config/axios.js";
+import usuarioAxios from "../../config/axio.js";
 import { reposteriaContext } from "../../context/reposteriaContext.js";
 
 // Se encierra entre llaves para poder extraer directamente el objeto y no tener que poner props.user.username
 const Use = ({ user }) => {
   // Extraer Valores
-  const { _id, username, email, role } = user;
+  const { id, username, email, role } = user;
   const [auth] = useContext(reposteriaContext);
 
   // Eliminar Usuario
@@ -37,9 +37,10 @@ const Use = ({ user }) => {
             icon: "success"
           });
         } catch (error) {
+          const errorMessage = error.response?.data?.message || "No se pudo eliminar el usuario";
           Swal.fire({
             title: "Error",
-            text: "No se pudo eliminar el usuario",
+            text: errorMessage,
             icon: "error"
           });
           console.error("Error al eliminar usuario:", error);
@@ -56,15 +57,20 @@ const Use = ({ user }) => {
         <p>{email}</p>
       </div>
       <div className="acciones">
-        <Link to={`/users/editarUsuario/${_id}`} className="btn btn-azul">
+        <Link to={`/users/editarUsuario/${id}`} className="btn btn-azul">
           <i className="fas fa-pen-alt"></i>
           Editar Usuario
         </Link>
-        
+
+        <Link to={`/users/cambiarPassword/${id}`} className="btn btn-verde">
+          <i className="fas fa-key"></i>
+          Cambiar Contraseña
+        </Link>
+
         <button 
           type="button" 
           className="btn btn-rojo btn-eliminar"
-          onClick={() => deleteUser(_id)}
+          onClick={() => deleteUser(id)}
         >
           <i className="fas fa-times"></i>
           Eliminar Usuario

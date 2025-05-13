@@ -12,21 +12,14 @@ const Nav = () => {
       {auth.user.role === 'admin' ? (
         <h2>Administración</h2>
       ) : (
-        <h2>Bienvenido {auth.user.name}</h2>
+        <h2>Departamento {auth.user.departmentLetter}, Piso {auth.user.floorNumber}</h2>
       )}
 
       <nav className="navegacion">
-        {auth.user.role === 'admin' ? (
-          <Link to={"/users"} className="clientes">
-            Usuario
-          </Link>
-        ) : null}
-        <Link to={"/productos"} className="productos">
-          Productos
-        </Link>
-        <Link to={"/pedidos"} className="pedidos">
-          Pedidos
-        </Link>
+        {/* {auth.user.role === 'admin' ? ( */}
+          <Link to={"/users"} className="clientes">Mis Datos</Link>
+          <Link to={"/orders"} className="productos">Mis Órdenes</Link>
+          <Link to={"/products"} className="pedidos">Productos</Link>
       </nav>
     </aside>
   );

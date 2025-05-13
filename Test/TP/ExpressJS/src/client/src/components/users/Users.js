@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async"; // Importa HelmetProvider
-import usuarioAxios from "../../config/axios.js";
+import usuarioAxios from "../../config/axio.js";
 import { reposteriaContext } from "../../context/reposteriaContext.js";
 import Use from "./Use.js";
 
@@ -42,23 +42,19 @@ function Users() {
     <HelmetProvider>
       <Fragment>
         <Helmet>
-          {auth.user.role === "admin" ? <title>Usuarios</title> : <title>Acceso Denegado</title>}
+          {auth.user.role === "admin" ? <title>Usuarios</title> : <title>Usuario</title>}
         </Helmet>
         <h2>Usuarios</h2>
-        {auth.user.role === "admin" ? (
-          <div>
-            <Link to={"/users/newUser"} className="btn btn-verde nvo-cliente">
-              <i className="fas fa-plus-circle"></i> Nuevo Usuario
-            </Link>
-            <ul className="listado-clientes">
-              {user.map((usuario) => (
-                <Use key={usuario._id} user={usuario} />
-              ))}
-            </ul>
-          </div>
-        ) : (
-          <h2>Acceso no Disponible</h2>
+        {auth.user.role === "admin" && (
+          <Link to={"/users/newUser"} className="btn btn-verde nvo-cliente">
+            <i className="fas fa-plus-circle"></i> Nuevo Usuario
+          </Link>
         )}
+        <ul className="listado-clientes">
+          {user.map((usuario) => (
+            <Use key={usuario.id} user={usuario} />
+          ))}
+        </ul>
       </Fragment>
     </HelmetProvider>
   );
