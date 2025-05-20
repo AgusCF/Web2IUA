@@ -91,7 +91,7 @@
         <!-- Producto 1 -->
         <div class="col">
           <div class="card h-100 shadow-sm border-0">
-            <img src="CarruselInicio/Lemonpie.png" class="card-img-top product-img" alt="Lemonpie">
+            <img src="CarruselInicio/Lemonpie.png" class="card-img-top product-img" alt="Lemonpie" data-bs-toggle="modal" data-bs-target="#modalLemonpie">
             <div class="card-body">
               <h5 class="card-title">Lemonpie</h5>
               <p class="card-text">Base de masa quebrada rellena con crema de limón y merengue suizo.</p>
@@ -105,7 +105,7 @@
         <!-- Producto 2 -->
         <div class="col">
           <div class="card h-100 shadow-sm border-0">
-            <img src="CarruselInicio/Chocotorta.png" class="card-img-top product-img" alt="Chocotorta">
+            <img src="CarruselInicio/Chocotorta.png" class="card-img-top product-img" alt="Lemonpie" data-bs-toggle="modal" data-bs-target="#modalChocotorta">
             <div class="card-body">
               <h5 class="card-title">Chocotorta</h5>
               <p class="card-text">Capas de galletitas de chocolate y crema de dulce de leche con queso crema.</p>
@@ -119,7 +119,7 @@
         <!-- Producto 3 -->
         <div class="col">
           <div class="card h-100 shadow-sm border-0">
-            <img src="CarruselInicio/AlfBonobon.png" class="card-img-top product-img" alt="Alfajor Bonobon">
+            <img src="CarruselInicio/AlfBonobon.png" class="card-img-top product-img" alt="Lemonpie" data-bs-toggle="modal" data-bs-target="#modalAlfBon">
             <div class="card-body">
               <h5 class="card-title">Alfajor Bonobón</h5>
               <p class="card-text">Doble capa de dulce de leche con cobertura de chocolate y corazón de Bonobón.</p>
@@ -133,6 +133,51 @@
       </div>
     </div>
   </section>
+  <!-- Modal Producto 1 -->
+  <div class="modal fade" id="modalLemonpie" tabindex="-1" aria-labelledby="modalLemonpieLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLemonpieLabel">Lemonpie</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body text-center">
+          <img src="CarruselInicio/Lemonpie.png" class="img-fluid mb-3" alt="Lemonpie">
+          <p class="lead">Base crocante de masa quebrada con crema de limón y cobertura de merengue suizo. Perfecta para los amantes del contraste entre dulce y ácido.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Producto 2 -->
+  <div class="modal fade" id="modalChocotorta" tabindex="-1" aria-labelledby="modalLemonpieLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLemonpieLabel">Chocotorta</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body text-center">
+          <img src="CarruselInicio/Chocotorta.png" class="img-fluid mb-3" alt="Lemonpie">
+          <p class="lead">Capas de galletitas de chocolate y crema de dulce de leche con queso crema.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Producto 3 -->
+  <div class="modal fade" id="modalAlfBon" tabindex="-1" aria-labelledby="modalLemonpieLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLemonpieLabel">Alfajor Bonobón</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body text-center">
+          <img src="CarruselInicio/AlfBonobon.png" class="img-fluid mb-3" alt="Lemonpie">
+          <p class="lead">Doble capa de dulce de leche con cobertura de chocolate y corazón de Bonobón.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
