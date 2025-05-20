@@ -1,29 +1,14 @@
-.custom-carousel {
-      max-width: 600px;
-      border: 2px solid black;
-      border-radius: 10px;
-      overflow: hidden;
-      /* para que las imágenes no sobresalgan del borde */
+html {
+      scroll-behavior: smooth;
     }
 
-    .carousel-title {
-      background-color: rgba(255, 255, 255, 0.7);
-      display: inline-block;
-      padding: 5px 10px;
-      border-bottom: 2px solid black;
-      border-radius: 5px;
-      color: black;
-    }
-
-    /* Fondo general pastel elegante */
     body {
       background-color: #fdf6ee;
-      /* tono vainilla suave */
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: #3e3e3e;
+      padding-top: 70px; /* Compensa la navbar fija */
     }
-
-    /* Navbar con borde negro y más compacto */
+    
     .navbar {
       background-color: #fffaf5 !important;
       border-bottom: 2px solid #000;
@@ -31,22 +16,19 @@
       padding-bottom: 0.5rem;
     }
 
-    /* Logo más pequeño */
+    .fixed-top {
+      z-index: 1030;
+    }
+
     .navbar-brand img {
       width: 25px;
       height: auto;
     }
 
-    /* Títulos destacados */
-    h1,
-    h2,
-    .display-5,
-    .display-6 {
+    h1, h2, .display-5, .display-6 {
       color: #5d3a00;
-      /* Marrón chocolate elegante */
     }
 
-    /* Links del navbar */
     .nav-link {
       color: #5d3a00 !important;
       font-weight: 500;
@@ -54,10 +36,8 @@
 
     .nav-link:hover {
       color: #d17c44 !important;
-      /* tono caramelo */
     }
 
-    /* Botón de búsqueda */
     .btn-outline-success {
       border-color: #5d3a00;
       color: #5d3a00;
@@ -68,7 +48,6 @@
       color: #fff;
     }
 
-    /* Fondo blanco semitransparente debajo de títulos en imágenes */
     .img-title-bg {
       background-color: rgba(255, 255, 255, 0.8);
       padding: 0.5rem 1rem;
@@ -105,64 +84,11 @@
       background-color: #5d3a00;
       color: #fff;
     }
+
     .seccion-clara {
-  background-color: #fdf6ee; /* Fondo vainilla suave */
-}
+      background-color: #fdf6ee;
+    }
 
-.seccion-oscura {
-  background-color: #e6d9cc; /* Fondo más oscuro pero armónico */
-}
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body, html {
-  height: 100%;
-  scroll-behavior: smooth;
-  font-family: sans-serif;
-}
-
-.navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background-color: #222;
-  color: white;
-  padding: 1em;
-  z-index: 10;
-}
-
-.navbar ul {
-  display: flex;
-  justify-content: center;
-  list-style: none;
-}
-
-.navbar a {
-  color: white;
-  text-decoration: none;
-  margin: 0 1rem;
-}
-
-.contenedor {
-  scroll-snap-type: y mandatory;
-  overflow-y: scroll;
-  height: 100vh;
-  scroll-padding-top: 60px; /* Altura de la navbar para evitar solapamiento */
-}
-
-.seccion {
-  height: 100vh;
-  scroll-snap-align: start;
-  padding-top: 60px; /* Espacio para que el contenido no quede tapado por la navbar */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 3em;
-}
-
-#intro { background: #a2d2ff; }
-#intento { background: #bde0fe; }
-#contacto { background: #cdb4db; }
+    .seccion-oscura {
+      background-color: #e6d9cc;
+    }
