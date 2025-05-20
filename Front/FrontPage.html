@@ -5,35 +5,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FrontPage</title>
-  <!-- Enlace a Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <style>
-    .custom-carousel {
-      max-width: 600px;
-      border: 2px solid black;
-      border-radius: 10px;
-      overflow: hidden;
-      /* para que las imágenes no sobresalgan del borde */
+    html {
+      scroll-behavior: smooth;
     }
 
-    .carousel-title {
-      background-color: rgba(255, 255, 255, 0.7);
-      display: inline-block;
-      padding: 5px 10px;
-      border-bottom: 2px solid black;
-      border-radius: 5px;
-      color: black;
-    }
-
-    /* Fondo general pastel elegante */
     body {
       background-color: #fdf6ee;
-      /* tono vainilla suave */
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: #3e3e3e;
+      padding-top: 70px; /* Compensa la navbar fija */
     }
-
-    /* Navbar con borde negro y más compacto */
+    
     .navbar {
       background-color: #fffaf5 !important;
       border-bottom: 2px solid #000;
@@ -41,22 +25,19 @@
       padding-bottom: 0.5rem;
     }
 
-    /* Logo más pequeño */
+    .fixed-top {
+      z-index: 1030;
+    }
+
     .navbar-brand img {
       width: 25px;
       height: auto;
     }
 
-    /* Títulos destacados */
-    h1,
-    h2,
-    .display-5,
-    .display-6 {
+    h1, h2, .display-5, .display-6 {
       color: #5d3a00;
-      /* Marrón chocolate elegante */
     }
 
-    /* Links del navbar */
     .nav-link {
       color: #5d3a00 !important;
       font-weight: 500;
@@ -64,10 +45,8 @@
 
     .nav-link:hover {
       color: #d17c44 !important;
-      /* tono caramelo */
     }
 
-    /* Botón de búsqueda */
     .btn-outline-success {
       border-color: #5d3a00;
       color: #5d3a00;
@@ -78,7 +57,6 @@
       color: #fff;
     }
 
-    /* Fondo blanco semitransparente debajo de títulos en imágenes */
     .img-title-bg {
       background-color: rgba(255, 255, 255, 0.8);
       padding: 0.5rem 1rem;
@@ -115,19 +93,20 @@
       background-color: #5d3a00;
       color: #fff;
     }
-    .seccion-clara {
-  background-color: #fdf6ee; /* Fondo vainilla suave */
-}
 
-.seccion-oscura {
-  background-color: #e6d9cc; /* Fondo más oscuro pero armónico */
-}
+    .seccion-clara {
+      background-color: #fdf6ee;
+    }
+
+    .seccion-oscura {
+      background-color: #e6d9cc;
+    }
   </style>
 </head>
 
 <body>
-  <!-- INICIO NAVAR -->
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <img src="Logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
@@ -137,192 +116,123 @@
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Que somos?</a>
+            <a class="nav-link active" href="#quienes-somos">¿Qué somos?</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Que hacemos?
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              ¿Qué hacemos?
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="Alfajores.html">Alfajores</a></li>
               <li><a class="dropdown-item" href="Tortas.html">Tortas</a></li>
               <li><a class="dropdown-item" href="Huevos.html">Huevos de pascua</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
+              <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="#">Especiales</a></li>
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Hacer Pedido</a>
+            <a class="nav-link" href="#hacer-pedido">Hacer Pedido</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">Promociones</a>
+            <a class="nav-link disabled">Promociones</a>
           </li>
         </ul>
         <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-          <button class="btn btn-outline-success" type="submit">Search</button>
+          <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
+          <button class="btn btn-outline-success" type="submit">Buscar</button>
         </form>
       </div>
     </div>
   </nav>
-  <!-- FIN NAVAR -->
-  <!-- INICIO INTRO BONITO -->
-   <section class="seccion-clara py-5">
-  <div class="container">
+  <!-- FIN NAVBAR -->
 
-  <div class="container py-5">
-    <div class="row align-items-center">
-      <div class="col-md-6">
-        <img src="CarruselInicio/Pastelera.png" class="img-fluid rounded-4 shadow-lg" alt="Chef pastelera"
-          loading="lazy">
-      </div>
-      <div class="col-md-6">
-        <h2 class="fw-bold display-6 mb-3">
-          Nuestra Misión <br>
-          <span class="text-muted fs-4">¿Qué es lo que buscamos?</span>
-        </h2>
-        <p class="lead text-justify">
-          <strong>A_gusto</strong> nace del amor por la pastelería casera y la alegría de compartir momentos dulces con
-          quienes más queremos.
-          Detrás de este emprendimiento está una chef pastelera de Concarán, San Luis, que pone el corazón en cada
-          preparación.
-        </p>
-        <p class="text-justify">
-          Creemos en el valor de lo artesanal, en el sabor de lo hecho en casa y en la magia de los detalles.
-          Cada torta, alfajor o delicia que sale de nuestra cocina es una invitación a sentirse a gusto, a disfrutar con
-          todos los sentidos.
-        </p>
-        <p class="fst-italic text-secondary">
-          A_gusto es más que un nombre: es una forma de hacer, de sentir y de cuidar a quienes eligen nuestros
-          productos.
-        </p>
-      </div>
-    </div>
-  </div>
-
-    </div>
-</section>
-  <!-- FIN INTRO BONITO -->
-  <!-- Intento -->
-<section class="seccion-oscura py-5">
-  <div class="container">
-
-  <section class="container my-5">
-    <h2 class="text-center display-5 mb-4 fw-semibold" style="color: #5d3a00;">Nuestras especialidades</h2>
-
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-      <!-- Producto 1 -->
-      <div class="col">
-        <div class="card h-100 shadow-sm border-0">
-          <img src="CarruselInicio/Lemonpie.png" class="card-img-top product-img" alt="Tarta de frutas"
-            data-bs-toggle="modal" data-bs-target="#modalProducto1">
-          <div class="card-body">
-            <h5 class="card-title">Lemonpie</h5>
-            <p class="card-text">Base de masa quebrada rellena con crema pastelera y frutas frescas.</p>
-          </div>
-          <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center">
-            <span class="fw-bold text-muted">$12000</span>
-            <button class="btn btn-outline-dark">Agregar al carrito</button>
-          </div>
+  <!-- SECCIÓN ¿QUIÉNES SOMOS? -->
+  <section id="quienes-somos" class="seccion-clara py-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <img src="CarruselInicio/Pastelera.png" class="img-fluid rounded-4 shadow-lg" alt="Chef pastelera" loading="lazy">
+        </div>
+        <div class="col-md-6">
+          <h2 class="fw-bold display-6 mb-3">
+            Nuestra Misión <br>
+            <span class="text-muted fs-4">¿Qué es lo que buscamos?</span>
+          </h2>
+          <p class="lead">
+            <strong>A_gusto</strong> nace del amor por la pastelería casera y la alegría de compartir momentos dulces con quienes más queremos. Detrás de este emprendimiento está la chef pastelera Agustina de Concarán, San Luis, que pone el corazón en cada preparación.
+          </p>
+          <p>
+            Creemos en el valor de lo artesanal, en el sabor de lo hecho en casa y en la magia de los detalles. Cada torta, alfajor o delicia que sale de nuestra cocina es una invitación a sentirse a gusto, a disfrutar con todos los sentidos.
+          </p>
+          <p class="fst-italic text-secondary">
+            A_gusto es más que un nombre: es una forma de hacer, de sentir y de cuidar a quienes eligen nuestros productos.
+          </p>
         </div>
       </div>
-      <!-- Producto 2 -->
-      <div class="col">
-        <div class="card h-100 shadow-sm border-0">
-          <img src="CarruselInicio/Chocotorta.png" class="card-img-top product-img" alt="Tarta de frutas"
-            data-bs-toggle="modal" data-bs-target="#modalProducto2">
-          <div class="card-body">
-            <h5 class="card-title">Chocotorta</h5>
-            <p class="card-text">Base de masa quebrada rellena con crema pastelera y frutas frescas.</p>
-          </div>
-          <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center">
-            <span class="fw-bold text-muted">$10000</span>
-            <button class="btn btn-outline-dark">Agregar al carrito</button>
-          </div>
-        </div>
-      </div>
-      <!-- Producto 3 -->
-      <div class="col">
-        <div class="card h-100 shadow-sm border-0">
-          <img src="CarruselInicio/AlfBonobon.png" class="card-img-top product-img" alt="Tarta de frutas"
-            data-bs-toggle="modal" data-bs-target="#modalProducto3">
-          <div class="card-body">
-            <h5 class="card-title">Alfajor bonobon</h5>
-            <p class="card-text">Base de masa quebrada rellena con crema pastelera y frutas frescas.</p>
-          </div>
-          <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center">
-            <span class="fw-bold text-muted">$5000</span>
-            <button class="btn btn-outline-dark">Agregar al carrito</button>
-          </div>
-        </div>
-      </div>
-      <!-- Más productos: duplicar el bloque "col" cambiando texto, imágenes y IDs -->
-
     </div>
   </section>
 
-  <!-- Modal Producto 1 -->
-  <div class="modal fade" id="modalProducto1" tabindex="-1" aria-labelledby="modalProducto1Label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalProducto1Label">Tarta de Frutas</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+  <!-- SECCIÓN ESPECIALIDADES -->
+  <section id="hacer-pedido" class="seccion-oscura py-5">
+    <div class="container">
+      <h2 class="text-center display-5 mb-4 fw-semibold">Nuestras especialidades</h2>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <!-- Producto 1 -->
+        <div class="col">
+          <div class="card h-100 shadow-sm border-0">
+            <img src="CarruselInicio/Lemonpie.png" class="card-img-top product-img" alt="Lemonpie">
+            <div class="card-body">
+              <h5 class="card-title">Lemonpie</h5>
+              <p class="card-text">Base de masa quebrada rellena con crema de limón y merengue suizo.</p>
+            </div>
+            <div class="card-footer bg-transparent d-flex justify-content-between">
+              <span class="fw-bold text-muted">$12000</span>
+              <button class="btn btn-outline-dark">Agregar al carrito</button>
+            </div>
+          </div>
         </div>
-        <div class="modal-body text-center">
-          <img src="CarruselInicio/Lemonpie.png" class="img-fluid mb-3" alt="Tarta de frutas">
-          <p class="lead">Tarta con base de masa quebrada, rellena con crema de limón y cubierta de merengue italiano.</p>
+        <!-- Producto 2 -->
+        <div class="col">
+          <div class="card h-100 shadow-sm border-0">
+            <img src="CarruselInicio/Chocotorta.png" class="card-img-top product-img" alt="Chocotorta">
+            <div class="card-body">
+              <h5 class="card-title">Chocotorta</h5>
+              <p class="card-text">Capas de galletitas de chocolate y crema de dulce de leche con queso crema.</p>
+            </div>
+            <div class="card-footer bg-transparent d-flex justify-content-between">
+              <span class="fw-bold text-muted">$10000</span>
+              <button class="btn btn-outline-dark">Agregar al carrito</button>
+            </div>
+          </div>
+        </div>
+        <!-- Producto 3 -->
+        <div class="col">
+          <div class="card h-100 shadow-sm border-0">
+            <img src="CarruselInicio/AlfBonobon.png" class="card-img-top product-img" alt="Alfajor Bonobon">
+            <div class="card-body">
+              <h5 class="card-title">Alfajor Bonobón</h5>
+              <p class="card-text">Doble capa de dulce de leche con cobertura de chocolate y corazón de Bonobón.</p>
+            </div>
+            <div class="card-footer bg-transparent d-flex justify-content-between">
+              <span class="fw-bold text-muted">$8000</span>
+              <button class="btn btn-outline-dark">Agregar al carrito</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- Modal Producto 2 -->
-  <div class="modal fade" id="modalProducto2" tabindex="-1" aria-labelledby="modalProducto1Label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalProducto1Label">Chocotorta</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-        <div class="modal-body text-center">
-          <img src="CarruselInicio/Chocotorta.png" class="img-fluid mb-3" alt="Tarta de frutas">
-          <p class="lead">Clásica chocotorta con capas de galletitas, dulce de leche y queso crema.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Modal Producto 3 -->
-  <div class="modal fade" id="modalProducto3" tabindex="-1" aria-labelledby="modalProducto1Label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalProducto1Label">Alfajor bonobon</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-        <div class="modal-body text-center">
-          <img src="CarruselInicio/AlfBonobon.png" class="img-fluid mb-3" alt="Tarta de frutas">
-          <p class="lead">Delicioso alfajor relleno con crema de bonobon, bañado en chocolate semi amargo.</p>
-        </div>
-      </div>
-    </div>
-  </div>
+  </section>
 
-    </div>
-</section>
-  <!-- Fin intento-->
-
-  <!-- Enlace a Bootstrap JAVASCRIPT -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
-    crossorigin="anonymous"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
+
 <!-- El rol de admin seria el que puede cambiar los precios, agregar productos, etc -->
 <!-- El rol de usuario seria logearse y hacer los pedidos -->
 <!-- Usuario y telefono para registrar al usuario -->
