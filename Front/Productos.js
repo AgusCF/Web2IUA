@@ -49,6 +49,38 @@ const productos = [
     modalId: "modalFrutal",
     modalDescripcion: "Tarta clásica con crema pastelera suave y frutas frescas de estación."
   },
+  {//Duplicados para ver que se vea lindo
+    nombre: "Alfajor Bonobón",
+    descripcion: "Doble capa de dulce de leche con cobertura de chocolate y corazón de Bonobón.",
+    precio: 8000,
+    imagen: "CarruselInicio/AlfBonobon.png",
+    modalId: "modalAlfBon",
+    modalDescripcion: "Doble capa de dulce de leche con cobertura de chocolate y corazón de Bonobón."
+  },
+  {
+    nombre: "Torta Oreo",
+    descripcion: "Base húmeda de chocolate con crema de Oreo y cobertura crocante.",
+    precio: 11000,
+    imagen: "CarruselInicio/TortaOreo.png",
+    modalId: "modalOreo",
+    modalDescripcion: "Torta húmeda con capas de crema de Oreo, base de chocolate y decoración crocante."
+  },
+  {
+    nombre: "Selva Negra",
+    descripcion: "Bizcochuelo de chocolate, cerezas y crema.",
+    precio: 10500,
+    imagen: "CarruselInicio/SelvaNegra.png",
+    modalId: "modalSelva",
+    modalDescripcion: "Típica torta con capas de bizcochuelo de chocolate, cerezas y crema batida."
+  },
+  {
+    nombre: "Tarta Frutal",
+    descripcion: "Base de masa con crema pastelera y frutas frescas.",
+    precio: 9500,
+    imagen: "CarruselInicio/TartaFrutal.png",
+    modalId: "modalFrutal",
+    modalDescripcion: "Tarta clásica con crema pastelera suave y frutas frescas de estación."
+  },
   // Podés seguir agregando más productos
 ];
 
