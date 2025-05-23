@@ -1,7 +1,7 @@
 // productos.js
 // productos.js
 const productos = [
-  {
+  {//Agregar Tag a todos los productos (Categoria)
     nombre: "Lemonpie",
     descripcion: "Base de masa quebrada rellena con crema de limón y merengue suizo.",
     precio: 12000,
