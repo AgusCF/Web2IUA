@@ -4,10 +4,10 @@ import {
   getAllUsers, 
   getUserById, 
   updateUser, 
-  deleteUser, 
   autenticarUsuario,
   updatedPassword
 } from "../controllers/userController.js";
+import routerUser from "./user.routes.js";
 import { getProducts } from '../controllers/productController.js';
 import { createOrder, getOrdersByUser } from '../controllers/ordersController.js';
 import auth  from "../middleware/auth.js";
@@ -29,16 +29,18 @@ router.get("/login", auth, (req, res) => {
   autenticarUsuario(req, res);
 });
 
+
+router.use("/users", routerUser);
+/* 
 router.route("/users")
-  .post(auth(['admin']), newUser)
+  .post(auth(['admin', 'client']), newUser)
   .get(auth(['admin', 'client']), getAllUsers);
 
 router.route("/users/:id")
   .get(auth(['admin', 'client']), getUserById)
-  .put(auth(['admin', 'client']), updateUser) // Actualizar usuario
-  .delete(auth(['admin']), deleteUser); // Eliminar usuario
+  .put(auth(['admin', 'client']), updateUser); // Actualizar usuario
 
-router.put("/users/:id/password", auth(['admin', 'client']), updatedPassword); // Cambiar contraseña
+router.put("/users/:id/password", auth(['admin', 'client']), updatedPassword); // Cambiar contraseña */
 //? =======================================================
 
 

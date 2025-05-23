@@ -8,23 +8,14 @@ dotenv.config();
 // Crear un nuevo usuario
 export const newUser = async (req, res) => {
   //console.log('req.body:', req.body);
-  const { username, email, password, role, departmentLetter, floorNumber, phoneNumber } = req.body;
+  const { username, phoneNumber, password, role, priority_level } = req.body;
 
-  // Asegúrate de que phoneNumber sea una cadena
-  const formattedPhoneNumber = String(phoneNumber);
-  //console.log('departmentLetter:', departmentLetter);
   const hashedPassword = await bcrypt.hash(password, 10);
-
-  let priority_level = 1; // Prioridad por defecto para clientes
-  if (role === 'admin') {
-    priority_level = 2; // Prioridad 2 para administradores
-  }
-
   try {
     const result = await pool.query(
-      `INSERT INTO Users (username, email, password, role, department_letter, phone_number, floor_number, priority_level) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`,
-      [username, email, hashedPassword, role, departmentLetter.toUpperCase() , formattedPhoneNumber, floorNumber, priority_level]
+      `INSERT INTO Users (username, password, role, phone_number, priority_level) 
+        VALUES ($1, $2, $3, $4, $5) RETURNING id`,
+      [username, hashedPassword, role, phoneNumber, priority_level]
     );
     return res.json({ message: "Usuario creado correctamente", userId: result.rows[0].id });
   } catch (error) {
@@ -99,7 +90,7 @@ export const getUserByNumDept = async (req, res) => {
 
 // Actualizar un usuario por ID
 export const updateUser = async (req, res) => {
-  const { username, email, password, role, department_letter, phone_number, floor_number, priority_level } = req.body;
+  const { username, phoneNumber, password, role, priority_level } = req.body;
   const { id: userId, priority_level: userPriorityLevel } = req.user;
   const userIdParam = parseInt(req.params.id, 10); // Convertir req.params.id a número
   /* console.log('req.body:', req.body);
@@ -126,14 +117,11 @@ export const updateUser = async (req, res) => {
 
       await pool.query(
         `UPDATE Users 
-          SET username = $1, email = $2, role = $3, department_letter = $4, phone_number = $5, floor_number = $6, password = $7 
+          SET username = $1, phoneNumber = $2, role = $3, password = $4
           WHERE id = $8`,
-        [username, email, role, department_letter.toUpperCase() , phone_number, floor_number, hashedPassword, req.params.id]
+        [username, phoneNumber, role,  hashedPassword, req.params.id]
       );
       return res.json({ message: "Usuario actualizado correctamente" });
-    }
-    if (userId !== req.params.id) {
-      //console.log('puta madre');
     }
 
     if (userPriorityLevel <= userToUpdate.priority_level) {
@@ -148,9 +136,9 @@ export const updateUser = async (req, res) => {
 
     await pool.query(
       `UPDATE Users 
-        SET username = $1, email = $2, role = $3, department_letter = $4, phone_number = $5, floor_number = $6, priority_level = $7 
+        SET username = $1, phoneNumber = $2, role = $3, priority_level = $4
         WHERE id = $8`,
-      [username, email, role, department_letter, phone_number, floor_number, newPriorityLevel, req.params.id]
+      [username, phoneNumber, role, newPriorityLevel, req.params.id]
     );
     return res.json({ message: "Usuario actualizado correctamente" });
   } catch (error) {
@@ -159,48 +147,12 @@ export const updateUser = async (req, res) => {
   }
 };
 
-export const deleteUser = async (req, res) => {
-  try {
-    const { id } = req.params; // id es una cadena
-    const { id: userId, priority_level } = req.user; // userId es el ID del usuario autenticado
-    //console.log('req.user', req.user);
-
-    // Consultar solo los campos necesarios
-    const result = await pool.query(`SELECT id, priority_level FROM Users WHERE id = $1`, [id]);
-    const userToDelete = result.rows[0];
-
-    if (!userToDelete) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
-    }
-
-  //    console.log('userToDelete.id:', userToDelete.id);
-
-    // Convertir id a número para la comparación
-    if (parseInt(id, 10) === userId) {
-      return res.status(403).json({ message: "No puedes eliminar tu propio usuario" });
-    }
-
-    if (priority_level <= userToDelete.priority_level) {
-      return res.status(403).json({ message: "No tienes permisos para eliminar este usuario" });
-    }
-
-    // Eliminar usuario
-    await pool.query(`DELETE FROM Users WHERE id = $1`, [id]);
-    return res.json({ message: "Usuario eliminado correctamente" });
-
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Error al eliminar usuario" });
-  }
-};
-
-
 // Autenticar un usuario y generar un token JWT
 export const autenticarUsuario = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { phoneNumber, password } = req.body;
     //console.log('req.body:', req.body);
-    const result = await pool.query(`SELECT * FROM Users WHERE email = $1`, [email]);
+    const result = await pool.query(`SELECT * FROM Users WHERE phoneNumber = $1`, [phoneNumber]);
     if (result.rows.length === 0) {
       return res.status(404).json({ message: "El usuario no existe" });
     }
@@ -213,13 +165,10 @@ export const autenticarUsuario = async (req, res) => {
 
     const token = jwt.sign(
       {
-        email: user.email,
+        phoneNumber: user.phoneNumber,
         nombre: user.username,
         id: user.id,
         role: user.role,
-        departmentLetter: user.department_letter,
-        phoneNumber: user.phone_number,
-        floorNumber: user.floor_number,
       },
       process.env.JWT_SECRET,
       { expiresIn: "10m" }
@@ -228,30 +177,6 @@ export const autenticarUsuario = async (req, res) => {
     return res.json({ token });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Error en el servidor" });
-  }
-};
-
-// Crear un usuario temporal
-export const loginTemporal = async (req, res) => {
-  try {
-    const temporalUser = {
-      username: "client_" + new Date().getTime(),
-      role: "client",
-    };
-
-    const token = jwt.sign(
-      {
-        username: temporalUser.username,
-        role: temporalUser.role,
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: "5m" }
-    );
-
-    return res.json({ token });
-  } catch (error) {
-    console.error("Error al generar usuario temporal:", error);
     return res.status(500).json({ message: "Error en el servidor" });
   }
 };

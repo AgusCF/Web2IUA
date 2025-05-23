@@ -1,7 +1,5 @@
 import express from 'express';
-import path from 'path';
 import http from 'http';
-import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { wss } from './websocket.js';
@@ -15,14 +13,15 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 
-// Obtener __dirname en módulos ES
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-app.use(cors());
+
+app.use(cors({
+  origin: 'https://web2iua.onrender.com',
+  credentials: true // si necesitas enviar cookies o cabeceras de autenticación
+}));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-//app.use('/api', router); // Usar el router para manejar las rutas de la API
-app.use(router);
+app.use('/api', router); // Usar el router para manejar las rutas de la API
+//app.use(router);
 
 /*
 app.post('/cargaradmin', async (req, res) => {
@@ -142,14 +141,6 @@ app.get('/ping', (req, res) => {
         console.log('Conexión exitosa a la base de datos:', result);
     }
   });
-});
-
-// Middleware para servir archivos estáticos del cliente
-app.use(express.static(path.join(__dirname, '..', 'public')));
-
-// Ruta para servir la aplicación React
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'));
 });
 
 // Manejar todas las demás rutas con una respuesta 404
