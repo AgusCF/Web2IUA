@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FrontPage</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="estilo.css">
+  <style>
+  </style>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="Logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+        A Gusto
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" href="#quienes-somos">¿Qué somos?</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              ¿Qué hacemos?
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="Alfajores.html">Alfajores</a></li>
+              <li><a class="dropdown-item" href="Tortas.html">Tortas</a></li>
+              <li><a class="dropdown-item" href="Huevos.html">Huevos de pascua</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Especiales</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#hacer-pedido">Hacer Pedido</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled">Promociones</a>
+          </li>
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
+          <button class="btn btn-outline-success" type="submit">Buscar</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+  <!-- FIN NAVBAR -->
+
+  <!-- SECCIÓN ¿QUIÉNES SOMOS? -->
+  <section id="quienes-somos" class="seccion-clara py-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <img src="CarruselInicio/Pastelera.png" class="img-fluid rounded-4 shadow-lg" alt="Chef pastelera" loading="lazy">
+        </div>
+        <div class="col-md-6">
+          <h2 class="fw-bold display-6 mb-3">
+            Nuestra Misión <br>
+            <span class="text-muted fs-4">¿Qué es lo que buscamos?</span>
+          </h2>
+          <p class="lead">
+            <strong>A_gusto</strong> nace del amor por la pastelería casera y la alegría de compartir momentos dulces con quienes más queremos. Detrás de este emprendimiento está la chef pastelera Agustina de Concarán, San Luis, que pone el corazón en cada preparación.
+          </p>
+          <p>
+            Creemos en el valor de lo artesanal, en el sabor de lo hecho en casa y en la magia de los detalles. Cada torta, alfajor o delicia que sale de nuestra cocina es una invitación a sentirse a gusto, a disfrutar con todos los sentidos.
+          </p>
+          <p class="fst-italic text-secondary">
+            A_gusto es más que un nombre: es una forma de hacer, de sentir y de cuidar a quienes eligen nuestros productos.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN ESPECIALIDADES -->
+  <section id="hacer-pedido" class="seccion-oscura py-5">
+    <div class="container">
+      <h2 class="text-center display-5 mb-4 fw-semibold">Nuestras especialidades</h2>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <!-- Producto 1 -->
+        <div class="col">
+          <div class="card h-100 shadow-sm border-0">
+            <img src="CarruselInicio/Lemonpie.png" class="card-img-top product-img" alt="Lemonpie" data-bs-toggle="modal" data-bs-target="#modalLemonpie">
+            <div class="card-body">
+              <h5 class="card-title">Lemonpie</h5>
+              <p class="card-text">Base de masa quebrada rellena con crema de limón y merengue suizo.</p>
+            </div>
+            <div class="card-footer bg-transparent d-flex justify-content-between">
+              <span class="fw-bold text-muted">$12000</span>
+              <button class="btn btn-outline-dark">Agregar al carrito</button>
+            </div>
+          </div>
+        </div>
+        <!-- Producto 2 -->
+        <div class="col">
+          <div class="card h-100 shadow-sm border-0">
+            <img src="CarruselInicio/Chocotorta.png" class="card-img-top product-img" alt="Lemonpie" data-bs-toggle="modal" data-bs-target="#modalChocotorta">
+            <div class="card-body">
+              <h5 class="card-title">Chocotorta</h5>
+              <p class="card-text">Capas de galletitas de chocolate y crema de dulce de leche con queso crema.</p>
+            </div>
+            <div class="card-footer bg-transparent d-flex justify-content-between">
+              <span class="fw-bold text-muted">$10000</span>
+              <button class="btn btn-outline-dark">Agregar al carrito</button>
+            </div>
+          </div>
+        </div>
+        <!-- Producto 3 -->
+        <div class="col">
+          <div class="card h-100 shadow-sm border-0">
+            <img src="CarruselInicio/AlfBonobon.png" class="card-img-top product-img" alt="Lemonpie" data-bs-toggle="modal" data-bs-target="#modalAlfBon">
+            <div class="card-body">
+              <h5 class="card-title">Alfajor Bonobón</h5>
+              <p class="card-text">Doble capa de dulce de leche con cobertura de chocolate y corazón de Bonobón.</p>
+            </div>
+            <div class="card-footer bg-transparent d-flex justify-content-between">
+              <span class="fw-bold text-muted">$8000</span>
+              <button class="btn btn-outline-dark">Agregar al carrito</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Modal Producto 1 -->
+  <div class="modal fade" id="modalLemonpie" tabindex="-1" aria-labelledby="modalLemonpieLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLemonpieLabel">Lemonpie</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body text-center">
+          <img src="CarruselInicio/Lemonpie.png" class="img-fluid mb-3" alt="Lemonpie">
+          <p class="lead">Base crocante de masa quebrada con crema de limón y cobertura de merengue suizo. Perfecta para los amantes del contraste entre dulce y ácido.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Producto 2 -->
+  <div class="modal fade" id="modalChocotorta" tabindex="-1" aria-labelledby="modalLemonpieLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLemonpieLabel">Chocotorta</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body text-center">
+          <img src="CarruselInicio/Chocotorta.png" class="img-fluid mb-3" alt="Lemonpie">
+          <p class="lead">Capas de galletitas de chocolate y crema de dulce de leche con queso crema.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Producto 3 -->
+  <div class="modal fade" id="modalAlfBon" tabindex="-1" aria-labelledby="modalLemonpieLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLemonpieLabel">Alfajor Bonobón</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body text-center">
+          <img src="CarruselInicio/AlfBonobon.png" class="img-fluid mb-3" alt="Lemonpie">
+          <p class="lead">Doble capa de dulce de leche con cobertura de chocolate y corazón de Bonobón.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+
+<!-- El rol de admin seria el que puede cambiar los precios, agregar productos, etc -->
+<!-- El rol de usuario seria logearse y hacer los pedidos -->
+<!-- Usuario y telefono para registrar al usuario -->
