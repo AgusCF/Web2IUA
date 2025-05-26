@@ -1,6 +1,7 @@
 const products = [
   // ALFAJORES
   {
+    id: 1,
     name: "Alfajor Bonobón",
     img: "/uploads/CarruselInicio/AlfBonobon.png",
     description: "Doble capa de dulce de leche...",
@@ -13,6 +14,7 @@ const products = [
     type: "Alfajores"
   },
   {
+    id: 2,
     name: "Alfajor Bonobón",
     img: "/uploads/CarruselInicio/AlfBonobon.png",
     description: "Doble capa de dulce de leche entre galletas suaves con cobertura de chocolate con maní.",
@@ -25,6 +27,7 @@ const products = [
     type: "Alfajores"
   },
   {
+    id: 3,
     name: "Alfajor Coco Dulce",
     img: "/uploads/CarruselInicio/AlfCocoDulce.png",
     description: "Relleno de dulce de leche con cobertura de coco rallado.",
@@ -37,6 +40,7 @@ const products = [
     type: "Alfajores"
   },
   {
+    id: 4,
     name: "Alfajor de Maicena",
     img: "/uploads/CarruselInicio/AlfMaicena.png",
     description: "Galletas de maicena rellenas de dulce de leche y espolvoreadas con coco.",
@@ -49,6 +53,7 @@ const products = [
     type: "Alfajores"
   },
   {
+    id: 5,
     name: "Alfajor Chocolate Amargo",
     img: "/uploads/CarruselInicio/AlfChocoAmargo.png",
     description: "Relleno de dulce de leche y bañado en chocolate 70%.",
@@ -62,6 +67,7 @@ const products = [
   },
   // TORTAS
   {
+    id: 6,
     name: "Lemonpie",
     img: "/uploads/CarruselInicio/Lemonpie.png",
     description: "Base de masa quebrada...",
@@ -74,6 +80,7 @@ const products = [
     type: "Tortas"
   },
   {
+    id: 7,
     name: "Chocotorta",
     img: "/uploads/CarruselInicio/Chocotorta.png",
     description: "Capas de galletitas de chocolate y crema de dulce de leche con queso crema.",
@@ -86,6 +93,7 @@ const products = [
     type: "Tortas"
   },
   {
+    id: 8,
     name: "Torta Oreo",
     img: "/uploads/CarruselInicio/TortaOreo.png",
     description: "Base húmeda de chocolate con crema de Oreo y cobertura crocante.",
@@ -98,6 +106,7 @@ const products = [
     type: "Tortas"
   },
   {
+    id: 9,
     name: "Selva Negra",
     img: "/uploads/CarruselInicio/SelvaNegra.png",
     description: "Bizcochuelo de chocolate, cerezas y crema.",
@@ -110,6 +119,7 @@ const products = [
     type: "Tortas"
   },
   {
+    id: 10,
     name: "Tarta Frutal",
     img: "/uploads/CarruselInicio/TartaFrutal.png",
     description: "Base de masa con crema pastelera y frutas frescas.",
@@ -122,6 +132,7 @@ const products = [
     type: "Tortas"
   },
   {
+    id: 11,
     name: "Tiramisú Clásico",
     img: "/uploads/CarruselInicio/Tiramisu.png",
     description: "Bizcochuelo embebido en café con crema mascarpone.",
@@ -134,6 +145,7 @@ const products = [
     type: "Tortas"
   },
   {
+    id: 12,
     name: "Red Velvet",
     img: "/uploads/CarruselInicio/RedVelvet.png",
     description: "Bizcochuelo rojo aterciopelado con crema de queso.",
@@ -146,6 +158,7 @@ const products = [
     type: "Tortas"
   },
   {
+    id: 13,
     name: "Cheesecake de Frutos Rojos",
     img: "/uploads/CarruselInicio/CheesecakeFrutosRojos.png",
     description: "Base de galletitas con crema de queso y salsa de frutos rojos.",
@@ -159,6 +172,7 @@ const products = [
   },
   // HUEVOS DE PASCUA
   {
+    id: 14,
     name: "Huevo Pascua Oreo",
     img: "/uploads/CarruselInicio/HuevoOreo.png",
     description: "Chocolate relleno con oreo...",
@@ -171,6 +185,7 @@ const products = [
     type: "Huevos"
   },
   {
+    id: 15,
     name: "Huevo Kinder",
     img: "/uploads/CarruselInicio/HuevoKinder.png",
     description: "Chocolate con leche y centro cremoso estilo Kinder.",
@@ -183,6 +198,7 @@ const products = [
     type: "Huevos"
   },
   {
+    id: 16,
     name: "Huevo Nutella",
     img: "/uploads/CarruselInicio/HuevoNutella.png",
     description: "Chocolate relleno con crema Nutella y crocante de avellanas.",
@@ -196,6 +212,7 @@ const products = [
   },
   // CUPCAKES
   {
+    id: 17,
     name: "Cupcake Red Velvet",
     img: "/uploads/CarruselInicio/CupRedVelvet.png",
     description: "Bizcocho rojo con frosting de queso crema.",
@@ -208,6 +225,7 @@ const products = [
     type: "Cupcakes"
   },
   {
+    id: 18,
     name: "Cupcake de Vainilla y Dulce de Leche",
     img: "/uploads/CarruselInicio/CupcakeVainilla.png",
     description: "Bizcochuelo de vainilla con corazón de dulce de leche.",
@@ -220,6 +238,7 @@ const products = [
     type: "Cupcakes"
   },
   {
+    id: 19,
     name: "Cupcake de Limón y Amapola",
     img: "/uploads/CarruselInicio/CupcakeLimon.png",
     description: "Bizcochuelo cítrico con semillas de amapola y glaseado.",
@@ -232,6 +251,7 @@ const products = [
     type: "Cupcakes"
   },
   {
+    id: 20,
     name: "Cupcake de Chocolate Intenso",
     img: "/uploads/CarruselInicio/CupcakeChoco.png",
     description: "Bizcochuelo de cacao amargo con ganache de chocolate.",
@@ -245,6 +265,7 @@ const products = [
   },
   // ESPECIALES
   {
+    id: 21,
     name: "Brownie con Nueces",
     img: "/uploads/CarruselInicio/BrownieNuez.png",
     description: "Brownie de chocolate con trozos de nuez crocante.",
@@ -257,6 +278,7 @@ const products = [
     type: "Especiales"
   },
   {
+    id: 22,
     name: "Budín de Limón",
     img: "/uploads/CarruselInicio/BudinLimon.png",
     description: "Bizcochuelo húmedo con ralladura y glaseado de limón.",
@@ -269,6 +291,7 @@ const products = [
     type: "Especiales"
   },
   {
+    id: 23,
     name: "Cookies Triple Chocolate",
     img: "/uploads/CarruselInicio/CookiesTriple.png",
     description: "Galletas con chips de chocolate blanco, negro y con leche.",
@@ -281,6 +304,7 @@ const products = [
     type: "Especiales"
   },
   {
+    id: 24,
     name: "Cheesecake en Frasco",
     img: "/uploads/CarruselInicio/CheesecakeFrasco.png",
     description: "Crema de queso, base de galletitas y frutos rojos en frasco.",
@@ -294,6 +318,7 @@ const products = [
   },
   // BOMBONES
   {
+    id: 25,
     name: "Bombón de Dulce de Leche",
     img: "/uploads/CarruselInicio/BombonDDL.png",
     description: "Chocolate con corazón de dulce de leche cremoso.",
@@ -306,6 +331,7 @@ const products = [
     type: "Bombones"
   },
   {
+    id: 26,
     name: "Bombón de Maracuyá",
     img: "/uploads/CarruselInicio/BombonMaracuya.png",
     description: "Relleno frutal ácido con cobertura de chocolate blanco.",
@@ -318,6 +344,7 @@ const products = [
     type: "Bombones"
   },
   {
+    id: 27,
     name: "Bombón Crocante de Avellanas",
     img: "/uploads/CarruselInicio/BombonAvellana.png",
     description: "Relleno de praliné y centro crocante de avellana.",
