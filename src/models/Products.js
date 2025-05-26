@@ -25,6 +25,16 @@ const Product = sequelize.define('Product', {
   tags: {
     type: DataTypes.ARRAY(DataTypes.TEXT),
   },
+  modalId: {
+    type: DataTypes.TEXT,
+  },
+  modalDescription: {
+    type: DataTypes.TEXT,
+  },
+  type: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
 });
 
 export default Product;

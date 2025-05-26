@@ -1,15 +1,8 @@
 import express from "express";
-import { 
-  newUser, 
-  getAllUsers, 
-  getUserById, 
-  updateUser, 
-  autenticarUsuario,
-  updatedPassword
-} from "../controllers/userController.js";
+import { autenticarUsuario } from "../controllers/userController.js";
 import routerUser from "./user.routes.js";
-import { getProducts } from '../controllers/productController.js';
-import { createOrder, getOrdersByUser } from '../controllers/ordersController.js';
+import routerProducts from "./products.routes.js";
+import routerOrders from "./orders.routes.js";
 import auth  from "../middleware/auth.js";
 
 import dotenv from "dotenv";
@@ -28,26 +21,11 @@ router.get("/login", auth, (req, res) => {
   // Llama a la función controladora y maneja la respuesta
   autenticarUsuario(req, res);
 });
-
-
 router.use("/users", routerUser);
-/* 
-router.route("/users")
-  .post(auth(['admin', 'client']), newUser)
-  .get(auth(['admin', 'client']), getAllUsers);
-
-router.route("/users/:id")
-  .get(auth(['admin', 'client']), getUserById)
-  .put(auth(['admin', 'client']), updateUser); // Actualizar usuario
-
-router.put("/users/:id/password", auth(['admin', 'client']), updatedPassword); // Cambiar contraseña */
 //? =======================================================
-
-
 //? TIENDA ================================================
-router.get('/products', getProducts); // Obtener productos disponibles
-router.post('/orders', auth(['admin', 'client']), createOrder); // Crear una nueva orden
-router.get('/orders/:userId', auth(['admin', 'client']), getOrdersByUser); // Obtener órdenes del usuario autenticado
+router.use("/products", routerProducts); // Rutas de productos
+router.use("/orders", routerOrders); // Rutas de órdenes
 //? =======================================================
 
 export default router;
