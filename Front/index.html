@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>A Gusto - ¿Qué somos?</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
   <link rel="stylesheet" href="estilo.css">
 </head>
 
@@ -46,10 +48,13 @@
               <a class="nav-link" href="#carrito">Carrito</a>
             </li>
           </ul>
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
-            <button class="btn btn-outline-success" type="submit">Buscar</button>
-          </form>
+          <div class="d-flex flex-column align-items-start">
+            <input type="text" id="buscador" class="form-control mb-2" placeholder="Buscar productos...">
+            <a href="#" id="login-link" class="text-decoration-none text-muted small">Login</a>
+          </div>
+
+
+
         </div>
       </div>
     </nav>
@@ -88,9 +93,102 @@
         </div>
       </div>
     </section>
+    <!--VALORES-->
+    <section class="seccion-oscura py-5 text-center">
+      <div class="container">
+        <h3 class="mb-4">¿Por qué elegirnos?</h3>
+        <div class="row">
+          <div class="col-md-3">
+            <i class="bi bi-person-heart" style="font-size: 2rem; color: #7cb7e8;"></i>
+            <p class="mt-2">Hecho con amor</p>
+          </div>
+          <div class="col-md-3">
+            <i class="bi bi-house-heart-fill" style="font-size: 2rem; color: #7cb7e8;"></i>
+            <p class="mt-2">Sabor casero</p>
+          </div>
+          <div class="col-md-3">
+            <i class="bi bi-cake" style="font-size: 2rem; color: #7cb7e8;"></i>
+            <p class="mt-2">Frescura garantizada</p>
+          </div>
+          <div class="col-md-3">
+            <i class="bi bi-person-circle" style="font-size: 2rem; color: #7cb7e8;"></i>
+            <p class="mt-2">Emprendimiento local</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--VISTASO DE PRODUCTOS-->
+    <!--No soporta el back-end esta hardcodeado. -->
+    <section class="seccion-clara py-5">
+      <div class="container">
+        <h3 class="text-center mb-4">Un vistazo a nuestras delicias</h3>
+        <div class="row g-3 justify-content-center">
+          <div class="col-md-3">
+            <a href="QueHacemos.html#tortas" class="zoom-link d-block overflow-hidden rounded">
+              <img src="CarruselInicio/TartaFrutal.png" class="img-fluid rounded zoom-img" alt="Torta decorada">
+            </a>
+          </div>
+          <div class="col-md-3">
+            <a href="QueHacemos.html#alfajores" class="zoom-link d-block overflow-hidden rounded">
+              <img src="CarruselInicio/AlfBonobon.png" class="img-fluid rounded zoom-img" alt="Alfajores">
+            </a>
+          </div>
+          <div class="col-md-3">
+            <a href="QueHacemos.html#huevos" class="zoom-link d-block overflow-hidden rounded">
+              <!--La imagen no coincide con el link aproposito.No tengo imagen de eso todavia -->
+              <img src="CarruselInicio/TortaOreo.png" class="img-fluid rounded zoom-img" alt="Huevos de Pascua">
+            </a>
+          </div>
+          <div class="col-md-3">
+            <a href="QueHacemos.html#especiales" class="zoom-link d-block overflow-hidden rounded">
+              <!--La imagen no coincide con el link aproposito.No tengo imagen de eso todavia -->
+              <img src="CarruselInicio/SelvaNegra.png" class="img-fluid rounded zoom-img" alt="Especiales">
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
+  <!-- Modal de Login -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="login-form">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalLabel">Iniciar sesión</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <input type="text" class="form-control mb-3" id="usuario" placeholder="Nombre de usuario" required>
+            <input type="tel" class="form-control" id="telefono" placeholder="Número de teléfono" required>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-dark">Ingresar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor de Modales -->
+  <div id="modales-container"></div>
 
   <!-- Scripts -->
+   <!--Detecta cuándo presionás Enter y te manda a la otra página, pasando lo que escribiste como parámetro-->
+  <script>
+    document.getElementById("buscador").addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        const valor = this.value.trim().toLowerCase();
+        if (valor) {
+          window.location.href = `QueHacemos.html?buscar=${encodeURIComponent(valor)}`;
+        }
+      }
+    });
+  </script>
+  
+  <script src="ProductosTipo.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
