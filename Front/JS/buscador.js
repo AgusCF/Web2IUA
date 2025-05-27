@@ -6,32 +6,46 @@
 
     buscador.addEventListener("input", function () {
       const termino = this.value.trim().toLowerCase();
+      const cards = document.querySelectorAll(".card");
 
-      // Si no se ha escrito nada, se muestran todas las tarjetas
+      // Si el campo está vacío, restauramos la vista de todas las tarjetas y tags
       if (termino === "") {
-        document.querySelectorAll(".card").forEach(card => {
+        cards.forEach(card => {
           card.parentElement.style.display = "";
+          card.querySelectorAll(".product-tag").forEach(tagElem => {
+            const tagOriginal = tagElem.getAttribute("data-tag-original");
+            tagElem.innerHTML = "#" + tagOriginal;
+            tagElem.style.display = "";
+          });
         });
         return;
       }
 
-      // Creamos una expresión regular que busque el comienzo de cualquier palabra con el término ingresado.
-      // Ejemplo: si termino es "cho", la regex será: /\bcho/i
+      // Creamos una expresión regular para filtrar las tarjetas a partir del inicio de alguna palabra en el atributo data-tags
       const regex = new RegExp("\\b" + termino, "i");
 
-      // Seleccionamos todas las tarjetas generadas (los elementos con clase "card")
-      const cards = document.querySelectorAll(".card");
       cards.forEach(card => {
-        // Obtenemos la cadena de tags ya en minúscula desde data-tags.
-        // Se asume que los tags se guardaron correctamente con el join(' ') en el renderizado.
+        // Filtramos la tarjeta según sus tags (guardados en data-tags)
         const tags = card.getAttribute("data-tags") || "";
-        // La tarjeta se mostrará si alguna palabra (definida por un límite de palabra) en los tags comienza 
-        // con el término ingresado.
         if (regex.test(tags)) {
           card.parentElement.style.display = "";
         } else {
           card.parentElement.style.display = "none";
         }
+        
+        // Procesamos cada etiqueta interna de la tarjeta para resaltar coincidencias
+        card.querySelectorAll(".product-tag").forEach(tagElem => {
+          const tagOriginal = tagElem.getAttribute("data-tag-original");
+          // Si la etiqueta contiene el término (sin considerar mayúsculas/minúsculas)
+          if (tagOriginal.toLowerCase().indexOf(termino) !== -1) {
+            // Se crea una expresión regular para resaltar la parte coincidente
+            const highlightRegex = new RegExp("(" + termino + ")", "gi");
+            tagElem.innerHTML = "#" + tagOriginal.replace(highlightRegex, "<strong>$1</strong>");
+            tagElem.style.display = "";
+          } else {
+            tagElem.style.display = "none";
+          }
+        });
       });
     });
   });

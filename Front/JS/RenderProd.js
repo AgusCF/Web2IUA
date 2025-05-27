@@ -294,7 +294,6 @@ const productos = [
   tags: ["Queso crema", "Frutillas", "Postre individual", "Frasco"]
 }
 ];
-
   // Función para renderizar los productos
   function renderProductos() {
     const contenedor = document.getElementById("productos-todos");
@@ -305,12 +304,12 @@ const productos = [
 
     tiposUnicos.forEach(tipo => {
       const productosPorTipo = productos.filter(p => p.tipo === tipo);
-      // Crear contenedor de sección
+      // Creamos el contenedor de la sección
       const seccion = document.createElement("section");
-      seccion.id = tipo.toLowerCase(); // ej: alfajores
+      seccion.id = tipo.toLowerCase();
       seccion.className = usarFondoClaro ? "seccion-clara py-5" : "seccion-oscura py-5";
 
-      // Construir el HTML de la sección (usamos data-tags para la búsqueda)
+      // Construimos el HTML de la sección, incluyendo un bloque para los tags
       let html = `
         <div class="container">
           <h2 class="text-center display-5 mb-4 fw-semibold">${tipo}</h2>
@@ -329,6 +328,15 @@ const productos = [
                 <span class="fw-bold text-muted">$${producto.precio}</span>
                 <button class="btn btn-outline-dark">Agregar al carrito</button>
               </div>
+              <!-- Contenedor de Tags -->
+              <div class="tags-container mt-2">
+                ${producto.tags
+                  .map(
+                    tag =>
+                      `<span class="badge bg-secondary me-1 product-tag" data-tag-original="${tag}">#${tag}</span>`
+                  )
+                  .join('')}
+              </div>
             </div>
           </div>
         `;
@@ -340,7 +348,7 @@ const productos = [
     });
   }
 
-  // Función para renderizar los modals de cada producto
+  // Función para renderizar los modals de cada producto (opcional)
   function renderModals() {
     const contenedorModales = document.getElementById("modales-container");
     if (!contenedorModales) return;
@@ -371,12 +379,12 @@ const productos = [
     });
   }
 
-  // Inicializa el renderizado al cargar el DOM
+  // Inicia el renderizado cuando el DOM esté listo
   document.addEventListener("DOMContentLoaded", () => {
     renderProductos();
     renderModals();
   });
 
-  // Exponemos la lista de productos para que otros módulos (como el buscador) puedan acceder
+  // Exponemos la lista de productos para otros módulos (por ejemplo, el buscador)
   window.productos = productos;
 })();
