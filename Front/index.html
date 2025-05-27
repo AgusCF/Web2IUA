@@ -174,22 +174,10 @@
   <!-- Contenedor de Modales -->
   <div id="modales-container"></div>
 
-  <!-- Scripts -->
-   <!--Detecta cuándo presionás Enter y te manda a la otra página, pasando lo que escribiste como parámetro-->
-  <script>
-    document.getElementById("buscador").addEventListener("keypress", function (e) {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        const valor = this.value.trim().toLowerCase();
-        if (valor) {
-          window.location.href = `QueHacemos.html?buscar=${encodeURIComponent(valor)}`;
-        }
-      }
-    });
-  </script>
-  
-  <script src="ProductosTipo.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script defer src="ProductosTipo.js"></script>
+  <script defer src="buscador.js"></script>
+  <script defer src="login.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
