@@ -1,4 +1,3 @@
-// ProductosTipo.js
 (function () {
 //HardCode Productos~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const productos = [
