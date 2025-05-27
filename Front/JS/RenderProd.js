@@ -1,3 +1,5 @@
+// ProductosTipo.js
+(function () {
 //HardCode Productos~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const productos = [
     //ALFAJORES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -106,7 +108,7 @@ const productos = [
   id:9,
   descripcion: "Bizcochuelo embebido en café con crema mascarpone.",
   precio: 12500,
-  imagen: "CarruselInicio/Tiramisu.png",
+  imagen: "CarruselInicio/TorTiramisu.png",
   modalId: "modalTiramisu",
   modalDescripcion: "Delicado postre italiano con capas de bizcochuelo al café y suave crema mascarpone.",
   tipo: "Tortas",
@@ -117,7 +119,7 @@ const productos = [
   id:10,
   descripcion: "Bizcochuelo rojo aterciopelado con crema de queso.",
   precio: 13000,
-  imagen: "CarruselInicio/RedVelvet.png",
+  imagen: "CarruselInicio/TorRedVelvet.png",
   modalId: "modalRedVelvet",
   modalDescripcion: "Elegante torta de color rojo intenso con crema de queso suave, ideal para ocasiones especiales.",
   tipo: "Tortas",
@@ -128,7 +130,7 @@ const productos = [
   id:11,
   descripcion: "Base de galletitas con crema de queso y salsa de frutos rojos.",
   precio: 13500,
-  imagen: "CarruselInicio/CheesecakeFrutosRojos.png",
+  imagen: "CarruselInicio/TortCheesecakeFrutosRojos.png",
   modalId: "modalCheesecakeRojos",
   modalDescripcion: "Cheesecake suave y cremoso con un toque ácido de frutos rojos frescos.",
   tipo: "Tortas",
@@ -140,7 +142,7 @@ const productos = [
     id:12,
     descripcion: "Chocolate relleno con oreo...",
     precio: 15000,
-    imagen: "CarruselInicio/HuevoOreo.png",
+    imagen: "CarruselInicio/HueOreo.png",
     modalId: "modalHuevoOreo",
     modalDescripcion: "Chocolate relleno de oreo...",
     tipo: "Huevos",
@@ -151,7 +153,7 @@ const productos = [
   id:13,
   descripcion: "Chocolate con leche y centro cremoso estilo Kinder.",
   precio: 16000,
-  imagen: "CarruselInicio/HuevoKinder.png",
+  imagen: "CarruselInicio/HueKinder.png",
   modalId: "modalKinder",
   modalDescripcion: "La textura suave del chocolate con leche y el sabor único del relleno tipo Kinder en forma de huevo.",
   tipo: "Huevos",
@@ -162,7 +164,7 @@ const productos = [
   id:14,
   descripcion: "Chocolate relleno con crema Nutella y crocante de avellanas.",
   precio: 17000,
-  imagen: "CarruselInicio/HuevoNutella.png",
+  imagen: "CarruselInicio/HueNutella.png",
   modalId: "modalNutella",
   modalDescripcion: "Relleno irresistible de Nutella con crocante de avellanas dentro de un cascarón de chocolate.",
   tipo: "Huevos",
@@ -185,7 +187,7 @@ const productos = [
   id:16,
   descripcion: "Bizcochuelo de vainilla con corazón de dulce de leche.",
   precio: 4000,
-  imagen: "CarruselInicio/CupcakeVainilla.png",
+  imagen: "CarruselInicio/CupVainillaYDulceDLeche.png",
   modalId: "modalCupVainilla",
   modalDescripcion: "Delicioso y suave bizcochuelo con relleno de dulce de leche y cobertura cremosa.",
   tipo: "Cupcakes",
@@ -196,7 +198,7 @@ const productos = [
   id:17,
   descripcion: "Bizcochuelo cítrico con semillas de amapola y glaseado.",
   precio: 4200,
-  imagen: "CarruselInicio/CupcakeLimon.png",
+  imagen: "CarruselInicio/CupLimonAmapola.png",
   modalId: "modalCupLimon",
   modalDescripcion: "Suave bizcochuelo con notas cítricas y textura única, ideal para la merienda.",
   tipo: "Cupcakes",
@@ -207,7 +209,7 @@ const productos = [
   id:18,
   descripcion: "Bizcochuelo de cacao amargo con ganache de chocolate.",
   precio: 4300,
-  imagen: "CarruselInicio/CupcakeChoco.png",
+  imagen: "CarruselInicio/CupChocolateIntenso.png",
   modalId: "modalCupChoco",
   modalDescripcion: "Perfecto para amantes del chocolate: sabor intenso y textura húmeda.",
   tipo: "Cupcakes",
@@ -219,7 +221,7 @@ const productos = [
   id:19,
   descripcion: "Chocolate con corazón de dulce de leche cremoso.",
   precio: 3500,
-  imagen: "CarruselInicio/BombonDDL.png",
+  imagen: "CarruselInicio/BomDulceLeche.png",
   modalId: "modalBombonDDL",
   modalDescripcion: "Pequeño placer relleno de dulce de leche artesanal, cubierto con chocolate semiamargo.",
   tipo: "Bombones",
@@ -230,7 +232,7 @@ const productos = [
   id:20,
   descripcion: "Relleno frutal ácido con cobertura de chocolate blanco.",
   precio: 3700,
-  imagen: "CarruselInicio/BombonMaracuya.png",
+  imagen: "CarruselInicio/BomMaracuya.png",
   modalId: "modalBombonMaracuya",
   modalDescripcion: "Explosión tropical de sabor con maracuyá fresco y cobertura blanca.",
   tipo: "Bombones",
@@ -241,7 +243,7 @@ const productos = [
   id:21,
   descripcion: "Relleno de praliné y centro crocante de avellana.",
   precio: 3900,
-  imagen: "CarruselInicio/BombonAvellana.png",
+  imagen: "CarruselInicio/BomCrocanteAvellana.png",
   modalId: "modalBombonAvellana",
   modalDescripcion: "Inspirado en los clásicos bombones europeos: textura crocante y sabor a nuez.",
   tipo: "Bombones",
@@ -249,11 +251,11 @@ const productos = [
 },
   //ESPECIALES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   {
-    nombre: "Brownie2con Nueces",
+    nombre: "Brownies con Nueces",
     id:22,
     descripcion: "Brownie de chocolate con trozos de nuez crocante.",
     precio: 8500,
-    imagen: "CarruselInicio/BrownieNuez.png",
+    imagen: "CarruselInicio/EspBrownieNueces.png",
     modalId: "modalBrownieNuez",
     modalDescripcion: "Clásico brownie húmedo con trozos de nuez. Perfecto para los amantes del chocolate y lo crocante.",
     tipo: "Especiales",
@@ -264,7 +266,7 @@ const productos = [
   id:23,
   descripcion: "Bizcochuelo húmedo con ralladura y glaseado de limón.",
   precio: 6000,
-  imagen: "CarruselInicio/BudinLimon.png",
+  imagen: "CarruselInicio/EspBudinLimon.png",
   modalId: "modalBudinLimon",
   modalDescripcion: "Budín casero con intenso sabor a limón y cobertura glaseada.",
   tipo: "Especiales",
@@ -275,7 +277,7 @@ const productos = [
   id:24,
   descripcion: "Galletas con chips de chocolate blanco, negro y con leche.",
   precio: 5500,
-  imagen: "CarruselInicio/CookiesTriple.png",
+  imagen: "CarruselInicio/EspCookiesTripleChocolate.png",
   modalId: "modalCookiesTriple",
   modalDescripcion: "Galletas crujientes por fuera y suaves por dentro, con explosión de chocolates.",
   tipo: "Especiales",
@@ -286,7 +288,7 @@ const productos = [
   id:25,
   descripcion: "Crema de queso, base de galletitas y frutos rojos en frasco.",
   precio: 6500,
-  imagen: "CarruselInicio/CheesecakeFrasco.png",
+  imagen: "CarruselInicio/EspCheesecakeFrasco.png",
   modalId: "modalFrasco",
   modalDescripcion: "Versión práctica y deliciosa del cheesecake para llevar, en frasco de vidrio reutilizable.",
   tipo: "Especiales",
@@ -294,133 +296,88 @@ const productos = [
 }
 ];
 
-// Variable global para el carrito.
-// Se inicializa con el contenido de localStorage si existe.
-var carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+  // Función para renderizar los productos
+  function renderProductos() {
+    const contenedor = document.getElementById("productos-todos");
+    if (!contenedor) return;
 
-// Función que genera el HTML de una tarjeta de producto.
-function renderProducto(producto) {
-  return `
-  <div class="col">
-    <div class="card h-100 shadow-sm border-0" data-id="${producto.id}" data-tags="${producto.tags.map(tag => tag.toLowerCase()).join(' ')}">
-      <img src="${producto.imagen}" class="card-img-top product-img" alt="${producto.nombre}" data-bs-toggle="modal" data-bs-target="#${producto.modalId}" loading="lazy">
-      <div class="card-body">
-        <h5 class="card-title">${producto.nombre}</h5>
-        <p class="card-text">${producto.descripcion}</p>
-      </div>
-      <div class="card-footer bg-transparent d-flex justify-content-between">
-        <span class="fw-bold text-muted">$${producto.precio}</span>
-        <button class="btn btn-outline-dark agregar-carrito-btn" data-id="${producto.id}">Agregar al carrito</button>
-      </div>
-    </div>
-  </div>
-  `;
-}
+    const tiposUnicos = [...new Set(productos.map(p => p.tipo))];
+    let usarFondoClaro = true;
 
-// Función que genera la sección completa para un tipo de producto.
-function renderSection(tipo, productosPorTipo, fondoClaro) {
-  const fondoClase = fondoClaro ? "seccion-clara py-5" : "seccion-oscura py-5";
-  let htmlSection = `
-    <section id="${tipo.toLowerCase()}" class="${fondoClase}">
-      <div class="container">
-        <h2 class="text-center display-5 mb-4 fw-semibold">${tipo}</h2>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-  `;
-  productosPorTipo.forEach(producto => {
-    htmlSection += renderProducto(producto);
-  });
-  htmlSection += `
-        </div>
-      </div>
-    </section>
-  `;
-  return htmlSection;
-}
+    tiposUnicos.forEach(tipo => {
+      const productosPorTipo = productos.filter(p => p.tipo === tipo);
+      // Crear contenedor de sección
+      const seccion = document.createElement("section");
+      seccion.id = tipo.toLowerCase(); // ej: alfajores
+      seccion.className = usarFondoClaro ? "seccion-clara py-5" : "seccion-oscura py-5";
 
-// Función para renderizar todos los productos en la página.
-// Se asume que existe un contenedor con id "productos-todos".
-function renderProductos() {
-  const contenedor = document.getElementById("productos-todos");
-  if (!contenedor) return;
-
-  const tiposUnicos = [...new Set(productos.map(p => p.tipo))];
-  let usarFondoClaro = true;
-
-  tiposUnicos.forEach(tipo => {
-    const productosPorTipo = productos.filter(p => p.tipo === tipo);
-    const sectionHTML = renderSection(tipo, productosPorTipo, usarFondoClaro);
-    contenedor.innerHTML += sectionHTML;
-    usarFondoClaro = !usarFondoClaro;
-  });
-}
-
-// Función que crea el HTML de un modal para un producto.
-function crearModal(producto) {
-  return `
-  <div class="modal fade" id="${producto.modalId}" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">${producto.nombre}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <img src="${producto.imagen}" alt="${producto.nombre}" class="img-fluid mb-3" loading="lazy" />
-          <p>${producto.modalDescripcion}</p>
-        </div>
-        <div class="modal-footer">
-          <span class="fw-bold me-auto">$${producto.precio}</span>
-          <button class="btn btn-dark agregar-carrito-btn" data-id="${producto.id}">Agregar al carrito</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  `;
-}
-
-// Función que renderiza todos los modales en el contenedor "modales-container".
-function renderModals() {
-  const contenedorModales = document.getElementById("modales-container");
-  if (!contenedorModales) return;
-
-  productos.forEach(producto => {
-    contenedorModales.innerHTML += crearModal(producto);
-  });
-}
-
-// Función para agregar un producto al carrito.
-// Si el usuario no está logueado se invoca el modal de login.
-function agregarAlCarrito(producto) {
-  if (!usuarioActual) {
-    const loginModalElem = document.getElementById("loginModal");
-    const loginModal = new bootstrap.Modal(loginModalElem);
-    loginModal.show();
-    return;
+      // Construir el HTML de la sección (usamos data-tags para la búsqueda)
+      let html = `
+        <div class="container">
+          <h2 class="text-center display-5 mb-4 fw-semibold">${tipo}</h2>
+          <div class="row row-cols-1 row-cols-md-3 g-4">
+      `;
+      productosPorTipo.forEach(producto => {
+        html += `
+          <div class="col">
+            <div class="card h-100 shadow-sm border-0" data-id="${producto.id}" data-tags="${producto.tags.map(tag => tag.toLowerCase()).join(' ')}">
+              <img src="${producto.imagen}" class="card-img-top product-img" alt="${producto.nombre}" data-bs-toggle="modal" data-bs-target="#${producto.modalId}" loading="lazy">
+              <div class="card-body">
+                <h5 class="card-title">${producto.nombre}</h5>
+                <p class="card-text">${producto.descripcion}</p>
+              </div>
+              <div class="card-footer bg-transparent d-flex justify-content-between">
+                <span class="fw-bold text-muted">$${producto.precio}</span>
+                <button class="btn btn-outline-dark">Agregar al carrito</button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      html += `</div></div>`;
+      seccion.innerHTML = html;
+      contenedor.appendChild(seccion);
+      usarFondoClaro = !usarFondoClaro;
+    });
   }
 
-  carrito.push(producto);
-  localStorage.setItem("carrito", JSON.stringify(carrito));
-  console.log("Producto agregado al carrito:", producto);
-  // Aquí podrías actualizar la interfaz del carrito.
-}
+  // Función para renderizar los modals de cada producto
+  function renderModals() {
+    const contenedorModales = document.getElementById("modales-container");
+    if (!contenedorModales) return;
 
-// Inicialización de la carga de productos y modales.
-document.addEventListener("DOMContentLoaded", () => {
-  renderProductos();
-  renderModals();
-
-  // Cargar los datos del usuario (si existen) al inicializar.
-  const userData = localStorage.getItem("usuarioActual");
-  if (userData) {
-    usuarioActual = JSON.parse(userData);
+    productos.forEach(producto => {
+      const modal = document.createElement("div");
+      modal.innerHTML = `
+        <div class="modal fade" id="${producto.modalId}" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">${producto.nombre}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <img src="${producto.imagen}" alt="${producto.nombre}" class="img-fluid mb-3" loading="lazy" />
+                <p>${producto.modalDescripcion}</p>
+              </div>
+              <div class="modal-footer">
+                <span class="fw-bold me-auto">$${producto.precio}</span>
+                <button class="btn btn-dark">Agregar al carrito</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      contenedorModales.appendChild(modal);
+    });
   }
-});
 
-// Delegación de eventos para manejar el "Agregar al carrito" en botones que se generan dinámicamente.
-document.addEventListener("click", function (e) {
-  if (e.target && e.target.classList.contains("agregar-carrito-btn")) {
-    const idProducto = parseInt(e.target.getAttribute("data-id"));
-    const producto = productos.find(p => p.id === idProducto);
-    agregarAlCarrito(producto);
-  }
-});
+  // Inicializa el renderizado al cargar el DOM
+  document.addEventListener("DOMContentLoaded", () => {
+    renderProductos();
+    renderModals();
+  });
+
+  // Exponemos la lista de productos para que otros módulos (como el buscador) puedan acceder
+  window.productos = productos;
+})();
