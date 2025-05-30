@@ -2,182 +2,144 @@
 <html lang="es">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>A Gusto - ¿Qué somos?</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>A Gusto - ¿Qué somos?</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
-  <link rel="stylesheet" href="CSS/estilo.css">
+    <link rel="stylesheet" href="CSS/estilo.css">
 </head>
 
 <body>
-  <!-- Encabezado -->
-  <header>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-      <div class="container">
-        <a class="navbar-brand" href="index.html">
-          <img src="Logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-          A Gusto
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" href="index.html">¿Qué somos?</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                ¿Qué hacemos?
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="QueHacemos.html#alfajores">Alfajores</a></li>
-                <li><a class="dropdown-item" href="QueHacemos.html#tortas">Tortas</a></li>
-                <li><a class="dropdown-item" href="QueHacemos.html#huevos">Huevos</a></li>
-                <li><a class="dropdown-item" href="QueHacemos.html#cupcakes">Cupcakes</a></li>
-                <li><a class="dropdown-item" href="QueHacemos.html#bombones">Bombones</a></li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="QueHacemos.html#especiales">Especiales</a></li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#carrito">Carrito</a>
-            </li>
-          </ul>
-          <div class="d-flex flex-column align-items-start">
-            <input type="text" id="buscador" class="form-control mb-2" placeholder="Buscar productos...">
-            <a href="#" id="login-link" class="text-decoration-none text-muted small">Login</a>
-          </div>
+    <!-- Encabezado -->
+    <header>
+        <!-- Navbar -->
+        <div id="navbar"></div>
+        <script>
+        fetch('navbar.html')
+            .then(res => res.text())
+            .then(html => { document.getElementById('navbar').innerHTML = html; });
+        </script>
+    </header>
 
 
-
+    <!-- Contenido Principal -->
+    <main>
+        <!-- Sección ¿Quiénes somos? -->
+        <section id="quienes-somos" class="seccion-clara py-5">
+        <div class="container">
+            <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="CarruselInicio/Pastelera.png" class="img-fluid rounded-4 shadow-lg" alt="Chef pastelera"
+                loading="lazy">
+            </div>
+            <div class="col-md-6">
+                <h2 class="fw-bold display-6 mb-3">
+                Nuestra Misión <br>
+                <span class="text-muted fs-4">¿Qué es lo que buscamos?</span>
+                </h2>
+                <p class="lead">
+                <strong>A_gusto</strong> nace del amor por la pastelería casera y la alegría de compartir momentos dulces
+                con quienes más queremos. Detrás de este emprendimiento está la chef pastelera Agustina de Concarán, San
+                Luis, que pone el corazón en cada preparación.
+                </p>
+                <p>
+                Creemos en el valor de lo artesanal, en el sabor de lo hecho en casa y en la magia de los detalles. Cada
+                torta, alfajor o delicia que sale de nuestra cocina es una invitación a sentirse a gusto, a disfrutar con
+                todos los sentidos.
+                </p>
+                <p class="fst-italic text-secondary">
+                A_gusto es más que un nombre: es una forma de hacer, de sentir y de cuidar a quienes eligen nuestros
+                productos.
+                </p>
+            </div>
+            </div>
         </div>
-      </div>
-    </nav>
-  </header>
+        </section>
+        <!--VALORES-->
+        <section class="seccion-oscura py-5 text-center">
+        <div class="container">
+            <h3 class="mb-4">¿Por qué elegirnos?</h3>
+            <div class="row">
+            <div class="col-md-3">
+                <i class="bi bi-person-heart" style="font-size: 2rem; color: #7cb7e8;"></i>
+                <p class="mt-2">Hecho con amor</p>
+            </div>
+            <div class="col-md-3">
+                <i class="bi bi-house-heart-fill" style="font-size: 2rem; color: #7cb7e8;"></i>
+                <p class="mt-2">Sabor casero</p>
+            </div>
+            <div class="col-md-3">
+                <i class="bi bi-cake" style="font-size: 2rem; color: #7cb7e8;"></i>
+                <p class="mt-2">Frescura garantizada</p>
+            </div>
+            <div class="col-md-3">
+                <i class="bi bi-person-circle" style="font-size: 2rem; color: #7cb7e8;"></i>
+                <p class="mt-2">Emprendimiento local</p>
+            </div>
+            </div>
+        </div>
+        </section>
+        <!--VISTASO DE PRODUCTOS-->
+        <!--No soporta el back-end esta hardcodeado. -->
+        <section class="seccion-clara py-5">
+        <div class="container">
+            <h3 class="text-center mb-4">Un vistazo a nuestras delicias</h3>
+            <div class="row g-3 justify-content-center">
+            <div class="col-md-3">
+                <a href="QueHacemos.html#tortas" class="zoom-link d-block overflow-hidden rounded">
+                <img src="CarruselInicio/TartaFrutal.png" class="img-fluid rounded zoom-img" alt="Torta decorada">
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="QueHacemos.html#alfajores" class="zoom-link d-block overflow-hidden rounded">
+                <img src="CarruselInicio/AlfBonobon.png" class="img-fluid rounded zoom-img" alt="Alfajores">
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="QueHacemos.html#huevos" class="zoom-link d-block overflow-hidden rounded">
+                <!--La imagen no coincide con el link aproposito.No tengo imagen de eso todavia -->
+                <img src="CarruselInicio/TortaOreo.png" class="img-fluid rounded zoom-img" alt="Huevos de Pascua">
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="QueHacemos.html#especiales" class="zoom-link d-block overflow-hidden rounded">
+                <!--La imagen no coincide con el link aproposito.No tengo imagen de eso todavia -->
+                <img src="CarruselInicio/SelvaNegra.png" class="img-fluid rounded zoom-img" alt="Especiales">
+                </a>
+            </div>
+            </div>
+        </div>
+        </section>
 
-  <!-- Contenido Principal -->
-  <main>
-    <!-- Sección ¿Quiénes somos? -->
-    <section id="quienes-somos" class="seccion-clara py-5">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-md-6">
-            <img src="CarruselInicio/Pastelera.png" class="img-fluid rounded-4 shadow-lg" alt="Chef pastelera"
-              loading="lazy">
-          </div>
-          <div class="col-md-6">
-            <h2 class="fw-bold display-6 mb-3">
-              Nuestra Misión <br>
-              <span class="text-muted fs-4">¿Qué es lo que buscamos?</span>
-            </h2>
-            <p class="lead">
-              <strong>A_gusto</strong> nace del amor por la pastelería casera y la alegría de compartir momentos dulces
-              con quienes más queremos. Detrás de este emprendimiento está la chef pastelera Agustina de Concarán, San
-              Luis, que pone el corazón en cada preparación.
-            </p>
-            <p>
-              Creemos en el valor de lo artesanal, en el sabor de lo hecho en casa y en la magia de los detalles. Cada
-              torta, alfajor o delicia que sale de nuestra cocina es una invitación a sentirse a gusto, a disfrutar con
-              todos los sentidos.
-            </p>
-            <p class="fst-italic text-secondary">
-              A_gusto es más que un nombre: es una forma de hacer, de sentir y de cuidar a quienes eligen nuestros
-              productos.
-            </p>
-          </div>
+    </main>
+    <!-- Modal de Login -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="login-form">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Iniciar sesión</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control mb-3" id="usuario" placeholder="Nombre de usuario" required>
+                <input type="tel" class="form-control" id="telefono" placeholder="Número de teléfono" required>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-dark">Ingresar</button>
+            </div>
+            </form>
         </div>
-      </div>
-    </section>
-    <!--VALORES-->
-    <section class="seccion-oscura py-5 text-center">
-      <div class="container">
-        <h3 class="mb-4">¿Por qué elegirnos?</h3>
-        <div class="row">
-          <div class="col-md-3">
-            <i class="bi bi-person-heart" style="font-size: 2rem; color: #7cb7e8;"></i>
-            <p class="mt-2">Hecho con amor</p>
-          </div>
-          <div class="col-md-3">
-            <i class="bi bi-house-heart-fill" style="font-size: 2rem; color: #7cb7e8;"></i>
-            <p class="mt-2">Sabor casero</p>
-          </div>
-          <div class="col-md-3">
-            <i class="bi bi-cake" style="font-size: 2rem; color: #7cb7e8;"></i>
-            <p class="mt-2">Frescura garantizada</p>
-          </div>
-          <div class="col-md-3">
-            <i class="bi bi-person-circle" style="font-size: 2rem; color: #7cb7e8;"></i>
-            <p class="mt-2">Emprendimiento local</p>
-          </div>
         </div>
-      </div>
-    </section>
-    <!--VISTASO DE PRODUCTOS-->
-    <!--No soporta el back-end esta hardcodeado. -->
-    <section class="seccion-clara py-5">
-      <div class="container">
-        <h3 class="text-center mb-4">Un vistazo a nuestras delicias</h3>
-        <div class="row g-3 justify-content-center">
-          <div class="col-md-3">
-            <a href="QueHacemos.html#tortas" class="zoom-link d-block overflow-hidden rounded">
-              <img src="CarruselInicio/TartaFrutal.png" class="img-fluid rounded zoom-img" alt="Torta decorada">
-            </a>
-          </div>
-          <div class="col-md-3">
-            <a href="QueHacemos.html#alfajores" class="zoom-link d-block overflow-hidden rounded">
-              <img src="CarruselInicio/AlfBonobon.png" class="img-fluid rounded zoom-img" alt="Alfajores">
-            </a>
-          </div>
-          <div class="col-md-3">
-            <a href="QueHacemos.html#huevos" class="zoom-link d-block overflow-hidden rounded">
-              <!--La imagen no coincide con el link aproposito.No tengo imagen de eso todavia -->
-              <img src="CarruselInicio/TortaOreo.png" class="img-fluid rounded zoom-img" alt="Huevos de Pascua">
-            </a>
-          </div>
-          <div class="col-md-3">
-            <a href="QueHacemos.html#especiales" class="zoom-link d-block overflow-hidden rounded">
-              <!--La imagen no coincide con el link aproposito.No tengo imagen de eso todavia -->
-              <img src="CarruselInicio/SelvaNegra.png" class="img-fluid rounded zoom-img" alt="Especiales">
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-  <!-- Modal de Login -->
-  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <form id="login-form">
-          <div class="modal-header">
-            <h5 class="modal-title" id="loginModalLabel">Iniciar sesión</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body">
-            <input type="text" class="form-control mb-3" id="usuario" placeholder="Nombre de usuario" required>
-            <input type="tel" class="form-control" id="telefono" placeholder="Número de teléfono" required>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-dark">Ingresar</button>
-          </div>
-        </form>
-      </div>
     </div>
-  </div>
 
-  <!-- Contenedor de Modales -->
-  <div id="modales-container"></div>
+    <!-- Contenedor de Modales -->
+    <div id="modales-container"></div>
 
-  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
 
 </html>
 
