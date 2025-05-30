@@ -15,6 +15,10 @@ const User = sequelize.define('User', {
     type: DataTypes.ENUM('admin', 'client'),
     defaultValue: 'client',
   },
+  tel: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  }
 });
 
 export default User;
