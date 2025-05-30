@@ -31,10 +31,10 @@ import api from "./api.js";
                         loginModal && loginModal.hide();
                         console.log("Login exitoso:", data);
                         // Redirección según el rol
-                        if (data.role === "admin") {
-                            window.location.href = "admin.html";
-                        } else {
+                        if (data.role === "client") {
                             window.location.href = "perfil.html";
+                        } else {
+                            window.location.href = "admin.html";
                         }
                     } else {
                         errorDiv && (errorDiv.innerText = data.message || "Credenciales incorrectas.");
