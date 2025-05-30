@@ -87,9 +87,9 @@ export const updatedPassword = async (req, res) => {
 
 // Autenticar un usuario y generar un token JWT
 export const autenticarUsuario = async (req, res) => {
-  const { tel, password } = req.body;
-  const telefono = tel;
-  console.log('Datos de autenticación recibidos:', { telefono, password });
+  const { tel, telefono, password } = req.body;
+  const telefonoFinal = tel || telefono;
+  console.log('Datos de autenticación recibidos:', { telefono: telefonoFinal, password });
   try {
     const result = await pool.query('SELECT * FROM users WHERE tel = $1', [telefono]);
     if (result.rows.length === 0) {
