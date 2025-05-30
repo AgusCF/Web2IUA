@@ -27,12 +27,12 @@ export const getUserById = async (req, res) => {
 
 // Crear usuario
 export const createUser = async (req, res) => {
-  const { username, tel, password, role = 'client' } = req.body;
+  const { username, telefono, password, role = 'client' } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const result = await pool.query(
       'INSERT INTO users (username, password, tel, role) VALUES ($1, $2, $3, $4) RETURNING *',
-      [username, hashedPassword, tel, role]
+      [username, hashedPassword, telefono, role]
     );
     res.status(201).json(result.rows[0]);
   } catch (error) {
@@ -43,7 +43,7 @@ export const createUser = async (req, res) => {
 
 // Actualizar usuario
 export const updateUser = async (req, res) => {
-  const { username, tel, password, role } = req.body;
+  const { username, telefono, password, role } = req.body;
   try {
     let hashedPassword;
     if (password) {
@@ -56,7 +56,7 @@ export const updateUser = async (req, res) => {
         password = COALESCE($3, password), 
         role = COALESCE($4, role)
       WHERE id = $5 RETURNING *`,
-      [username, tel, hashedPassword, role, req.params.id]
+      [username, telefono, hashedPassword, role, req.params.id]
     );
     if (result.rows.length === 0) return res.status(404).send('Usuario no encontrado');
     res.json(result.rows[0]);
@@ -87,9 +87,9 @@ export const updatedPassword = async (req, res) => {
 
 // Autenticar un usuario y generar un token JWT
 export const autenticarUsuario = async (req, res) => {
-  const { tel, password } = req.body;
+  const { telefono, password } = req.body;
   try {
-    const result = await pool.query('SELECT * FROM users WHERE tel = $1', [tel]);
+    const result = await pool.query('SELECT * FROM users WHERE tel = $1', [telefono]);
     if (result.rows.length === 0) {
       return res.status(404).json({ message: "El usuario no existe" });
     }
@@ -99,7 +99,7 @@ export const autenticarUsuario = async (req, res) => {
       return res.status(401).json({ message: "Contraseña incorrecta" });
     }
     const token = jwt.sign(
-      { id: user.id, username: user.username, tel: user.tel, role: user.role },
+      { id: user.id, username: user.username, tel: user.telefono, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: "10m" }
     );
