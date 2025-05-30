@@ -1,5 +1,5 @@
 import express from "express";
-import { autenticarUsuario } from "../controllers/userController.js";
+import { autenticarUsuario } from "../controllers/user.Controller.js";
 import routerUser from "./user.routes.js";
 import routerProducts from "./products.routes.js";
 import routerOrders from "./orders.routes.js";
