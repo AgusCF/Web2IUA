@@ -24,10 +24,9 @@ console.log("login.js cargado");
                 const response = await api.post("/api/login", { telefono, password });
                 const data = response.data;
 
-                if (data.success) {
-                    // Guardar usuario en localStorage si lo deseas
-                    localStorage.setItem("usuarioActual", JSON.stringify(data.usuario));
-                    // Cerrar el modal
+                if (data.token) {
+                    // Login exitoso
+                    localStorage.setItem("usuarioActual", JSON.stringify(data));
                     const loginModalElem = document.getElementById("loginModal");
                     const loginModal = bootstrap.Modal.getInstance(loginModalElem);
                     loginModal && loginModal.hide();
