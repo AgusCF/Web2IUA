@@ -1,5 +1,4 @@
 import { pool } from '../databases/db.js';
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 // Obtener todos los usuarios
@@ -29,10 +28,10 @@ export const getUserById = async (req, res) => {
 export const createUser = async (req, res) => {
   const { username, telefono, password, role = 'client' } = req.body;
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Guarda la contraseña en texto plano (NO recomendado para producción)
     const result = await pool.query(
       'INSERT INTO users (username, password, tel, role) VALUES ($1, $2, $3, $4) RETURNING *',
-      [username, hashedPassword, telefono, role]
+      [username, password, telefono, role]
     );
     res.status(201).json(result.rows[0]);
   } catch (error) {
@@ -45,10 +44,7 @@ export const createUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   const { username, telefono, password, role } = req.body;
   try {
-    let hashedPassword;
-    if (password) {
-      hashedPassword = await bcrypt.hash(password, 10);
-    }
+    // No encriptar la contraseña
     const result = await pool.query(
       `UPDATE users SET 
         username = COALESCE($1, username), 
@@ -56,7 +52,7 @@ export const updateUser = async (req, res) => {
         password = COALESCE($3, password), 
         role = COALESCE($4, role)
       WHERE id = $5 RETURNING *`,
-      [username, telefono, hashedPassword, role, req.params.id]
+      [username, telefono, password, role, req.params.id]
     );
     if (result.rows.length === 0) return res.status(404).send('Usuario no encontrado');
     res.json(result.rows[0]);
@@ -75,8 +71,8 @@ export const updatedPassword = async (req, res) => {
     return res.status(400).json({ message: "La contraseña debe tener al menos 8 caracteres, incluyendo una letra y un número" });
   }
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const result = await pool.query('UPDATE users SET password = $1 WHERE id = $2 RETURNING *', [hashedPassword, id]);
+    // Guarda la contraseña en texto plano
+    const result = await pool.query('UPDATE users SET password = $1 WHERE id = $2 RETURNING *', [password, id]);
     if (result.rows.length === 0) return res.status(404).json({ message: "Usuario no encontrado" });
     return res.json({ message: "Contraseña actualizada correctamente" });
   } catch (error) {
@@ -91,18 +87,18 @@ export const autenticarUsuario = async (req, res) => {
   const telefonoFinal = tel || telefono;
   console.log('Datos de autenticación recibidos:', { telefono: telefonoFinal, password });
   try {
-    const result = await pool.query('SELECT * FROM users WHERE tel = $1', [telefono]);
+    const result = await pool.query('SELECT * FROM users WHERE tel = $1', [telefonoFinal]);
     if (result.rows.length === 0) {
       return res.status(404).json({ message: "El usuario no existe" });
     }
     const user = result.rows[0];
     console.log('Usuario encontrado:', user);
-    const passwordValid = await bcrypt.compare(password, user.password);
-    if (!passwordValid) {
+    // Comparación directa de contraseñas
+    if (password !== user.password) {
       return res.status(401).json({ message: "Contraseña incorrecta" });
     }
     const token = jwt.sign(
-      { id: user.id, username: user.username, tel: user.telefono, role: user.role },
+      { id: user.id, username: user.username, tel: user.telefonoFinal, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: "10m" }
     );
