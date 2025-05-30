@@ -134,13 +134,15 @@
     <div id="modales-container"></div>
 
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    
+    <!-- Script para la navbar -->
     <script>
         fetch('navbar.html')
             .then(res => res.text())
             .then(html => { document.getElementById('navbar').innerHTML = html; });
     </script>
+    <!-- Script para el login -->
     <script>
+
         document.addEventListener("DOMContentLoaded", function () {
             // Espera a que el navbar se cargue dinámicamente
             const esperarNavbar = setInterval(() => {
@@ -157,6 +159,7 @@
             }, 100);
         });
     </script>
+    <script defer src="JS/login.js"></script>
     </body>
 
 </html>
