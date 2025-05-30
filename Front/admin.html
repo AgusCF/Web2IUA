@@ -29,11 +29,11 @@
         document.addEventListener("DOMContentLoaded", function () {
             const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
             if (!usuario || usuario.role !== "admin") {
-                window.location.href = "index.html";
+                window.location.href = "/";
             }
             document.getElementById("logout-btn").onclick = function () {
                 localStorage.removeItem("usuarioActual");
-                window.location.href = "index.html";
+                window.location.href = "/";
             };
         });
     </script>
