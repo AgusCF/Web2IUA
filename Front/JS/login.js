@@ -29,7 +29,7 @@ import api from "./api.js";
                         const loginModalElem = document.getElementById("loginModal");
                         const loginModal = bootstrap.Modal.getInstance(loginModalElem);
                         loginModal && loginModal.hide();
-
+                        console.log("Login exitoso:", data);
                         // Redirección según el rol
                         if (data.role === "admin") {
                             window.location.href = "admin.html";
