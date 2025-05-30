@@ -8,11 +8,18 @@ import router from './routes/index.routes.js';
 import { pool } from './databases/db.js';
 import multer from 'multer';
 import path from 'path';
+import fs from 'fs';
 
 dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
+
+// Antes de configurar multer o usar la carpeta uploads:
+const uploadDir = 'uploads';
+if (!fs.existsSync(uploadDir)){
+    fs.mkdirSync(uploadDir);
+}
 
 // Configuración de almacenamiento para multer
 const storage = multer.diskStorage({
