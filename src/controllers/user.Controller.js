@@ -88,12 +88,14 @@ export const updatedPassword = async (req, res) => {
 // Autenticar un usuario y generar un token JWT
 export const autenticarUsuario = async (req, res) => {
   const { telefono, password } = req.body;
+  console.log('Datos de autenticación recibidos:', { telefono, password });
   try {
     const result = await pool.query('SELECT * FROM users WHERE tel = $1', [telefono]);
     if (result.rows.length === 0) {
       return res.status(404).json({ message: "El usuario no existe" });
     }
     const user = result.rows[0];
+    console.log('Usuario encontrado:', user);
     const passwordValid = await bcrypt.compare(password, user.password);
     if (!passwordValid) {
       return res.status(401).json({ message: "Contraseña incorrecta" });
