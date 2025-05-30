@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 // Obtener todos los usuarios
 export const getAllUsers = async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM Users');
+    const result = await pool.query('SELECT * FROM users');
     res.json(result.rows);
   } catch (error) {
     console.error('Error al obtener usuarios:', error);
@@ -16,7 +16,7 @@ export const getAllUsers = async (req, res) => {
 // Obtener usuario por ID
 export const getUserById = async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM Users WHERE id = $1', [req.params.id]);
+    const result = await pool.query('SELECT * FROM users WHERE id = $1', [req.params.id]);
     if (result.rows.length === 0) return res.status(404).send('Usuario no encontrado');
     res.json(result.rows[0]);
   } catch (error) {
@@ -31,7 +31,7 @@ export const createUser = async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const result = await pool.query(
-      'INSERT INTO Users (username, password, tel, role) VALUES ($1, $2, $3, $4) RETURNING *',
+      'INSERT INTO users (username, password, tel, role) VALUES ($1, $2, $3, $4) RETURNING *',
       [username, hashedPassword, tel, role]
     );
     res.status(201).json(result.rows[0]);
@@ -50,7 +50,7 @@ export const updateUser = async (req, res) => {
       hashedPassword = await bcrypt.hash(password, 10);
     }
     const result = await pool.query(
-      `UPDATE Users SET 
+      `UPDATE users SET 
         username = COALESCE($1, username), 
         tel = COALESCE($2, tel), 
         password = COALESCE($3, password), 
@@ -76,7 +76,7 @@ export const updatedPassword = async (req, res) => {
   }
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const result = await pool.query('UPDATE Users SET password = $1 WHERE id = $2 RETURNING *', [hashedPassword, id]);
+    const result = await pool.query('UPDATE users SET password = $1 WHERE id = $2 RETURNING *', [hashedPassword, id]);
     if (result.rows.length === 0) return res.status(404).json({ message: "Usuario no encontrado" });
     return res.json({ message: "Contraseña actualizada correctamente" });
   } catch (error) {
@@ -89,7 +89,7 @@ export const updatedPassword = async (req, res) => {
 export const autenticarUsuario = async (req, res) => {
   const { tel, password } = req.body;
   try {
-    const result = await pool.query('SELECT * FROM Users WHERE tel = $1', [tel]);
+    const result = await pool.query('SELECT * FROM users WHERE tel = $1', [tel]);
     if (result.rows.length === 0) {
       return res.status(404).json({ message: "El usuario no existe" });
     }
