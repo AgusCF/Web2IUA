@@ -45,7 +45,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module">
-        import { cargarUsuarios, cargarProductos, cargarOrdenes, editarElemento } from "./JS/adminPanel.js";
+        import { cargarUsuarios, cargarProductos, cargarOrdenes, editarElemento, verDetalle } from "./JS/adminPanel.js";
 
         // Cargar navbar
         fetch('navbar.html')
@@ -98,9 +98,7 @@
             cargarUsuarios(adminContent);
 
             // Funciones globales para ver y editar (puedes implementar los modales o navegación)
-            window.verDetalle = function(tipo, id) {
-                alert(`Ver detalle de ${tipo} con ID ${id}`);
-            };
+            window.verDetalle = verDetalle;
             window.editarElemento = editarElemento;
         });
     </script>

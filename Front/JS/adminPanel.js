@@ -306,6 +306,56 @@ export function editarElemento(tipo, id) {
     }
 }
 
+export function verDetalle(tipo, id) {
+    if (tipo === 'producto') {
+        api.get(`/products/${id}`).then(res => {
+            const p = res.data;
+            const html = `
+                <div>
+                    <div class="mb-2"><strong>Nombre:</strong> ${p.name}</div>
+                    <div class="mb-2"><strong>Descripción:</strong> ${p.description ?? ''}</div>
+                    <div class="mb-2"><strong>Precio:</strong> $${p.price}</div>
+                    <div class="mb-2"><strong>Stock:</strong> ${p.stock ?? '-'}</div>
+                    <div class="mb-2"><strong>Oferta:</strong> ${p.offert ?? '-'}</div>
+                    <div class="mb-2"><strong>Tags:</strong> ${Array.isArray(p.tags) ? p.tags.join(', ') : ''}</div>
+                    <div class="mb-2"><strong>Tipo:</strong> ${p.type}</div>
+                    <div class="mb-2"><strong>Imagen:</strong><br>
+                        <img src="${p.img}" alt="Imagen actual" style="width:100px;max-height:100px;object-fit:cover;">
+                    </div>
+                </div>
+            `;
+            mostrarModal('Detalle de Producto', html);
+        });
+    } else if (tipo === 'usuario') {
+        api.get(`/users/${id}`).then(res => {
+            const u = res.data;
+            const html = `
+                <div>
+                    <div class="mb-2"><strong>Usuario:</strong> ${u.username}</div>
+                    <div class="mb-2"><strong>Teléfono:</strong> ${u.tel}</div>
+                    <div class="mb-2"><strong>Rol:</strong> ${u.role}</div>
+                </div>
+            `;
+            mostrarModal('Detalle de Usuario', html);
+        });
+    } else if (tipo === 'orden') {
+        api.get(`/orders/${id}`).then(res => {
+            const o = res.data;
+            const html = `
+                <div>
+                    <div class="mb-2"><strong>Usuario:</strong> ${o.usuario ?? ''}</div>
+                    <div class="mb-2"><strong>Fecha:</strong> ${o.fecha ?? ''}</div>
+                    <div class="mb-2"><strong>Total:</strong> $${o.total ?? 0}</div>
+                    <div class="mb-2"><strong>Estado:</strong> ${o.state ?? 'pendiente'}</div>
+                </div>
+            `;
+            mostrarModal('Detalle de Orden', html);
+        });
+    } else {
+        alert('Tipo no soportado');
+    }
+}
+
 // Utilidad para mostrar un modal reutilizable
 function mostrarModal(titulo, contenido, onShow) {
     const modal = document.createElement('div');
