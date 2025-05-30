@@ -85,14 +85,12 @@ export const updatedPassword = async (req, res) => {
 export const autenticarUsuario = async (req, res) => {
   const { tel, telefono, password } = req.body;
   const telefonoFinal = tel || telefono;
-  console.log('Datos de autenticación recibidos:', { telefono: telefonoFinal, password });
   try {
     const result = await pool.query('SELECT * FROM users WHERE tel = $1', [telefonoFinal]);
     if (result.rows.length === 0) {
       return res.status(404).json({ message: "El usuario no existe" });
     }
     const user = result.rows[0];
-    console.log('Usuario encontrado:', user);
     // Comparación directa de contraseñas
     if (password !== user.password) {
       return res.status(401).json({ message: "Contraseña incorrecta" });

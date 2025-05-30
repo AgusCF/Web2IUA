@@ -50,6 +50,7 @@ app.get('/ping', (req, res) => {
 
 // Ruta para subir imágenes de productos
 app.post('/api/products/upload', upload.single('imagen'), (req, res) => {
+  console.log('Archivo recibido:', req.file);
   if (!req.file) {
     return res.status(400).json({ message: 'No se subió ninguna imagen' });
   }
