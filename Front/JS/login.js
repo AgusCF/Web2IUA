@@ -1,4 +1,5 @@
 import api from "./api.js";
+console.log("login.js cargado");
 
 // login.js
 (function () {
@@ -15,8 +16,8 @@ import api from "./api.js";
 
             // Validaciones básicas
             if (telefono === "" || password === "") {
-            errorDiv && (errorDiv.innerText = "Todos los campos son obligatorios.");
-            return;
+                errorDiv && (errorDiv.innerText = "Todos los campos son obligatorios.");
+                return;
             }
 
             try {
