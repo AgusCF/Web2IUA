@@ -1,5 +1,15 @@
 import api from "./api.js";
 
+const BACKEND_URL = "https://web2iua-back.onrender.com"; // Ajusta si cambia tu backend
+
+function getImgUrl(imgPath) {
+    if (!imgPath) return '';
+    if (imgPath.startsWith('/uploads/')) {
+        return BACKEND_URL + imgPath;
+    }
+    return imgPath;
+}
+
 export function cargarUsuarios(adminContent) {
     adminContent.innerHTML = "<div class='text-center my-4'>Cargando usuarios...</div>";
     api.get('/users')
@@ -72,7 +82,7 @@ export function cargarProductos(adminContent) {
                             <tr>
                                 <td>${p.id}</td>
                                 <td>${p.name}</td>
-                                <td><img src="${p.img}" alt="${p.name}" style="width:60px;max-height:60px;object-fit:cover;"></td>
+                                <td><img src="${getImgUrl(p.img)}" alt="${p.name}" style="width:60px;max-height:60px;object-fit:cover;"></td>
                                 <td>${p.description ?? ''}</td>
                                 <td>${p.price}</td>
                                 <td>${p.stock ?? '-'}</td>
@@ -174,7 +184,7 @@ export function editarElemento(tipo, id) {
                     </div>
                     <div class="mb-2">
                         <label>Imagen actual</label><br>
-                        <img src="${p.img}" alt="Imagen actual" style="width:100px;max-height:100px;object-fit:cover;">
+                        <img src="${getImgUrl(p.img)}" alt="Imagen actual" style="width:100px;max-height:100px;object-fit:cover;">
                     </div>
                     <div class="mb-2">
                         <label>Nueva imagen (opcional)</label>
@@ -320,7 +330,7 @@ export function verDetalle(tipo, id) {
                     <div class="mb-2"><strong>Tags:</strong> ${Array.isArray(p.tags) ? p.tags.join(', ') : ''}</div>
                     <div class="mb-2"><strong>Tipo:</strong> ${p.type}</div>
                     <div class="mb-2"><strong>Imagen:</strong><br>
-                        <img src="${p.img}" alt="Imagen actual" style="width:100px;max-height:100px;object-fit:cover;">
+                        <img src="${getImgUrl(p.img)}" alt="Imagen actual" style="width:100px;max-height:100px;object-fit:cover;">
                     </div>
                 </div>
             `;
