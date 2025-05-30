@@ -30,8 +30,8 @@ console.log("login.js cargado");
                     const loginModalElem = document.getElementById("loginModal");
                     const loginModal = bootstrap.Modal.getInstance(loginModalElem);
                     loginModal && loginModal.hide();
-                    console.log("Login exitoso:", data.usuario); // <-- Agrega esto
-                    alert(`Bienvenido, ${data.usuario.usuario}`);
+                    console.log("Login exitoso:", data.usuario);
+                    alert(`Bienvenido, ${data.usuario}`);
                     // Aquí puedes redirigir o actualizar la UI
                     // window.location.href = "index.html"; // Si quieres redirigir
                 } else {
