@@ -18,6 +18,26 @@
         <div id="navbar"></div>
     </header>
 
+    <!-- Modal de Login -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="login-form">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Iniciar sesión</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control mb-3" id="usuario" placeholder="Nombre de usuario" required>
+                <input type="tel" class="form-control" id="telefono" placeholder="Número de teléfono" required>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-dark">Ingresar</button>
+            </div>
+            </form>
+        </div>
+        </div>
+    </div>
 
     <!-- Contenido Principal -->
     <main>
@@ -109,26 +129,6 @@
         </section>
 
     </main>
-    <!-- Modal de Login -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <form id="login-form">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">Iniciar sesión</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <input type="text" class="form-control mb-3" id="usuario" placeholder="Nombre de usuario" required>
-                <input type="tel" class="form-control" id="telefono" placeholder="Número de teléfono" required>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-dark">Ingresar</button>
-            </div>
-            </form>
-        </div>
-        </div>
-    </div>
 
     <!-- Contenedor de Modales -->
     <div id="modales-container"></div>
@@ -136,9 +136,26 @@
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-    fetch('navbar.html')
-        .then(res => res.text())
-        .then(html => { document.getElementById('navbar').innerHTML = html; });
+        fetch('navbar.html')
+            .then(res => res.text())
+            .then(html => { document.getElementById('navbar').innerHTML = html; });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Espera a que el navbar se cargue dinámicamente
+            const esperarNavbar = setInterval(() => {
+                const loginLink = document.getElementById("login-link");
+                const loginModal = document.getElementById("loginModal");
+                if (loginLink && loginModal) {
+                    clearInterval(esperarNavbar);
+                    loginLink.addEventListener("click", function (e) {
+                        e.preventDefault();
+                        const modal = new bootstrap.Modal(loginModal);
+                        modal.show();
+                    });
+                }
+            }, 100);
+        });
     </script>
     </body>
 
