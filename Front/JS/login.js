@@ -23,18 +23,16 @@ import api from "./api.js";
                     const response = await api.post("/api/login", { telefono, password });
                     const data = response.data;
 
-                    if (data.token) {
-                        // Login exitoso
-                        localStorage.setItem("usuarioActual", JSON.stringify(data));
+                    if (data.token && data.usuario) {
+                        localStorage.setItem("usuarioActual", JSON.stringify(data.usuario));
                         const loginModalElem = document.getElementById("loginModal");
                         const loginModal = bootstrap.Modal.getInstance(loginModalElem);
                         loginModal && loginModal.hide();
-                        console.log("Login exitoso:", data);
-                        // Redirección según el rol
-                        if (data.role === "client") {
-                            window.location.href = "perfil.html";
-                        } else {
+                        console.log("Login exitoso:", data.usuario);
+                        if (data.usuario.role === "admin") {
                             window.location.href = "admin.html";
+                        } else {
+                            window.location.href = "perfil.html";
                         }
                     } else {
                         errorDiv && (errorDiv.innerText = data.message || "Credenciales incorrectas.");
