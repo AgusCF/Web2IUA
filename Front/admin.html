@@ -6,36 +6,230 @@
     <title>Panel de Administración - A Gusto</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="CSS/estilo.css">
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+        }
+        .sidebar .nav-link.active {
+            background: #e9ecef;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <header>
         <div id="navbar"></div>
     </header>
-    <main class="container py-5">
-        <h2 class="mb-4">Panel de Administración</h2>
-        <div class="alert alert-info">Aquí podrás gestionar productos, usuarios y pedidos.</div>
-        <!-- Aquí irán los CRUDs de productos, usuarios, etc. -->
-        <button id="logout-btn" class="btn btn-danger mt-4">Cerrar sesión</button>
-    </main>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-none d-md-block sidebar py-4">
+                <div class="nav flex-column">
+                    <a class="nav-link active" href="#" id="nav-usuarios">Usuarios</a>
+                    <a class="nav-link" href="#" id="nav-productos">Productos</a>
+                    <a class="nav-link" href="#" id="nav-ordenes">Órdenes</a>
+                </div>
+            </nav>
+            <!-- Main content -->
+            <main class="col-md-10 ms-sm-auto px-4 py-4">
+                <h2 class="mb-4" id="admin-title">Usuarios</h2>
+                <div id="admin-content">
+                    <!-- Aquí se listarán los datos dinámicamente -->
+                </div>
+                <button id="logout-btn" class="btn btn-danger mt-4">Cerrar sesión</button>
+            </main>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         // Cargar navbar
         fetch('navbar.html')
             .then(res => res.text())
             .then(html => { document.getElementById('navbar').innerHTML = html; });
-    </script>
-    <script>
-        // Verifica si el usuario es admin
+
+        // Control de acceso
         document.addEventListener("DOMContentLoaded", function () {
             const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
             if (!usuario || usuario.role !== "admin") {
                 alert("Acceso denegado. Solo los administradores pueden acceder a esta página.");
-                // Redirige al inicio si no es admin
                 window.location.href = "/";
             }
             document.getElementById("logout-btn").onclick = function () {
                 localStorage.removeItem("usuarioActual");
                 window.location.href = "/";
+            };
+        });
+
+        // Lógica de navegación lateral y carga de datos
+        document.addEventListener("DOMContentLoaded", function () {
+            const navUsuarios = document.getElementById("nav-usuarios");
+            const navProductos = document.getElementById("nav-productos");
+            const navOrdenes = document.getElementById("nav-ordenes");
+            const adminTitle = document.getElementById("admin-title");
+            const adminContent = document.getElementById("admin-content");
+
+            function setActive(nav) {
+                [navUsuarios, navProductos, navOrdenes].forEach(n => n.classList.remove("active"));
+                nav.classList.add("active");
+            }
+
+            navUsuarios.onclick = function () {
+                setActive(navUsuarios);
+                adminTitle.textContent = "Usuarios";
+                cargarUsuarios();
+            };
+            navProductos.onclick = function () {
+                setActive(navProductos);
+                adminTitle.textContent = "Productos";
+                cargarProductos();
+            };
+            navOrdenes.onclick = function () {
+                setActive(navOrdenes);
+                adminTitle.textContent = "Órdenes";
+                cargarOrdenes();
+            };
+
+            // Carga inicial
+            cargarUsuarios();
+
+            // Funciones para cargar datos (debes adaptar los endpoints)
+            function cargarUsuarios() {
+                adminContent.innerHTML = "<div class='text-center my-4'>Cargando usuarios...</div>";
+                axios.get('/api/users')
+                    .then(res => {
+                        const usuarios = res.data;
+                        if (!usuarios.length) {
+                            adminContent.innerHTML = "<p>No hay usuarios registrados.</p>";
+                            return;
+                        }
+                        adminContent.innerHTML = `
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Usuario</th>
+                                        <th>Teléfono</th>
+                                        <th>Rol</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${usuarios.map(u => `
+                                        <tr>
+                                            <td>${u.id}</td>
+                                            <td>${u.username}</td>
+                                            <td>${u.tel}</td>
+                                            <td>${u.role}</td>
+                                            <td>
+                                                <button class="btn btn-info btn-sm" onclick="verDetalle('usuario', ${u.id})">Ver</button>
+                                                <button class="btn btn-warning btn-sm" onclick="editarElemento('usuario', ${u.id})">Editar</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `;
+                    })
+                    .catch(() => {
+                        adminContent.innerHTML = "<div class='text-danger'>Error al cargar usuarios.</div>";
+                    });
+            }
+
+            function cargarProductos() {
+                adminContent.innerHTML = "<div class='text-center my-4'>Cargando productos...</div>";
+                axios.get('/api/products')
+                    .then(res => {
+                        const productos = res.data;
+                        if (!productos.length) {
+                            adminContent.innerHTML = "<p>No hay productos registrados.</p>";
+                            return;
+                        }
+                        adminContent.innerHTML = `
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Precio</th>
+                                        <th>Stock</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${productos.map(p => `
+                                        <tr>
+                                            <td>${p.id}</td>
+                                            <td>${p.nombre}</td>
+                                            <td>${p.precio}</td>
+                                            <td>${p.stock ?? '-'}</td>
+                                            <td>
+                                                <button class="btn btn-info btn-sm" onclick="verDetalle('producto', ${p.id})">Ver</button>
+                                                <button class="btn btn-warning btn-sm" onclick="editarElemento('producto', ${p.id})">Editar</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `;
+                    })
+                    .catch(() => {
+                        adminContent.innerHTML = "<div class='text-danger'>Error al cargar productos.</div>";
+                    });
+            }
+
+            function cargarOrdenes() {
+                adminContent.innerHTML = "<div class='text-center my-4'>Cargando órdenes...</div>";
+                axios.get('/api/orders')
+                    .then(res => {
+                        const ordenes = res.data;
+                        if (!ordenes.length) {
+                            adminContent.innerHTML = "<p>No hay órdenes registradas.</p>";
+                            return;
+                        }
+                        adminContent.innerHTML = `
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Usuario</th>
+                                        <th>Fecha</th>
+                                        <th>Total</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${ordenes.map(o => `
+                                        <tr>
+                                            <td>${o.id}</td>
+                                            <td>${o.usuario ?? '-'}</td>
+                                            <td>${o.fecha ?? '-'}</td>
+                                            <td>${o.total ?? '-'}</td>
+                                            <td>
+                                                <button class="btn btn-info btn-sm" onclick="verDetalle('orden', ${o.id})">Ver</button>
+                                                <button class="btn btn-warning btn-sm" onclick="editarElemento('orden', ${o.id})">Editar</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `;
+                    })
+                    .catch(() => {
+                        adminContent.innerHTML = "<div class='text-danger'>Error al cargar órdenes.</div>";
+                    });
+            }
+
+            // Funciones globales para ver y editar (puedes implementar los modales o navegación)
+            window.verDetalle = function(tipo, id) {
+                alert(`Ver detalle de ${tipo} con ID ${id}`);
+                // Aquí puedes abrir un modal o navegar a una página de detalle
+            };
+            window.editarElemento = function(tipo, id) {
+                alert(`Editar ${tipo} con ID ${id}`);
+                // Aquí puedes abrir un modal o formulario de edición
             };
         });
     </script>
