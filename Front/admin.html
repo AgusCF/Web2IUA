@@ -44,7 +44,9 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
+    <script type="module">
+        import { cargarUsuarios, cargarProductos, cargarOrdenes } from "./JS/adminPanel.js";
+
         // Cargar navbar
         fetch('navbar.html')
             .then(res => res.text())
@@ -79,157 +81,28 @@
             navUsuarios.onclick = function () {
                 setActive(navUsuarios);
                 adminTitle.textContent = "Usuarios";
-                cargarUsuarios();
+                cargarUsuarios(adminContent);
             };
             navProductos.onclick = function () {
                 setActive(navProductos);
                 adminTitle.textContent = "Productos";
-                cargarProductos();
+                cargarProductos(adminContent);
             };
             navOrdenes.onclick = function () {
                 setActive(navOrdenes);
                 adminTitle.textContent = "Órdenes";
-                cargarOrdenes();
+                cargarOrdenes(adminContent);
             };
 
             // Carga inicial
-            cargarUsuarios();
-
-            // Funciones para cargar datos (debes adaptar los endpoints)
-            function cargarUsuarios() {
-                adminContent.innerHTML = "<div class='text-center my-4'>Cargando usuarios...</div>";
-                axios.get('/api/users')
-                    .then(res => {
-                        const usuarios = res.data;
-                        if (!usuarios.length) {
-                            adminContent.innerHTML = "<p>No hay usuarios registrados.</p>";
-                            return;
-                        }
-                        adminContent.innerHTML = `
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Usuario</th>
-                                        <th>Teléfono</th>
-                                        <th>Rol</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${usuarios.map(u => `
-                                        <tr>
-                                            <td>${u.id}</td>
-                                            <td>${u.username}</td>
-                                            <td>${u.tel}</td>
-                                            <td>${u.role}</td>
-                                            <td>
-                                                <button class="btn btn-info btn-sm" onclick="verDetalle('usuario', ${u.id})">Ver</button>
-                                                <button class="btn btn-warning btn-sm" onclick="editarElemento('usuario', ${u.id})">Editar</button>
-                                            </td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
-                        `;
-                    })
-                    .catch(() => {
-                        adminContent.innerHTML = "<div class='text-danger'>Error al cargar usuarios.</div>";
-                    });
-            }
-
-            function cargarProductos() {
-                adminContent.innerHTML = "<div class='text-center my-4'>Cargando productos...</div>";
-                axios.get('/api/products')
-                    .then(res => {
-                        const productos = res.data;
-                        if (!productos.length) {
-                            adminContent.innerHTML = "<p>No hay productos registrados.</p>";
-                            return;
-                        }
-                        adminContent.innerHTML = `
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Nombre</th>
-                                        <th>Precio</th>
-                                        <th>Stock</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${productos.map(p => `
-                                        <tr>
-                                            <td>${p.id}</td>
-                                            <td>${p.nombre}</td>
-                                            <td>${p.precio}</td>
-                                            <td>${p.stock ?? '-'}</td>
-                                            <td>
-                                                <button class="btn btn-info btn-sm" onclick="verDetalle('producto', ${p.id})">Ver</button>
-                                                <button class="btn btn-warning btn-sm" onclick="editarElemento('producto', ${p.id})">Editar</button>
-                                            </td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
-                        `;
-                    })
-                    .catch(() => {
-                        adminContent.innerHTML = "<div class='text-danger'>Error al cargar productos.</div>";
-                    });
-            }
-
-            function cargarOrdenes() {
-                adminContent.innerHTML = "<div class='text-center my-4'>Cargando órdenes...</div>";
-                axios.get('/api/orders')
-                    .then(res => {
-                        const ordenes = res.data;
-                        if (!ordenes.length) {
-                            adminContent.innerHTML = "<p>No hay órdenes registradas.</p>";
-                            return;
-                        }
-                        adminContent.innerHTML = `
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Usuario</th>
-                                        <th>Fecha</th>
-                                        <th>Total</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${ordenes.map(o => `
-                                        <tr>
-                                            <td>${o.id}</td>
-                                            <td>${o.usuario ?? '-'}</td>
-                                            <td>${o.fecha ?? '-'}</td>
-                                            <td>${o.total ?? '-'}</td>
-                                            <td>
-                                                <button class="btn btn-info btn-sm" onclick="verDetalle('orden', ${o.id})">Ver</button>
-                                                <button class="btn btn-warning btn-sm" onclick="editarElemento('orden', ${o.id})">Editar</button>
-                                            </td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
-                        `;
-                    })
-                    .catch(() => {
-                        adminContent.innerHTML = "<div class='text-danger'>Error al cargar órdenes.</div>";
-                    });
-            }
+            cargarUsuarios(adminContent);
 
             // Funciones globales para ver y editar (puedes implementar los modales o navegación)
             window.verDetalle = function(tipo, id) {
                 alert(`Ver detalle de ${tipo} con ID ${id}`);
-                // Aquí puedes abrir un modal o navegar a una página de detalle
             };
             window.editarElemento = function(tipo, id) {
                 alert(`Editar ${tipo} con ID ${id}`);
-                // Aquí puedes abrir un modal o formulario de edición
             };
         });
     </script>
