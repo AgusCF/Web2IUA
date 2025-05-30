@@ -20,7 +20,7 @@ import api from "./api.js";
                 }
 
                 try {
-                    const response = await api.post("/api/login", { telefono, password });
+                    const response = await api.post("/login", { telefono, password });
                     const data = response.data;
 
                     if (data.token && data.usuario) {
