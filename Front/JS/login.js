@@ -20,23 +20,25 @@ import api from "./api.js";
             }
 
             try {
-            const response = await api.post("/api/login", { telefono, password });
-            const data = response.data;
+                const response = await api.post("/api/login", { telefono, password });
+                const data = response.data;
 
-            if (data.success) {
-                // Guardar usuario en localStorage si lo deseas
-                localStorage.setItem("usuarioActual", JSON.stringify(data.usuario));
-                // Cerrar el modal
-                const loginModalElem = document.getElementById("loginModal");
-                const loginModal = bootstrap.Modal.getInstance(loginModalElem);
-                loginModal && loginModal.hide();
-                alert(`Bienvenido, ${data.usuario.usuario}`);
-                // Aquí puedes redirigir o actualizar la UI
-            } else {
-                errorDiv && (errorDiv.innerText = data.message || "Credenciales incorrectas.");
-            }
+                if (data.success) {
+                    // Guardar usuario en localStorage si lo deseas
+                    localStorage.setItem("usuarioActual", JSON.stringify(data.usuario));
+                    // Cerrar el modal
+                    const loginModalElem = document.getElementById("loginModal");
+                    const loginModal = bootstrap.Modal.getInstance(loginModalElem);
+                    loginModal && loginModal.hide();
+                    console.log("Login exitoso:", data.usuario); // <-- Agrega esto
+                    alert(`Bienvenido, ${data.usuario.usuario}`);
+                    // Aquí puedes redirigir o actualizar la UI
+                    // window.location.href = "index.html"; // Si quieres redirigir
+                } else {
+                    errorDiv && (errorDiv.innerText = data.message || "Credenciales incorrectas.");
+                }
             } catch (err) {
-            errorDiv && (errorDiv.innerText = "Error de conexión con el servidor.");
+                errorDiv && (errorDiv.innerText = "Error de conexión con el servidor.");
             }
         });
         }
