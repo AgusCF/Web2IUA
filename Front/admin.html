@@ -29,6 +29,8 @@
         document.addEventListener("DOMContentLoaded", function () {
             const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
             if (!usuario || usuario.role !== "admin") {
+                alert("Acceso denegado. Solo los administradores pueden acceder a esta página.");
+                // Redirige al inicio si no es admin
                 window.location.href = "/";
             }
             document.getElementById("logout-btn").onclick = function () {
