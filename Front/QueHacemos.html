@@ -90,6 +90,32 @@
             }, 100);
         });
     </script>
+    <script>
+        // Cambia el botón de login según el usuario logueado
+        document.addEventListener("DOMContentLoaded", function () {
+            const esperarNavbar = setInterval(() => {
+                const loginLink = document.getElementById("login-link");
+                const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
+                if (loginLink) {
+                    clearInterval(esperarNavbar);
+                    if (usuario) {
+                        if (usuario.role === "admin") {
+                            loginLink.textContent = "Admin";
+                            loginLink.href = "admin.html";
+                        } else {
+                            loginLink.textContent = "Perfil";
+                            loginLink.href = "perfil.html";
+                        }
+                        loginLink.classList.remove("text-muted");
+                    } else {
+                        loginLink.textContent = "Login";
+                        loginLink.href = "#";
+                        loginLink.classList.add("text-muted");
+                    }
+                }
+            }, 100);
+        });
+    </script>
 </body>
 
 </html>
