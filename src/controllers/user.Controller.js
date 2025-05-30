@@ -102,7 +102,14 @@ export const autenticarUsuario = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "10m" }
     );
-    return res.json({ token, usuario: user.username });
+    return res.json({
+        token,
+        usuario: {
+            username: user.username,
+            tel: user.tel,
+            role: user.role
+        }
+    });
   } catch (error) {
     console.error('Error al autenticar usuario:', error);
     return res.status(500).json({ message: "Error en el servidor" });
