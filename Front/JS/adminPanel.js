@@ -14,7 +14,7 @@ export function cargarUsuarios(adminContent) {
     adminContent.innerHTML = "<div class='text-center my-4'>Cargando usuarios...</div>";
     api.get('/users')
         .then(res => {
-            const usuarios = res.data;
+            const usuarios = res.data.sort((a, b) => a.id - b.id);
             if (!usuarios.length) {
                 adminContent.innerHTML = "<p>No hay usuarios registrados.</p>";
                 return;
@@ -56,7 +56,7 @@ export function cargarProductos(adminContent) {
     adminContent.innerHTML = "<div class='text-center my-4'>Cargando productos...</div>";
     api.get('/products')
         .then(res => {
-            const productos = res.data;
+            const productos = res.data.sort((a, b) => a.id - b.id);
             if (!productos.length) {
                 adminContent.innerHTML = "<p>No hay productos registrados.</p>";
                 return;
@@ -108,7 +108,7 @@ export function cargarOrdenes(adminContent) {
     adminContent.innerHTML = "<div class='text-center my-4'>Cargando órdenes...</div>";
     api.get('/orders')
         .then(res => {
-            const ordenes = res.data;
+            const ordenes = res.data.sort((a, b) => a.id - b.id);
             if (!ordenes.length) {
                 adminContent.innerHTML = "<p>No hay órdenes registradas.</p>";
                 return;
