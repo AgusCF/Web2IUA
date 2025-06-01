@@ -19,31 +19,13 @@
         <button id="logout-btn" class="btn btn-danger mt-4">Cerrar sesión</button>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         // Cargar navbar
         fetch('navbar.html')
             .then(res => res.text())
             .then(html => { document.getElementById('navbar').innerHTML = html; });
     </script>
-    <script>
-        // Mostrar datos del usuario
-        document.addEventListener("DOMContentLoaded", function () {
-            const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
-            const perfilInfo = document.getElementById("perfil-info");
-            if (usuario) {
-                perfilInfo.innerHTML = `
-                    <p><strong>Usuario:</strong> ${usuario.usuario || usuario.username || ''}</p>
-                    <p><strong>Teléfono:</strong> ${usuario.tel || usuario.telefono || ''}</p>
-                    <p><strong>Rol:</strong> ${usuario.role || 'usuario'}</p>
-                `;
-            } else {
-                perfilInfo.innerHTML = "<p>No has iniciado sesión.</p>";
-            }
-            document.getElementById("logout-btn").onclick = function () {
-                localStorage.removeItem("usuarioActual");
-                window.location.href = "/";
-            };
-        });
-    </script>
+    <script type="module" src="JS/perfilPanel.js"></script>
 </body>
 </html>
