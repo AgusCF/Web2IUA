@@ -33,9 +33,25 @@
                 <input type="password" class="form-control mb-3" id="password" placeholder="Contraseña" required>
                 <div id="login-error" class="text-danger"></div>
             </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-dark">Ingresar</button>
+            <div class="modal-footer d-flex flex-column">
+                <button type="submit" class="btn btn-dark mb-2">Ingresar</button>
+                <a href="#" id="show-register" class="text-primary">¿No tienes cuenta? Registrate</a>
             </div>
+            </form>
+            <!-- Formulario de registro oculto -->
+            <form id="register-form" style="display:none;">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registrarse</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="tel" class="form-control mb-3" id="reg-telefono" placeholder="Número de teléfono" required>
+                    <div id="register-error" class="text-danger"></div>
+                </div>
+                <div class="modal-footer d-flex flex-column">
+                    <button type="submit" class="btn btn-success mb-2">Registrarse</button>
+                    <a href="#" id="show-login" class="text-primary">¿Ya tienes cuenta? Inicia sesión</a>
+                </div>
             </form>
         </div>
         </div>
@@ -169,6 +185,7 @@
         });
     </script>
     <script type="module" src="JS/login.js"></script>
+    <script type="module" src="JS/authModal.js"></script>
     <script>
         // Cambia el botón de login según el usuario logueado
         document.addEventListener("DOMContentLoaded", function () {
