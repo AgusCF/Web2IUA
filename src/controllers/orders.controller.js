@@ -22,6 +22,17 @@ export const getOrderById = async (req, res) => {
     res.status(500).json({ message: 'Error al obtener orden' });
   }
 };
+// Obtener órdenes por usuario
+export const getOrdersByUser = async (req, res) => {
+  const userTel = req.params.tel;
+  try {
+    const result = await pool.query('SELECT * FROM Orders WHERE user_id = $1 ORDER BY order_date DESC', [userTel]);
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error al obtener órdenes por usuario:', error);
+    res.status(500).json({ message: 'Error al obtener órdenes por usuario' });
+  }
+}
 
 // Crear orden
 export const createOrder = async (req, res) => {
