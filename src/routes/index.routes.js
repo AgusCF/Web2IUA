@@ -3,6 +3,7 @@ import { autenticarUsuario } from "../controllers/user.Controller.js";
 import routerUser from "./user.routes.js";
 import routerProducts from "./products.routes.js";
 import routerOrders from "./orders.routes.js";
+import routerCart from "./cart.routes.js";
 import auth  from "../middleware/auth.js";
 
 import dotenv from "dotenv";
@@ -29,6 +30,7 @@ router.use("/users", routerUser);
 //? TIENDA ================================================
 router.use("/products", routerProducts); // Rutas de productos
 router.use("/orders", routerOrders); // Rutas de órdenes
+router.use("/cart", routerCart); // Rutas de carrito
 //? =======================================================
 
 export default router;
