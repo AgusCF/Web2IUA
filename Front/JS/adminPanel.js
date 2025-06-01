@@ -134,6 +134,14 @@ export function cargarProductos(adminContent) {
                             <label>Imagen</label>
                             <input class="form-control" name="img" type="file" accept="image/*" required>
                         </div>
+                        <div class="mb-2">
+                            <label>Modal ID(Recomendado: modal+nombreProducto)</label>
+                            <input class="form-control" name="modalId" required>
+                        </div>
+                        <div class="mb-2">
+                            <label>Modal Descripción(Descripcion extensa)</label>
+                            <input class="form-control" name="modalDescription" required>
+                        </div>
                         <button class="btn btn-primary" type="submit">Crear</button>
                     </form>
                 `;
@@ -159,7 +167,9 @@ export function cargarProductos(adminContent) {
                             offert: formData.get('offert'),
                             tags: formData.get('tags').split(',').map(t => t.trim()),
                             type: formData.get('type'),
-                            img: imgUrl
+                            img: imgUrl,
+                            modalId: formData.get('modalId'),
+                            modalDescription: formData.get('modalDescription')
                         };
                         await api.post('/products/newProduct', createData);
                         bsModal.hide();
