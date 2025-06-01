@@ -161,7 +161,7 @@ export function cargarProductos(adminContent) {
                             type: formData.get('type'),
                             img: imgUrl
                         };
-                        await api.post('/products', createData);
+                        await api.post('/products/newProduct', createData);
                         bsModal.hide();
                         cargarProductos(document.getElementById('admin-content'));
                     };
