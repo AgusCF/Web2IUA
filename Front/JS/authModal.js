@@ -38,8 +38,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         document.getElementById("register-error").textContent = ""; // Limpiar mensajes de error
         const password = tel;
+        const telefono = tel;
         try {
-            const res = await api.post("/users/newUser", { username, tel, password });
+            const res = await api.post("/users/newUser", { username, telefono, password });
             if (res.status === 201 || res.status === 200) {
                 document.getElementById("register-error").textContent = "¡Registrado correctamente! Ahora puedes iniciar sesión.";
                 setTimeout(() => {
