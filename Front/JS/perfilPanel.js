@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         // Obtener órdenes del usuario
         try {
             const tel = usuario.tel || usuario.telefono;
-            const response = await api.get(`/orders/${encodeURIComponent(tel)}`);
+            const response = await api.get(`/orders/client=${encodeURIComponent(tel)}`);
             const ordenes = response.data;
             const lista = document.getElementById("lista-ordenes");
             if (ordenes.length === 0) {
