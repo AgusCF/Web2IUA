@@ -9,12 +9,12 @@
     <link rel="stylesheet" href="CSS/estilo.css">
 </head>
 
-<body id="navbar">
+<body>
     <!-- Encabezado -->
-    <!-- <header> -->
+    <header>
         <!-- Navbar -->
-        <!-- <div id="navbar"></div> -->
-    <!-- </header> -->
+        <div id="navbar"></div>
+    </header>
 
     <!-- Contenedor de Modales -->
     <div id="modales-container"></div>
@@ -41,29 +41,7 @@
             .then(html => { document.getElementById('navbar').innerHTML = html; });
     </script>
     <!-- Los scripts se cargarán con defer para ejecutar después de cargar el DOM -->
-    <!-- <script defer src="JS/RenderProd.js"></script> -->
-    <script type="module" src="JS/listarProductos.js"></script>
-    <script type="module" src="JS/buscador.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Espera a que el navbar se cargue dinámicamente
-            const esperarNavbar = setInterval(() => {
-                const loginLink = document.getElementById("login-link");
-                const loginModal = document.getElementById("loginModal");
-                if (loginLink && loginModal) {
-                    clearInterval(esperarNavbar);
-                    loginLink.addEventListener("click", function (e) {
-                        e.preventDefault();
-                        const modal = new bootstrap.Modal(loginModal);
-                        modal.show();
-                    });
-                }
-            }, 100);
-        });
-    </script>
     <script>
         // Cambia el botón de login según el usuario logueado
         document.addEventListener("DOMContentLoaded", function () {
@@ -86,6 +64,32 @@
                         loginLink.href = "#";
                         loginLink.classList.add("text-muted");
                     }
+                }
+            }, 100);
+        });
+    </script>
+    <!-- <script defer src="JS/RenderProd.js"></script> -->
+    <script type="module" src="JS/listarProductos.js"></script>
+    <script type="module" src="JS/buscador.js"></script>
+    <script type="module" src="JS/login.js"></script>
+    <script type="module" src="JS/authModal.js"></script>
+    <script type="module" src="JS/carrito.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Espera a que el navbar se cargue dinámicamente
+            const esperarNavbar = setInterval(() => {
+                const loginLink = document.getElementById("login-link");
+                const loginModal = document.getElementById("loginModal");
+                if (loginLink && loginModal) {
+                    clearInterval(esperarNavbar);
+                    loginLink.addEventListener("click", function (e) {
+                        e.preventDefault();
+                        const modal = new bootstrap.Modal(loginModal);
+                        modal.show();
+                    });
                 }
             }, 100);
         });
