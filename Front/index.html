@@ -145,10 +145,24 @@
                             loginLink.href = "perfil.html";
                         }
                         loginLink.classList.remove("text-muted");
+                        // Redirigir al hacer click
+                        loginLink.onclick = function(e) {
+                            e.preventDefault();
+                            window.location.href = this.href;
+                        };
                     } else {
                         loginLink.textContent = "Login";
                         loginLink.href = "#";
                         loginLink.classList.add("text-muted");
+                        // Mostrar modal de login
+                        loginLink.onclick = function(e) {
+                            e.preventDefault();
+                            const loginModal = document.getElementById("loginModal");
+                            if (loginModal && window.bootstrap) {
+                                const modal = new bootstrap.Modal(loginModal);
+                                modal.show();
+                            }
+                        };
                     }
                 }
             }, 100);
@@ -177,14 +191,37 @@
             // Espera a que el navbar se cargue dinámicamente
             const esperarNavbar = setInterval(() => {
                 const loginLink = document.getElementById("login-link");
-                const loginModal = document.getElementById("loginModal");
-                if (loginLink && loginModal) {
+                const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
+                if (loginLink) {
                     clearInterval(esperarNavbar);
-                    loginLink.addEventListener("click", function (e) {
-                        e.preventDefault();
-                        const modal = new bootstrap.Modal(loginModal);
-                        modal.show();
-                    });
+                    if (usuario) {
+                        if (usuario.role === "admin") {
+                            loginLink.textContent = "Admin";
+                            loginLink.href = "admin.html";
+                        } else {
+                            loginLink.textContent = "Perfil";
+                            loginLink.href = "perfil.html";
+                        }
+                        loginLink.classList.remove("text-muted");
+                        // Redirigir al hacer click
+                        loginLink.onclick = function(e) {
+                            e.preventDefault();
+                            window.location.href = this.href;
+                        };
+                    } else {
+                        loginLink.textContent = "Login";
+                        loginLink.href = "#";
+                        loginLink.classList.add("text-muted");
+                        // Mostrar modal de login
+                        loginLink.onclick = function(e) {
+                            e.preventDefault();
+                            const loginModal = document.getElementById("loginModal");
+                            if (loginModal && window.bootstrap) {
+                                const modal = new bootstrap.Modal(loginModal);
+                                modal.show();
+                            }
+                        };
+                    }
                 }
             }, 100);
         });
