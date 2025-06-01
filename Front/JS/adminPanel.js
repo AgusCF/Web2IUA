@@ -62,6 +62,7 @@ export function cargarProductos(adminContent) {
                 return;
             }
             adminContent.innerHTML = `
+                <button class="btn btn-success mb-3" id="btn-crear-producto">Crear producto</button>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -98,6 +99,74 @@ export function cargarProductos(adminContent) {
                     </tbody>
                 </table>
             `;
+            document.getElementById('btn-crear-producto').onclick = () => {
+                const formHtml = `
+                    <form id="create-product-form">
+                        <div class="mb-2">
+                            <label>Nombre</label>
+                            <input class="form-control" name="name" required>
+                        </div>
+                        <div class="mb-2">
+                            <label>Descripción</label>
+                            <textarea class="form-control" name="description"></textarea>
+                        </div>
+                        <div class="mb-2">
+                            <label>Precio</label>
+                            <input class="form-control" name="price" type="number" step="0.01" required>
+                        </div>
+                        <div class="mb-2">
+                            <label>Stock</label>
+                            <input class="form-control" name="stock" type="number" value="0">
+                        </div>
+                        <div class="mb-2">
+                            <label>Oferta</label>
+                            <input class="form-control" name="offert" type="number" step="0.1" value="0">
+                        </div>
+                        <div class="mb-2">
+                            <label>Tags (separados por coma)</label>
+                            <input class="form-control" name="tags">
+                        </div>
+                        <div class="mb-2">
+                            <label>Tipo</label>
+                            <input class="form-control" name="type" required>
+                        </div>
+                        <div class="mb-2">
+                            <label>Imagen</label>
+                            <input class="form-control" name="img" type="file" accept="image/*" required>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Crear</button>
+                    </form>
+                `;
+                mostrarModal('Crear Producto', formHtml, (modal, bsModal) => {
+                    const form = document.getElementById('create-product-form');
+                    form.onsubmit = async function(e) {
+                        e.preventDefault();
+                        const formData = new FormData(this);
+                        let imgUrl = '';
+                        if (formData.get('img') && formData.get('img').size > 0) {
+                            const imgForm = new FormData();
+                            imgForm.append('imagen', formData.get('img'));
+                            const uploadRes = await api.post('/products/upload', imgForm, {
+                                headers: { 'Content-Type': 'multipart/form-data' }
+                            });
+                            imgUrl = uploadRes.data.imageUrl;
+                        }
+                        const createData = {
+                            name: formData.get('name'),
+                            description: formData.get('description'),
+                            price: formData.get('price'),
+                            stock: formData.get('stock'),
+                            offert: formData.get('offert'),
+                            tags: formData.get('tags').split(',').map(t => t.trim()),
+                            type: formData.get('type'),
+                            img: imgUrl
+                        };
+                        await api.post('/products', createData);
+                        bsModal.hide();
+                        cargarProductos(document.getElementById('admin-content'));
+                    };
+                });
+            };
         })
         .catch(() => {
             adminContent.innerHTML = "<div class='text-danger'>Error al cargar productos.</div>";
