@@ -30,7 +30,7 @@
             </ul>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#carrito">Carrito</a>
+            <a class="nav-link" href="#" id="carrito-link">Carrito</a>
         </li>
         </ul>
         <div class="d-flex flex-column align-items-start">
@@ -43,3 +43,66 @@
     </div>
     </div>
 </nav>
+
+<!-- Modal de Login -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <form id="login-form">
+        <div class="modal-header">
+            <h5 class="modal-title" id="loginModalLabel">Iniciar sesión</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+            <input type="tel" class="form-control" id="telefono" placeholder="Número de teléfono" required>
+            <input type="password" class="form-control mb-3" id="password" placeholder="Contraseña" required>
+            <div id="login-error" class="text-danger"></div>
+        </div>
+        <div class="modal-footer d-flex flex-column">
+            <button type="submit" class="btn btn-dark mb-2">Ingresar</button>
+            <a href="#" id="show-register" class="text-primary">¿No tienes cuenta? Registrate</a>
+        </div>
+        </form>
+    </div>
+    </div>
+</div>
+
+<!-- Modal de Registro -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <form id="register-form" style="display:none;">
+        <div class="modal-header">
+            <h5 class="modal-title">Registrarse</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+            <input type="tel" class="form-control mb-3" id="reg-telefono" placeholder="Número de teléfono" required>
+            <div id="register-error" class="text-danger"></div>
+        </div>
+        <div class="modal-footer d-flex flex-column">
+            <button type="submit" class="btn btn-success mb-2">Registrarse</button>
+            <a href="#" id="show-login" class="text-primary">¿Ya tienes cuenta? Inicia sesión</a>
+        </div>
+        </form>
+    </div>
+    </div>
+</div>
+
+<!-- Modal Carrito -->
+<div class="modal fade" id="carritoModal" tabindex="-1" aria-labelledby="carritoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="carritoModalLabel">Mi Carrito</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="carrito-contenido">
+            <!-- Aquí se listarán los productos del carrito -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+        </div>
+    </div>
+</div>

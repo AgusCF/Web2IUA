@@ -13,7 +13,9 @@
     <!-- Encabezado -->
     <header>
         <!-- Navbar -->
-        <div id="navbar"></div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+            <!-- ...tu navbar... -->
+        </nav>
     </header>
 
     <!-- Contenido Principal -->
@@ -22,53 +24,19 @@
     </main>
 
     <!-- Contenedor de Modales -->
-    <div id="modales-container"></div>
-    
-    <!-- Modal de Login -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <form id="login-form">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">Iniciar sesión</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <input type="tel" class="form-control" id="telefono" placeholder="Número de teléfono" required>
-                <input type="password" class="form-control mb-3" id="password" placeholder="Contraseña" required>
-                <div id="login-error" class="text-danger"></div>
-            </div>
-            <div class="modal-footer d-flex flex-column">
-                <button type="submit" class="btn btn-dark mb-2">Ingresar</button>
-                <a href="#" id="show-register" class="text-primary">¿No tienes cuenta? Registrate</a>
-            </div>
-            </form>
+    <div id="modales-container">
+        <!-- Modals globales -->
+        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <!-- ...contenido del modal login... -->
         </div>
+        <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+            <!-- ...contenido del modal registro... -->
+        </div>
+        <div class="modal fade" id="carritoModal" tabindex="-1" aria-labelledby="carritoModalLabel" aria-hidden="true">
+            <!-- ...contenido del modal carrito... -->
         </div>
     </div>
 
-    <!-- Modal de Registro -->
-    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <form id="register-form" style="display:none;">
-            <div class="modal-header">
-                <h5 class="modal-title">Registrarse</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <input type="tel" class="form-control mb-3" id="reg-telefono" placeholder="Número de teléfono" required>
-                <div id="register-error" class="text-danger"></div>
-            </div>
-            <div class="modal-footer d-flex flex-column">
-                <button type="submit" class="btn btn-success mb-2">Registrarse</button>
-                <a href="#" id="show-login" class="text-primary">¿Ya tienes cuenta? Inicia sesión</a>
-            </div>
-            </form>
-        </div>
-        </div>
-    </div>
-    
     <!-- Scripts -->
     <!-- Los scripts se cargarán con defer para ejecutar después de cargar el DOM -->
     <!-- <script defer src="JS/RenderProd.js"></script> -->
@@ -76,6 +44,7 @@
     <script type="module" src="JS/buscador.js"></script>
     <script type="module" src="JS/login.js"></script>
     <script type="module" src="JS/authModal.js"></script>
+    <script type="module" src="JS/carrito.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
