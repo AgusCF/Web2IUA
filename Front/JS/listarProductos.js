@@ -9,6 +9,36 @@ function getImgUrl(imgPath) {
     return imgPath;
 }
 
+function agregarAlCarrito(productId) {
+    const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
+    if (!usuario) {
+        alert("Debes iniciar sesión para agregar productos al carrito.");
+        return;
+    }
+    // El backend espera user_id (id numérico, no teléfono)
+    api.get(`/users?tel=${usuario.tel || usuario.telefono}`)
+        .then(res => {
+            const user = Array.isArray(res.data) ? res.data[0] : res.data;
+            if (!user || !user.id) {
+                alert("No se pudo identificar el usuario.");
+                return;
+            }
+            return api.post("/cart/add", {
+                user_id: user.id,
+                product_id: productId,
+                quantity: 1
+            });
+        })
+        .then(res => {
+            if (res && res.data && res.data.message) {
+                alert(res.data.message);
+            }
+        })
+        .catch(() => {
+            alert("Error al agregar al carrito.");
+        });
+}
+
 function renderProductos(productos) {
     const contenedor = document.getElementById("productos-todos");
     if (!contenedor) return;
@@ -41,7 +71,7 @@ function renderProductos(productos) {
                         </div>
                         <div class="card-footer bg-transparent d-flex justify-content-between">
                             <span class="fw-bold text-muted">$${producto.price}</span>
-                            <button class="btn btn-outline-dark">Agregar al carrito</button>
+                            <button class="btn btn-outline-dark btn-add-cart" data-product-id="${producto.id}">Agregar al carrito</button>
                         </div>
                         <div class="tags-container mt-2">
                             ${(producto.tags || [])
@@ -59,6 +89,14 @@ function renderProductos(productos) {
         seccion.innerHTML = html;
         contenedor.appendChild(seccion);
         usarFondoClaro = !usarFondoClaro;
+    });
+
+    // Asignar eventos a los botones de agregar al carrito
+    contenedor.querySelectorAll(".btn-add-cart").forEach(btn => {
+        btn.addEventListener("click", function () {
+            const productId = this.getAttribute("data-product-id");
+            agregarAlCarrito(productId);
+        });
     });
 }
 
@@ -82,13 +120,21 @@ function renderModals(productos) {
                         </div>
                         <div class="modal-footer">
                             <span class="fw-bold me-auto">$${producto.price}</span>
-                            <button class="btn btn-dark">Agregar al carrito</button>
+                            <button class="btn btn-dark btn-add-cart-modal" data-product-id="${producto.id}">Agregar al carrito</button>
                         </div>
                     </div>
                 </div>
             </div>
         `;
         contenedorModales.appendChild(modal);
+    });
+
+    // Asignar eventos a los botones de agregar al carrito en los modales
+    contenedorModales.querySelectorAll(".btn-add-cart-modal").forEach(btn => {
+        btn.addEventListener("click", function () {
+            const productId = this.getAttribute("data-product-id");
+            agregarAlCarrito(productId);
+        });
     });
 }
 
