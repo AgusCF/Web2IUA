@@ -16,7 +16,7 @@ function agregarAlCarrito(productId) {
         return;
     }
     // El backend espera user_id (id numérico, no teléfono)
-    api.get(`/users?tel=${usuario.tel || usuario.telefono}`)
+    api.get(`/users/by-tel?tel=${usuario.tel || usuario.telefono}`)
         .then(res => {
             const user = Array.isArray(res.data) ? res.data[0] : res.data;
             if (!user || !user.id) {
