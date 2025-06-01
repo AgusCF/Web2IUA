@@ -3,7 +3,7 @@ import { pool } from '../databases/db.js';
 // Obtener todos los productos
 export const getAllProducts = async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM Products');
+    const result = await pool.query('SELECT * FROM Products ORDER BY id ASC');
     res.json(result.rows);
   } catch (error) {
     console.error('Error al obtener productos:', error);

@@ -21,6 +21,9 @@ router.get("/login", auth, (req, res) => {
   // Llama a la función controladora y maneja la respuesta
   autenticarUsuario(req, res);
 });
+router.get('/users?order=asc')
+router.get('/products?order=asc')
+router.get('/orders?order=asc')
 router.use("/users", routerUser);
 //? =======================================================
 //? TIENDA ================================================

@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 // Obtener todos los usuarios
 export const getAllUsers = async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM users');
+    const result = await pool.query('SELECT * FROM users ORDER BY id ASC');
     res.json(result.rows);
   } catch (error) {
     console.error('Error al obtener usuarios:', error);

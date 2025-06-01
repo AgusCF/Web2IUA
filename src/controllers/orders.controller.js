@@ -3,7 +3,7 @@ import { pool } from '../databases/db.js';
 // Obtener todas las órdenes
 export const getAllOrders = async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM Orders');
+    const result = await pool.query('SELECT * FROM Orders ORDER BY id ASC');
     res.json(result.rows);
   } catch (error) {
     console.error('Error al obtener órdenes:', error);
