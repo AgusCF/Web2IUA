@@ -12,7 +12,14 @@ function getImgUrl(imgPath) {
 function agregarAlCarrito(productId) {
     const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
     if (!usuario) {
-        alert("Debes iniciar sesión para agregar productos al carrito.");
+        // Mostrar el modal de login si no está logueado
+        const loginModal = document.getElementById("loginModal");
+        if (loginModal && window.bootstrap) {
+            const modal = new bootstrap.Modal(loginModal);
+            modal.show();
+        } else {
+            alert("Debes iniciar sesión para agregar productos al carrito.");
+        }
         return;
     }
     // El backend espera user_id (id numérico, no teléfono)
