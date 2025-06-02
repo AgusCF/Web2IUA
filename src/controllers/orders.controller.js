@@ -56,7 +56,7 @@ export const createOrder = async (req, res) => {
     // 2. Insertar los detalles de la orden
     for (const item of items) {
       await client.query(
-        `INSERT INTO OrderItems (order_id, product_id, quantity, price)
+        `INSERT INTO order_items (order_id, product_id, quantity, price)
          VALUES ($1, $2, $3, $4)`,
         [orderId, item.product_id, item.quantity, item.price]
       );
