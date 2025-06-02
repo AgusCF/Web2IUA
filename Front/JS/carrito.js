@@ -48,6 +48,8 @@ async function mostrarCarrito() {
                 ${items.map(item => {
                     const subtotal = item.price * item.quantity;
                     total += subtotal;
+                    // Deshabilitar "+" si cantidad >= stock
+                    const deshabilitarSumar = item.quantity >= item.stock ? 'disabled' : '';
                     return `
                         <tr>
                             <td>${item.name}</td>
@@ -57,7 +59,7 @@ async function mostrarCarrito() {
                                 <div class="d-flex justify-content-center align-items-center">
                                     <button class="btn btn-sm btn-outline-secondary btn-restar" data-id="${item.id}" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
                                     <span class="mx-2">${item.quantity}</span>
-                                    <button class="btn btn-sm btn-outline-secondary btn-sumar" data-id="${item.id}">+</button>
+                                    <button class="btn btn-sm btn-outline-secondary btn-sumar" data-id="${item.id}" ${deshabilitarSumar}>+</button>
                                 </div>
                             </td>
                             <td>$${subtotal}</td>

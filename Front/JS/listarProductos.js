@@ -1,4 +1,5 @@
 import api from "./api.js";
+import { mostrarCarrito } from "./carrito.js";
 
 function getImgUrl(imgPath) {
     const BACKEND_URL = "https://web2iua-back.onrender.com";
@@ -22,7 +23,6 @@ function agregarAlCarrito(productId) {
         }
         return;
     }
-    // El backend espera user_id (id numérico, no teléfono)
     api.get(`/users/by-tel?tel=${usuario.tel || usuario.telefono}`)
         .then(res => {
             const user = Array.isArray(res.data) ? res.data[0] : res.data;
@@ -39,6 +39,13 @@ function agregarAlCarrito(productId) {
         .then(res => {
             if (res && res.data && res.data.message) {
                 alert(res.data.message);
+                // Mostrar el carrito después del alert
+                mostrarCarrito();
+                const carritoModal = document.getElementById("carritoModal");
+                if (carritoModal && window.bootstrap) {
+                    const modal = new bootstrap.Modal(carritoModal);
+                    modal.show();
+                }
             }
         })
         .catch(() => {
