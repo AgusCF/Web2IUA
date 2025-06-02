@@ -486,17 +486,57 @@ export function verDetalle(tipo, id) {
             mostrarModal('Detalle de Usuario', html);
         });
     } else if (tipo === 'orden') {
-        api.get(`/orders/${id}`).then(res => {
+        api.get(`/orders/${id}`).then(async res => {
             const o = res.data;
+            // Obtener datos del usuario por user_id
+            let telefono = '-';
+            try {
+                const userRes = await api.get(`/users/${o.user_id}`);
+                telefono = userRes.data.tel || '-';
+            } catch {
+                telefono = '-';
+            }
+
+            // Formatear fecha
+            let fechaFormateada = '-';
+            if (o.order_date) {
+                const fecha = new Date(o.order_date);
+                fechaFormateada = fecha.toLocaleString('es-AR', {
+                    hour12: false,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+            }
+
+            // Productos
+            const productosHtml = (o.items && o.items.length)
+                ? `<ul>${o.items.map(item =>
+                    `<li>${item.name} x${item.quantity} - $${item.price}</li>`
+                ).join('')}</ul>`
+                : '<p>No hay productos en esta orden.</p>';
+
             const html = `
                 <div>
-                    <div class="mb-2"><strong>Usuario:</strong> ${o.usuario ?? ''}</div>
-                    <div class="mb-2"><strong>Fecha:</strong> ${o.fecha ?? ''}</div>
+                    <div class="mb-2"><strong>Teléfono del usuario:</strong> ${telefono}</div>
+                    <div class="mb-2"><strong>Fecha:</strong> ${fechaFormateada}</div>
                     <div class="mb-2"><strong>Total:</strong> $${o.total ?? 0}</div>
                     <div class="mb-2"><strong>Estado:</strong> ${o.state ?? 'pendiente'}</div>
+                    <div class="mb-2"><strong>Productos:</strong> ${productosHtml}</div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary" id="btn-contactar-cliente">Contactar</button>
+                    </div>
                 </div>
             `;
-            mostrarModal('Detalle de Orden', html);
+            mostrarModal('Detalle de Orden', html, (modal, bsModal) => {
+                // Handler para contactar cliente
+                modal.querySelector('#btn-contactar-cliente').onclick = () => {
+                    alert("Cliente contactado");
+                };
+            });
         });
     } else {
         alert('Tipo no soportado');
