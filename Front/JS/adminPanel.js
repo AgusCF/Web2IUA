@@ -369,51 +369,82 @@ export function editarElemento(tipo, id) {
             });
         });
     } else if (tipo === 'orden') {
-        api.get(`/orders/${id}`).then(res => {
+        api.get(`/orders/${id}`).then(async res => {
             const o = res.data;
-            const formHtml = `
-                <form id="edit-order-form">
-                    <div class="mb-2">
-                        <label>Usuario</label>
-                        <input class="form-control" name="usuario" value="${o.usuario ?? ''}" required>
-                    </div>
-                    <div class="mb-2">
-                        <label>Fecha</label>
-                        <input class="form-control" name="fecha" value="${o.fecha ?? ''}" required>
-                    </div>
-                    <div class="mb-2">
-                        <label>Total</label>
-                        <input class="form-control" name="total" type="number" value="${o.total ?? 0}" required>
-                    </div>
-                    <div class="mb-2">
-                        <label>Estado</label>
-                        <select class="form-control" name="state" required>
-                            <option value="pendiente" ${o.state === 'pendiente' ? 'selected' : ''}>Pendiente</option>
-                            <option value="confirmado" ${o.state === 'confirmado' ? 'selected' : ''}>Confirmado</option>
-                            <option value="en_preparacion" ${o.state === 'en_preparacion' ? 'selected' : ''}>En preparación</option>
-                            <option value="enviado" ${o.state === 'enviado' ? 'selected' : ''}>Enviado</option>
-                            <option value="entregado" ${o.state === 'entregado' ? 'selected' : ''}>Entregado</option>
-                            <option value="cancelado" ${o.state === 'cancelado' ? 'selected' : ''}>Cancelado</option>
-                            <option value="devuelto" ${o.state === 'devuelto' ? 'selected' : ''}>Devuelto</option>
-                        </select>
-                    </div>
-                    <button class="btn btn-primary" type="submit">Guardar</button>
-                </form>
+            // Obtener datos del usuario por user_id
+            let telefono = '-';
+            try {
+                const userRes = await api.get(`/users/${o.user_id}`);
+                telefono = userRes.data.tel || '-';
+            } catch {
+                telefono = '-';
+            }
+        
+            // Formatear fecha
+            let fechaFormateada = '-';
+            if (o.order_date) {
+                const fecha = new Date(o.order_date);
+                fechaFormateada = fecha.toLocaleString('es-AR', {
+                    hour12: false,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+            }
+        
+            // Opciones de estado
+            const estados = [
+                'pendiente', 'confirmado', 'en_preparacion', 'enviado', 'entregado', 'cancelado', 'devuelto'
+            ];
+        
+            // Productos
+            const productosHtml = (o.items && o.items.length)
+                ? `<ul>${o.items.map(item =>
+                    `<li>${item.name} x${item.quantity} - $${item.price}</li>`
+                ).join('')}</ul>`
+                : '<p>No hay productos en esta orden.</p>';
+        
+            // Select de estado
+            const selectEstado = `
+                <select class="form-select" id="select-estado-orden">
+                    ${estados.map(e => `<option value="${e}" ${o.state === e ? 'selected' : ''}>${e}</option>`).join('')}
+                </select>
             `;
-            mostrarModal('Editar Orden', formHtml, async (modal, bsModal) => {
-                const form = document.getElementById('edit-order-form');
-                form.onsubmit = async function(e) {
-                    e.preventDefault();
-                    const formData = new FormData(this);
-                    const updateData = {
-                        usuario: formData.get('usuario'),
-                        fecha: formData.get('fecha'),
-                        total: formData.get('total'),
-                        state: formData.get('state')
-                    };
-                    await api.put(`/orders/${id}`, updateData);
-                    bsModal.hide();
-                    cargarOrdenes(document.getElementById('admin-content'));
+        
+            const html = `
+                <div>
+                    <div class="mb-2"><strong>Teléfono del usuario:</strong> ${telefono}</div>
+                    <div class="mb-2"><strong>Fecha:</strong> ${fechaFormateada}</div>
+                    <div class="mb-2"><strong>Total:</strong> $${o.total ?? 0}</div>
+                    <div class="mb-2"><strong>Estado:</strong> ${selectEstado}</div>
+                    <div class="mb-2"><strong>Productos:</strong> ${productosHtml}</div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-success" id="btn-actualizar-estado">Actualizar estado</button>
+                        <button class="btn btn-primary" id="btn-contactar-cliente">Contactar</button>
+                    </div>
+                </div>
+            `;
+            mostrarModal('Detalle de Orden', html, (modal, bsModal) => {
+                // Handler para actualizar estado
+                const select = modal.querySelector('#select-estado-orden');
+                const btnActualizar = modal.querySelector('#btn-actualizar-estado');
+                let estadoOriginal = o.state;
+                btnActualizar.onclick = async () => {
+                    const nuevoEstado = select.value;
+                    if (nuevoEstado !== estadoOriginal) {
+                        await api.put(`/orders/${o.id}`, { state: nuevoEstado });
+                        alert("Estado modificado avidado");
+                        bsModal.hide();
+                    } else {
+                        alert("No hay cambios en el estado.");
+                    }
+                };
+                // Handler para contactar cliente
+                modal.querySelector('#btn-contactar-cliente').onclick = () => {
+                    alert("Cliente contactado");
                 };
             });
         });
