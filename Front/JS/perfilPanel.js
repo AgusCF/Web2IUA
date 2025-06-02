@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                                 <strong>Fecha:</strong> ${o.fecha ?? '-'} |
                                 <strong>Total:</strong> $${o.total ?? '-'} |
                                 <strong>Estado:</strong> ${o.state ?? 'pendiente'}
+                                <button class="btn btn-primary btn-sm btn-ver-detalle" data-id="${o.id}">Ver Detalle</button>
                             </li>
                         `).join('')}
                     </ul>
@@ -49,4 +50,32 @@ document.addEventListener("DOMContentLoaded", async function () {
         localStorage.removeItem("usuarioActual");
         window.location.href = "/";
     };
+
+    // Después de renderizar la lista
+    lista.querySelectorAll('.btn-ver-detalle').forEach(btn => {
+        btn.onclick = async function() {
+            const orderId = this.getAttribute('data-id');
+            try {
+                const res = await api.get(`/orders/${orderId}`);
+                const orden = res.data;
+                // Renderiza los detalles como prefieras
+                document.getElementById("detalle-orden-body").innerHTML = `
+                    <p><strong>ID:</strong> ${orden.id}</p>
+                    <p><strong>Fecha:</strong> ${orden.order_date ?? '-'}</p>
+                    <p><strong>Total:</strong> $${orden.total ?? '-'}</p>
+                    <p><strong>Estado:</strong> ${orden.state ?? 'pendiente'}</p>
+                    <h6>Productos:</h6>
+                    <ul>
+                        ${(orden.items || []).map(item => `
+                            <li>${item.name} x${item.quantity} - $${item.price}</li>
+                        `).join('')}
+                    </ul>
+                `;
+                const modal = new bootstrap.Modal(document.getElementById('detalleOrdenModal'));
+                modal.show();
+            } catch (err) {
+                document.getElementById("detalle-orden-body").innerHTML = "<span class='text-danger'>Error al cargar el detalle.</span>";
+            }
+        };
+    });
 });
