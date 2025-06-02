@@ -66,12 +66,17 @@ export const createOrder = async (req, res) => {
     );
     const orderId = result.rows[0].id;
 
-    // 2. Insertar los detalles de la orden
+    // 2. Insertar los detalles de la orden y descontar stock
     for (const item of items) {
       await client.query(
         `INSERT INTO order_items (order_id, product_id, quantity, price)
          VALUES ($1, $2, $3, $4)`,
         [orderId, item.product_id, item.quantity, item.price]
+      );
+      // Descontar stock del producto
+      await client.query(
+        `UPDATE products SET stock = stock - $1 WHERE id = $2 AND stock >= $1`,
+        [item.quantity, item.product_id]
       );
     }
 
