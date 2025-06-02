@@ -73,7 +73,8 @@ async function mostrarCarrito() {
                     <td colspan="4" class="text-end fw-bold">Total:</td>
                     <td class="fw-bold">$${total}</td>
                     <td>
-                        <button class="btn btn-sm btn-outline-danger" id="btn-vaciar-carrito">Vaciar</button>
+                        <button class="btn btn-sm btn-outline-danger mb-2" id="btn-vaciar-carrito">Vaciar</button>
+                        <button class="btn btn-sm btn-success" id="btn-realizar-pedido">Realizar pedido</button>
                     </td>
                 </tr>
             </tfoot>
@@ -108,6 +109,30 @@ async function mostrarCarrito() {
         btnVaciar.onclick = async function() {
             await api.delete(`/cart/clear/${user.id}`);
             mostrarCarrito();
+        };
+    }
+    const btnRealizarPedido = carritoContenido.querySelector('#btn-realizar-pedido');
+    if (btnRealizarPedido) {
+        btnRealizarPedido.onclick = async function() {
+            // Simulación de grabado de orden
+            try {
+                const pedido = {
+                    user_id: user.id,
+                    items: items.map(item => ({
+                        product_id: item.product_id,
+                        quantity: item.quantity,
+                        price: item.price
+                    })),
+                    total
+                };
+                // Ajusta la ruta según tu backend
+                await api.post('/orders/newOrder', pedido);
+                alert("Pedido simulado realizado");
+                await api.delete(`/cart/clear/${user.id}`);
+                mostrarCarrito();
+            } catch (err) {
+                alert("Error al realizar el pedido");
+            }
         };
     }
 }
