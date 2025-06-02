@@ -62,16 +62,32 @@ document.addEventListener("DOMContentLoaded", async function () {
                 try {
                     const res = await api.get(`/orders/${orderId}`);
                     const orden = res.data;
+
+                    // Formatear fecha y hora a formato argentino
+                    let fechaFormateada = '-';
+                    if (orden.order_date) {
+                        const fecha = new Date(orden.order_date);
+                        fechaFormateada = fecha.toLocaleString('es-AR', {
+                            hour12: false,
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit',
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric'
+                        });
+                    }
+
                     document.getElementById("detalle-orden-body").innerHTML = `
                         <p><strong>ID:</strong> ${orden.id}</p>
-                        <p><strong>Fecha:</strong> ${orden.order_date ?? '-'}</p>
+                        <p><strong>Fecha:</strong> ${fechaFormateada}</p>
                         <p><strong>Total:</strong> $${orden.total ?? '-'}</p>
                         <p><strong>Estado:</strong> ${orden.state ?? 'pendiente'}</p>
                         <h6>Productos:</h6>
                         <ul>
-                            ${(orden.items || []).map(item => `
+                            ${(orden.items && orden.items.length > 0) ? orden.items.map(item => `
                                 <li>${item.name} x${item.quantity} - $${item.price}</li>
-                            `).join('')}
+                            `).join('') : '<li>No hay productos en esta orden.</li>'}
                         </ul>
                     `;
                     const modal = new bootstrap.Modal(document.getElementById('detalleOrdenModal'));
