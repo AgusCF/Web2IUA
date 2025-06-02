@@ -36,17 +36,35 @@ export const getOrdersByUser = async (req, res) => {
 
 // Crear orden
 export const createOrder = async (req, res) => {
-  const { user_id, total, status = 'pendiente' } = req.body;
+  const { user_id, items, total, state = 'pendiente' } = req.body;
+  const client = await pool.connect();
   try {
-    const result = await pool.query(
-      `INSERT INTO Orders (user_id, total, status, order_date)
-       VALUES ($1, $2, $3, NOW()) RETURNING *`,
-      [user_id, total, status]
+    await client.query('BEGIN');
+    // 1. Insertar la orden principal
+    const result = await client.query(
+      `INSERT INTO Orders (user_id, total, state, order_date)
+       VALUES ($1, $2, $3, NOW()) RETURNING id`,
+      [user_id, total, state]
     );
-    res.status(201).json(result.rows[0]);
+    const orderId = result.rows[0].id;
+
+    // 2. Insertar los detalles de la orden
+    for (const item of items) {
+      await client.query(
+        `INSERT INTO OrderItems (order_id, product_id, quantity, price)
+         VALUES ($1, $2, $3, $4)`,
+        [orderId, item.product_id, item.quantity, item.price]
+      );
+    }
+
+    await client.query('COMMIT');
+    res.status(201).json({ message: 'Pedido registrado', orderId });
   } catch (error) {
+    await client.query('ROLLBACK');
     console.error('Error al crear orden:', error);
     res.status(500).json({ message: 'Error al crear orden' });
+  } finally {
+    client.release();
   }
 };
 
