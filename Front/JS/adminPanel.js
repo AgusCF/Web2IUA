@@ -183,60 +183,33 @@ export function cargarProductos(adminContent) {
         });
 }
 
-export async function cargarOrdenes(adminContent) {
+export function cargarOrdenes(adminContent) {
     adminContent.innerHTML = "<div class='text-center my-4'>Cargando órdenes...</div>";
-    try {
-        const res = await api.get('/orders');
-        const ordenes = res.data.sort((a, b) => a.id - b.id);
-        if (!ordenes.length) {
-            adminContent.innerHTML = "<p>No hay órdenes registradas.</p>";
-            return;
-        }
-
-        // Obtener teléfonos de usuarios para cada orden
-        const telefonos = await Promise.all(
-            ordenes.map(async o => {
-                try {
-                    const userRes = await api.get(`/users/${o.user_id}`);
-                    return userRes.data.tel || '-';
-                } catch {
-                    return '-';
-                }
-            })
-        );
-
-        adminContent.innerHTML = `
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Usuario</th>
-                        <th>Fecha</th>
-                        <th>Total</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${ordenes.map((o, idx) => {
-                        let fechaFormateada = '-';
-                        if (o.order_date) {
-                            const fecha = new Date(o.order_date);
-                            fechaFormateada = fecha.toLocaleString('es-AR', {
-                                hour12: false,
-                                hour: '2-digit',
-                                minute: '2-digit',
-                                second: '2-digit',
-                                day: '2-digit',
-                                month: '2-digit',
-                                year: 'numeric'
-                            });
-                        }
-                        return `
+    api.get('/orders')
+        .then(res => {
+            const ordenes = res.data.sort((a, b) => a.id - b.id);
+            if (!ordenes.length) {
+                adminContent.innerHTML = "<p>No hay órdenes registradas.</p>";
+                return;
+            }
+            adminContent.innerHTML = `
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuario</th>
+                            <th>Fecha</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${ordenes.map(o => `
                             <tr>
                                 <td>${o.id}</td>
-                                <td>${telefonos[idx]}</td>
-                                <td>${fechaFormateada}</td>
+                                <td>${o.usuario ?? '-'}</td>
+                                <td>${o.fecha ?? '-'}</td>
                                 <td>${o.total ?? '-'}</td>
                                 <td>${o.state ?? 'pendiente'}</td>
                                 <td>
@@ -244,14 +217,14 @@ export async function cargarOrdenes(adminContent) {
                                     <button class="btn btn-warning btn-sm" onclick="editarElemento('orden', ${o.id})">Editar</button>
                                 </td>
                             </tr>
-                        `;
-                    }).join('')}
-                </tbody>
-            </table>
-        `;
-    } catch (err) {
-        adminContent.innerHTML = "<div class='text-danger'>Error al cargar órdenes.</div>";
-    }
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        })
+        .catch(() => {
+            adminContent.innerHTML = "<div class='text-danger'>Error al cargar órdenes.</div>";
+        });
 }
 
 export function editarElemento(tipo, id) {
@@ -457,23 +430,10 @@ export function verDetalle(tipo, id) {
     } else if (tipo === 'orden') {
         api.get(`/orders/${id}`).then(res => {
             const o = res.data;
-            let fechaFormateada = '-';
-            if (o.order_date) {
-                const fecha = new Date(o.order_date);
-                fechaFormateada = fecha.toLocaleString('es-AR', {
-                    hour12: false,
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit',
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric'
-                });
-            }
             const html = `
                 <div>
-                    <div class="mb-2"><strong>Usuario:</strong> ${o.tel ?? ''}</div>
-                    <div class="mb-2"><strong>Fecha:</strong> ${fechaFormateada ?? ''}</div>
+                    <div class="mb-2"><strong>Usuario:</strong> ${o.usuario ?? ''}</div>
+                    <div class="mb-2"><strong>Fecha:</strong> ${o.fecha ?? ''}</div>
                     <div class="mb-2"><strong>Total:</strong> $${o.total ?? 0}</div>
                     <div class="mb-2"><strong>Estado:</strong> ${o.state ?? 'pendiente'}</div>
                 </div>
