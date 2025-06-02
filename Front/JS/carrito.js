@@ -32,14 +32,16 @@ async function mostrarCarrito() {
     }
     let total = 0;
     carritoContenido.innerHTML = `
-        <table class="table">
+        <div class="table-responsive">
+        <table class="table align-middle">
             <thead>
                 <tr>
                     <th>Producto</th>
                     <th>Imagen</th>
                     <th>Precio</th>
-                    <th>Cantidad</th>
+                    <th class="text-center">Cantidad</th>
                     <th>Subtotal</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -49,10 +51,19 @@ async function mostrarCarrito() {
                     return `
                         <tr>
                             <td>${item.name}</td>
-                            <td><img src="${getImgUrl(item.img)}" alt="${item.name}" style="width:60px;max-height:60px;object-fit:cover;"></td>
+                            <td><img src="${getImgUrl(item.img)}" alt="${item.name}" style="width:50px;max-height:50px;object-fit:cover;"></td>
                             <td>$${item.price}</td>
-                            <td>${item.quantity}</td>
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <button class="btn btn-sm btn-outline-secondary btn-restar" data-id="${item.id}" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
+                                    <span class="mx-2">${item.quantity}</span>
+                                    <button class="btn btn-sm btn-outline-secondary btn-sumar" data-id="${item.id}">+</button>
+                                </div>
+                            </td>
                             <td>$${subtotal}</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger btn-eliminar" data-id="${item.id}"><i class="bi bi-trash"></i></button>
+                            </td>
                         </tr>
                     `;
                 }).join('')}
@@ -61,10 +72,44 @@ async function mostrarCarrito() {
                 <tr>
                     <td colspan="4" class="text-end fw-bold">Total:</td>
                     <td class="fw-bold">$${total}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-danger" id="btn-vaciar-carrito">Vaciar</button>
+                    </td>
                 </tr>
             </tfoot>
         </table>
+        </div>
     `;
+
+    // Handlers para sumar/restar/eliminar/vaciar
+    carritoContenido.querySelectorAll('.btn-sumar').forEach(btn => {
+        btn.onclick = async function() {
+            const id = this.getAttribute('data-id');
+            await api.put(`/cart/update/${id}`, { quantity: 1 }); // El backend debe sumar 1
+            mostrarCarrito();
+        };
+    });
+    carritoContenido.querySelectorAll('.btn-restar').forEach(btn => {
+        btn.onclick = async function() {
+            const id = this.getAttribute('data-id');
+            await api.put(`/cart/update/${id}`, { quantity: -1 }); // El backend debe restar 1
+            mostrarCarrito();
+        };
+    });
+    carritoContenido.querySelectorAll('.btn-eliminar').forEach(btn => {
+        btn.onclick = async function() {
+            const id = this.getAttribute('data-id');
+            await api.delete(`/cart/remove/${id}`);
+            mostrarCarrito();
+        };
+    });
+    const btnVaciar = carritoContenido.querySelector('#btn-vaciar-carrito');
+    if (btnVaciar) {
+        btnVaciar.onclick = async function() {
+            await api.delete(`/cart/clear/${user.id}`);
+            mostrarCarrito();
+        };
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
