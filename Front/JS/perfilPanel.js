@@ -33,7 +33,19 @@ document.addEventListener("DOMContentLoaded", async function () {
                         ${ordenes.map(o => `
                             <li class="list-group-item">
                                 <strong>ID:</strong> ${o.id} |
-                                <strong>Fecha:</strong> ${o.fecha ?? '-'} |
+                                <strong>Fecha:</strong> ${
+                                    o.order_date
+                                        ? new Date(o.order_date).toLocaleString('es-AR', {
+                                            hour12: false,
+                                            hour: '2-digit',
+                                            minute: '2-digit',
+                                            second: '2-digit',
+                                            day: '2-digit',
+                                            month: '2-digit',
+                                            year: 'numeric'
+                                        })
+                                        : '-'
+                                } |
                                 <strong>Total:</strong> $${o.total ?? '-'} |
                                 <strong>Estado:</strong> ${o.state ?? 'pendiente'}
                                 <button class="btn btn-primary btn-sm btn-ver-detalle" data-id="${o.id}">Ver Detalle</button>
