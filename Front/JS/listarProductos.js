@@ -148,7 +148,8 @@ function renderModals(productos) {
 document.addEventListener("DOMContentLoaded", async () => {
     try {
         const res = await api.get("/products");
-        const productos = res.data;
+        // Filtrar productos con stock >= 1
+        const productos = res.data.filter(p => p.stock >= 1);
         renderProductos(productos);
         renderModals(productos);
         window.productos = productos; // Para el buscador
