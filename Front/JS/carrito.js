@@ -9,7 +9,7 @@ function getImgUrl(imgPath) {
     return imgPath;
 }
 
-async function mostrarCarrito() {
+export async function mostrarCarrito() {
     const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
     const carritoContenido = document.getElementById("carrito-contenido");
     if (!usuario) {
