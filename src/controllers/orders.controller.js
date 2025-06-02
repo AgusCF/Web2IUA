@@ -13,15 +13,28 @@ export const getAllOrders = async (req, res) => {
 
 // Obtener orden por ID
 export const getOrderById = async (req, res) => {
+  const { id } = req.params;
   try {
-    const result = await pool.query('SELECT * FROM Orders WHERE id = $1', [req.params.id]);
-    if (result.rows.length === 0) return res.status(404).send('Orden no encontrada');
-    res.json(result.rows[0]);
+    // Obtener la orden principal
+    const orderResult = await pool.query('SELECT * FROM orders WHERE id = $1', [id]);
+    if (orderResult.rows.length === 0) return res.status(404).json({ message: "Orden no encontrada" });
+    const order = orderResult.rows[0];
+
+    // Obtener los productos de la orden
+    const itemsResult = await pool.query(
+      `SELECT oi.*, p.name 
+       FROM order_items oi
+       JOIN products p ON oi.product_id = p.id
+       WHERE oi.order_id = $1`, [id]
+    );
+    order.items = itemsResult.rows;
+
+    res.json(order);
   } catch (error) {
-    console.error('Error al obtener orden:', error);
-    res.status(500).json({ message: 'Error al obtener orden' });
+    res.status(500).json({ message: "Error al obtener la orden" });
   }
 };
+
 // Obtener órdenes por usuario (usando teléfono)
 export const getOrdersByUser = async (req, res) => {
   const userTel = req.params.tel;
