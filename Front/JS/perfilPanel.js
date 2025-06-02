@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
     const perfilInfo = document.getElementById("perfil-info");
+    let lista; // <--- DECLARAR AQUÍ
+
     if (usuario) {
         perfilInfo.innerHTML = `
             <p><strong>Usuario:</strong> ${usuario.usuario || usuario.username || ''}</p>
@@ -22,7 +24,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             const tel = usuario.tel || usuario.telefono;
             const response = await api.get(`/orders/client=${encodeURIComponent(tel)}`);
             const ordenes = response.data;
-            const lista = document.getElementById("lista-ordenes");
+            lista = document.getElementById("lista-ordenes"); // <--- ASIGNAR AQUÍ
             if (ordenes.length === 0) {
                 lista.innerHTML = "<p>No tienes órdenes registradas.</p>";
             } else {
@@ -52,30 +54,32 @@ document.addEventListener("DOMContentLoaded", async function () {
     };
 
     // Después de renderizar la lista
-    lista.querySelectorAll('.btn-ver-detalle').forEach(btn => {
-        btn.onclick = async function() {
-            const orderId = this.getAttribute('data-id');
-            try {
-                const res = await api.get(`/orders/${orderId}`);
-                const orden = res.data;
-                // Renderiza los detalles como prefieras
-                document.getElementById("detalle-orden-body").innerHTML = `
-                    <p><strong>ID:</strong> ${orden.id}</p>
-                    <p><strong>Fecha:</strong> ${orden.order_date ?? '-'}</p>
-                    <p><strong>Total:</strong> $${orden.total ?? '-'}</p>
-                    <p><strong>Estado:</strong> ${orden.state ?? 'pendiente'}</p>
-                    <h6>Productos:</h6>
-                    <ul>
-                        ${(orden.items || []).map(item => `
-                            <li>${item.name} x${item.quantity} - $${item.price}</li>
-                        `).join('')}
-                    </ul>
-                `;
-                const modal = new bootstrap.Modal(document.getElementById('detalleOrdenModal'));
-                modal.show();
-            } catch (err) {
-                document.getElementById("detalle-orden-body").innerHTML = "<span class='text-danger'>Error al cargar el detalle.</span>";
-            }
-        };
-    });
+    // Solo ejecuta si lista existe
+    if (lista) {
+        lista.querySelectorAll('.btn-ver-detalle').forEach(btn => {
+            btn.onclick = async function() {
+                const orderId = this.getAttribute('data-id');
+                try {
+                    const res = await api.get(`/orders/${orderId}`);
+                    const orden = res.data;
+                    document.getElementById("detalle-orden-body").innerHTML = `
+                        <p><strong>ID:</strong> ${orden.id}</p>
+                        <p><strong>Fecha:</strong> ${orden.order_date ?? '-'}</p>
+                        <p><strong>Total:</strong> $${orden.total ?? '-'}</p>
+                        <p><strong>Estado:</strong> ${orden.state ?? 'pendiente'}</p>
+                        <h6>Productos:</h6>
+                        <ul>
+                            ${(orden.items || []).map(item => `
+                                <li>${item.name} x${item.quantity} - $${item.price}</li>
+                            `).join('')}
+                        </ul>
+                    `;
+                    const modal = new bootstrap.Modal(document.getElementById('detalleOrdenModal'));
+                    modal.show();
+                } catch (err) {
+                    document.getElementById("detalle-orden-body").innerHTML = "<span class='text-danger'>Error al cargar el detalle.</span>";
+                }
+            };
+        });
+    }
 });
