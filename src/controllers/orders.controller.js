@@ -22,11 +22,16 @@ export const getOrderById = async (req, res) => {
     res.status(500).json({ message: 'Error al obtener orden' });
   }
 };
-// Obtener órdenes por usuario
+// Obtener órdenes por usuario (usando teléfono)
 export const getOrdersByUser = async (req, res) => {
   const userTel = req.params.tel;
   try {
-    const result = await pool.query('SELECT * FROM Orders WHERE user_id = $1 ORDER BY order_date DESC', [userTel]);
+    // 1. Buscar el usuario por teléfono
+    const userResult = await pool.query('SELECT id FROM Users WHERE tel = $1', [userTel]);
+    if (userResult.rows.length === 0) return res.json([]);
+    const userId = userResult.rows[0].id;
+    // 2. Buscar las órdenes por user_id
+    const result = await pool.query('SELECT * FROM Orders WHERE user_id = $1 ORDER BY order_date DESC', [userId]);
     res.json(result.rows);
   } catch (error) {
     console.error('Error al obtener órdenes por usuario:', error);
