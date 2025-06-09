@@ -10,21 +10,24 @@ window.cargarPanelAdmin = function() {
     alert("Tipo de panel no soportado");
 }
 
-// Función global para ver detalles
-window.verDetalle = function(tipo, id) {
+// Definir como funciones normales
+function verDetalle(tipo, id) {
     if (tipo === "usuario") return verDetalleUsuario(id);
     if (tipo === "producto") return verDetalleProducto(id);
     if (tipo === "orden") return verDetalleOrden(id);
     alert("Tipo no soportado");
-};
+}
 
-// Función global para editar
-window.editarElemento = function(tipo, id) {
+function editarElemento(tipo, id) {
     if (tipo === "usuario") return editarUsuario(id);
     if (tipo === "producto") return editarProducto(id);
     if (tipo === "orden") return editarOrden(id);
     alert("Tipo no soportado");
-};
+}
+
+// Asignar a window para los onclick dinámicos
+window.verDetalle = verDetalle;
+window.editarElemento = editarElemento;
 
 export { cargarUsuarios, cargarProductos, cargarOrdenes, editarElemento, verDetalle };
 
