@@ -4,7 +4,7 @@ import { mostrarCarrito } from "./carrito.js";
 function getImgUrl(imgPath) {
     const BACKEND_URL = "https://web2iua-back.onrender.com";
     if (!imgPath) return '';
-    if (imgPath.startsWith('/uploads/CarrucelInicio')) {
+    if (imgPath.startsWith('/uploads/CarruselInicio/')) {
         return BACKEND_URL + imgPath;
     }
     return imgPath;
