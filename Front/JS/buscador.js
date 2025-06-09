@@ -1,6 +1,6 @@
 // buscador.js
 (function () {
-  document.addEventListener("DOMContentLoaded", () => {
+  function iniciarBuscador() {
     const buscador = document.getElementById("buscador");
     if (!buscador) return;
 
@@ -48,5 +48,16 @@
         });
       });
     });
+  }
+
+  // Espera a que el DOM y el navbar estén listos
+  document.addEventListener("DOMContentLoaded", function () {
+    // Si el buscador está en el navbar cargado por fetch, espera a que exista
+    const esperarBuscador = setInterval(() => {
+      if (document.getElementById("buscador")) {
+        clearInterval(esperarBuscador);
+        iniciarBuscador();
+      }
+    }, 100);
   });
 })();
