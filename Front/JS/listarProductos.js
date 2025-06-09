@@ -160,6 +160,20 @@ document.addEventListener("DOMContentLoaded", async () => {
         renderProductos(productos);
         renderModals(productos);
         window.productos = productos; // Para el buscador
+
+        // --- NUEVO: Disparar búsqueda si hay parámetro ---
+        if (window.location.pathname.endsWith("QueHacemos.html")) {
+            const params = new URLSearchParams(window.location.search);
+            const buscar = params.get("buscar");
+            if (buscar) {
+                const buscador = document.getElementById("buscador");
+                if (buscador) {
+                    buscador.value = buscar;
+                    buscador.dispatchEvent(new Event("input"));
+                }
+            }
+        }
+        // -----------------------------------------------
     } catch (err) {
         const contenedor = document.getElementById("productos-todos");
         if (contenedor) contenedor.innerHTML = "<div class='text-danger'>Error al cargar productos.</div>";
