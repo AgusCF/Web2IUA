@@ -93,12 +93,12 @@ export const createOrder = async (req, res) => {
 
 // Editar orden
 export const updateOrder = async (req, res) => {
-  const { user_id, total, status } = req.body;
+  const { user_id, total, state } = req.body;
   try {
     const result = await pool.query(
-      `UPDATE Orders SET user_id = COALESCE($1, user_id), total = COALESCE($2, total), status = COALESCE($3, status)
+      `UPDATE Orders SET user_id = COALESCE($1, user_id), total = COALESCE($2, total), state = COALESCE($3, state)
        WHERE id = $4 RETURNING *`,
-      [user_id, total, status, req.params.id]
+      [user_id, total, state, req.params.id]
     );
     if (result.rows.length === 0) return res.status(404).send('Orden no encontrada');
     res.json(result.rows[0]);
