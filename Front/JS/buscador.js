@@ -1,6 +1,7 @@
 // buscador.js
 (function () {
-  document.addEventListener("DOMContentLoaded", () => {
+  // Espera a que el navbar esté cargado dinámicamente
+  function initBuscador() {
     const buscador = document.getElementById("buscador");
     if (!buscador) return;
 
@@ -62,5 +63,15 @@
         buscador.dispatchEvent(new Event("input"));
       }
     }
+  }
+
+  // Espera a que el navbar esté en el DOM
+  document.addEventListener("DOMContentLoaded", function () {
+    const esperarNavbar = setInterval(() => {
+      if (document.getElementById("buscador")) {
+        clearInterval(esperarNavbar);
+        initBuscador();
+      }
+    }, 50);
   });
 })();
