@@ -438,7 +438,7 @@ export function editarElemento(tipo, id) {
                         await api.put(`/orders/${o.id}`, {
                             user_id: o.user_id,
                             total: o.total,
-                            status: nuevoEstado
+                            state: nuevoEstado
                         });
                         alert("Estado modificado avidado");
                         bsModal.hide();
