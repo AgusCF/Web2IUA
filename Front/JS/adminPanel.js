@@ -26,3 +26,5 @@ window.editarElemento = function(tipo, id) {
     alert("Tipo no soportado");
 };
 
+export { cargarUsuarios, cargarProductos, cargarOrdenes, editarElemento, verDetalle };
+
