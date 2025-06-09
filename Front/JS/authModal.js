@@ -6,10 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const showRegister = document.getElementById("show-register");
     const showLogin = document.getElementById("show-login");
 
-    // Estado inicial: mostrar login, ocultar registro
-    if (loginForm) loginForm.style.display = "block";
-    if (registerForm) registerForm.style.display = "none";
-
     if (showRegister && showLogin && loginForm && registerForm) {
         showRegister.onclick = function(e) {
             e.preventDefault();
