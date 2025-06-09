@@ -1,33 +1,21 @@
 import api from "./api.js";
 
 document.addEventListener("DOMContentLoaded", function () {
-    const loginModal = document.getElementById("loginModal");
-    const registerModal = document.getElementById("registerModal");
-    const showRegister = document.getElementById("show-register");
-    const showLogin = document.getElementById("show-login");
     const loginForm = document.getElementById("login-form");
     const registerForm = document.getElementById("register-form");
+    const showRegister = document.getElementById("show-register");
+    const showLogin = document.getElementById("show-login");
 
-    // Estado inicial: mostrar login, ocultar registro
-    if (loginForm) loginForm.style.display = "block";
-    if (registerForm) registerForm.style.display = "block"; // Siempre visible en su modal
-
-    if (showRegister && showLogin && loginModal && registerModal) {
+    if (showRegister && showLogin && loginForm && registerForm) {
         showRegister.onclick = function(e) {
             e.preventDefault();
-            // Oculta login y muestra registro
-            const bsLogin = bootstrap.Modal.getInstance(loginModal) || new bootstrap.Modal(loginModal);
-            bsLogin.hide();
-            const bsRegister = bootstrap.Modal.getInstance(registerModal) || new bootstrap.Modal(registerModal);
-            bsRegister.show();
+            loginForm.style.display = "none";
+            registerForm.style.display = "block";
         };
         showLogin.onclick = function(e) {
             e.preventDefault();
-            // Oculta registro y muestra login
-            const bsRegister = bootstrap.Modal.getInstance(registerModal) || new bootstrap.Modal(registerModal);
-            bsRegister.hide();
-            const bsLogin = bootstrap.Modal.getInstance(loginModal) || new bootstrap.Modal(loginModal);
-            bsLogin.show();
+            registerForm.style.display = "none";
+            loginForm.style.display = "block";
         };
     }
 
