@@ -15,12 +15,16 @@ document.addEventListener("DOMContentLoaded", function () {
             const bsLogin = bootstrap.Modal.getInstance(loginModal) || new bootstrap.Modal(loginModal);
             bsLogin.hide();
             setTimeout(() => {
+                // Mostrar el formulario de registro
+                registerForm.style.display = "block";
                 const bsRegister = bootstrap.Modal.getInstance(registerModal) || new bootstrap.Modal(registerModal);
                 bsRegister.show();
             }, 300); // Espera a que termine la animación de cierre
         };
         showLogin.onclick = function(e) {
             e.preventDefault();
+            // Oculta el modal de registro y muestra el de login
+            registerForm.style.display = "none";
             const bsRegister = bootstrap.Modal.getInstance(registerModal) || new bootstrap.Modal(registerModal);
             bsRegister.hide();
             setTimeout(() => {
