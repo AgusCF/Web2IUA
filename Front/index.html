@@ -179,13 +179,11 @@
             .then(res => res.text())
             .then(html => { 
                 document.getElementById('navbar').innerHTML = html;
-                // Carga los scripts necesarios después de insertar el navbar
-                ['JS/login.js', 'JS/authModal.js'].forEach(src => {
-                    const script = document.createElement('script');
-                    script.type = 'module';
-                    script.src = src;
-                    document.body.appendChild(script);
-                });
+                // Carga el script de login después de insertar el navbar
+                const script = document.createElement('script');
+                script.type = 'module';
+                script.src = 'JS/login.js';
+                document.body.appendChild(script);
             });
     </script>
     <!-- Script para el login -->
