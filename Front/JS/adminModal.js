@@ -1,5 +1,5 @@
 // Utilidad para mostrar un modal reutilizable
-function mostrarModal(titulo, contenido, onShow) {
+export function mostrarModal(titulo, contenido, onShow) {
     const modal = document.createElement('div');
     modal.className = 'modal fade';
     modal.id = 'editGenericModal';
