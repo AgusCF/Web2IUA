@@ -144,23 +144,78 @@ export function cargarProductos(adminContent) {
 }
 export function editarProducto(id) {
     api.get(`/products/${id}`).then(res => {
-            const p = res.data;
-            const html = `
-                <div>
-                    <div class="mb-2"><strong>Nombre:</strong> ${p.name}</div>
-                    <div class="mb-2"><strong>Descripción:</strong> ${p.description ?? ''}</div>
-                    <div class="mb-2"><strong>Precio:</strong> $${p.price}</div>
-                    <div class="mb-2"><strong>Stock:</strong> ${p.stock ?? '-'}</div>
-                    <div class="mb-2"><strong>Oferta:</strong> ${p.offert ?? '-'}</div>
-                    <div class="mb-2"><strong>Tags:</strong> ${Array.isArray(p.tags) ? p.tags.join(', ') : ''}</div>
-                    <div class="mb-2"><strong>Tipo:</strong> ${p.type}</div>
-                    <div class="mb-2"><strong>Imagen:</strong><br>
-                        <img src="${getImgUrl(p.img)}" alt="Imagen actual" style="width:100px;max-height:100px;object-fit:cover;">
-                    </div>
+        const p = res.data;
+        const formHtml = `
+            <form id="edit-product-form">
+                <div class="mb-2">
+                    <label>Nombre</label>
+                    <input class="form-control" name="name" value="${p.name}" required>
                 </div>
-            `;
-            mostrarModal('Detalle de Producto', html);
+                <div class="mb-2">
+                    <label>Descripción</label>
+                    <textarea class="form-control" name="description">${p.description ?? ''}</textarea>
+                </div>
+                <div class="mb-2">
+                    <label>Precio</label>
+                    <input class="form-control" name="price" type="number" step="0.01" value="${p.price}" required>
+                </div>
+                <div class="mb-2">
+                    <label>Stock</label>
+                    <input class="form-control" name="stock" type="number" value="${p.stock ?? 0}">
+                </div>
+                <div class="mb-2">
+                    <label>Oferta</label>
+                    <input class="form-control" name="offert" type="number" step="0.1" value="${p.offert ?? 0}">
+                </div>
+                <div class="mb-2">
+                    <label>Tags (separados por coma)</label>
+                    <input class="form-control" name="tags" value="${Array.isArray(p.tags) ? p.tags.join(',') : ''}">
+                </div>
+                <div class="mb-2">
+                    <label>Tipo</label>
+                    <input class="form-control" name="type" value="${p.type}" required>
+                </div>
+                <div class="mb-2">
+                    <label>Imagen actual</label><br>
+                    <img src="${getImgUrl(p.img)}" alt="Imagen actual" style="width:100px;max-height:100px;object-fit:cover;">
+                </div>
+                <div class="mb-2">
+                    <label>Nueva imagen (opcional)</label>
+                    <input class="form-control" name="img" type="file" accept="image/*">
+                </div>
+                <button class="btn btn-primary" type="submit">Guardar</button>
+            </form>
+        `;
+        mostrarModal('Editar Producto', formHtml, async (modal, bsModal) => {
+            const form = document.getElementById('edit-product-form');
+            form.onsubmit = async function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                let imgUrl = p.img;
+                if (formData.get('img') && formData.get('img').size > 0) {
+                    const imgForm = new FormData();
+                    imgForm.append('imagen', formData.get('img'));
+                    const uploadRes = await api.post('/products/upload', imgForm, {
+                        headers: { 'Content-Type': 'multipart/form-data' }
+                    });
+                    imgUrl = uploadRes.data.imageUrl;
+                }
+                const updateData = {
+                    name: formData.get('name'),
+                    description: formData.get('description'),
+                    price: formData.get('price'),
+                    stock: formData.get('stock'),
+                    offert: formData.get('offert'),
+                    tags: formData.get('tags').split(',').map(t => t.trim()),
+                    type: formData.get('type'),
+                    img: imgUrl
+                };
+                await api.put(`/products/${id}`, updateData);
+                bsModal.hide();
+                cargarProductos(document.getElementById('admin-content'));
+            };
         });
+    });
 }
 export function verDetalleProducto(id) {
     api.get(`/products/${id}`).then(res => {

@@ -82,7 +82,7 @@ export function editarOrden(id) {
         } catch {
             telefono = '-';
         }
-    
+
         // Formatear fecha
         let fechaFormateada = '-';
         if (o.order_date) {
@@ -97,26 +97,26 @@ export function editarOrden(id) {
                 year: 'numeric'
             });
         }
-    
+
         // Opciones de estado
         const estados = [
             'pendiente', 'confirmado', 'en_preparacion', 'enviado', 'entregado', 'cancelado', 'devuelto'
         ];
-    
+
         // Productos
         const productosHtml = (o.items && o.items.length)
             ? `<ul>${o.items.map(item =>
                 `<li>${item.name} x${item.quantity} - $${item.price}</li>`
             ).join('')}</ul>`
             : '<p>No hay productos en esta orden.</p>';
-    
+
         // Select de estado
         const selectEstado = `
             <select class="form-select" id="select-estado-orden">
                 ${estados.map(e => `<option value="${e}" ${o.state === e ? 'selected' : ''}>${e}</option>`).join('')}
             </select>
         `;
-    
+
         const html = `
             <div>
                 <div class="mb-2"><strong>Teléfono del usuario:</strong> ${telefono}</div>
