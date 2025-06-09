@@ -88,14 +88,22 @@ export async function mostrarCarrito() {
     carritoContenido.querySelectorAll('.btn-sumar').forEach(btn => {
         btn.onclick = async function() {
             const id = this.getAttribute('data-id');
-            await api.put(`/cart/update/${id}`, { quantity: 1 }); // El backend debe sumar 1
+            // Buscar el item actual
+            const item = items.find(i => i.id == id);
+            if (!item) return;
+            const nuevaCantidad = item.quantity + 1;
+            await api.put(`/cart/update/${id}`, { quantity: nuevaCantidad });
             mostrarCarrito();
         };
     });
     carritoContenido.querySelectorAll('.btn-restar').forEach(btn => {
         btn.onclick = async function() {
             const id = this.getAttribute('data-id');
-            await api.put(`/cart/update/${id}`, { quantity: -1 }); // El backend debe restar 1
+            // Buscar el item actual
+            const item = items.find(i => i.id == id);
+            if (!item) return;
+            const nuevaCantidad = item.quantity - 1;
+            await api.put(`/cart/update/${id}`, { quantity: nuevaCantidad });
             mostrarCarrito();
         };
     });
