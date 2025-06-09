@@ -94,17 +94,45 @@ export const createOrder = async (req, res) => {
 // Editar orden
 export const updateOrder = async (req, res) => {
   const { user_id, total, state } = req.body;
+  const orderId = req.params.id;
+  const client = await pool.connect();
   try {
-    const result = await pool.query(
+    await client.query('BEGIN');
+
+    // 1. Obtener el estado actual de la orden
+    const prevOrderResult = await client.query('SELECT state FROM Orders WHERE id = $1', [orderId]);
+    if (prevOrderResult.rows.length === 0) {
+      await client.query('ROLLBACK');
+      return res.status(404).send('Orden no encontrada');
+    }
+    const prevState = prevOrderResult.rows[0].state;
+
+    // 2. Si el nuevo estado es "devuelto" o "cancelado" y el anterior era distinto, devolver stock
+    if ((state === 'devuelto' || state === 'cancelado') && prevState !== state) {
+      // Obtener los productos de la orden
+      const itemsResult = await client.query('SELECT product_id, quantity FROM order_items WHERE order_id = $1', [orderId]);
+      for (const item of itemsResult.rows) {
+        await client.query(
+          'UPDATE products SET stock = stock + $1 WHERE id = $2',
+          [item.quantity, item.product_id]
+        );
+      }
+    }
+
+    // 3. Actualizar la orden
+    const result = await client.query(
       `UPDATE Orders SET user_id = COALESCE($1, user_id), total = COALESCE($2, total), state = COALESCE($3, state)
        WHERE id = $4 RETURNING *`,
-      [user_id, total, state, req.params.id]
+      [user_id, total, state, orderId]
     );
-    if (result.rows.length === 0) return res.status(404).send('Orden no encontrada');
+    await client.query('COMMIT');
     res.json(result.rows[0]);
   } catch (error) {
+    await client.query('ROLLBACK');
     console.error('Error al actualizar orden:', error);
     res.status(500).json({ message: 'Error al actualizar orden' });
+  } finally {
+    client.release();
   }
 };
 

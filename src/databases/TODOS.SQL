@@ -106,3 +106,33 @@ CREATE TABLE IF NOT EXISTS CartItems (
 );
 ALTER TABLE orders ADD COLUMN total NUMERIC(12,2) DEFAULT 0;
 ALTER TABLE order_items ADD COLUMN price NUMERIC(10,2) DEFAULT 0;
+SELECT id, name, img FROM products ORDER BY id ASC;
+
+UPDATE products SET img = '/uploads/CarruselInicio/AlfBonobon.png' WHERE id IN (1,2);
+UPDATE products SET img = '/uploads/CarruselInicio/AlfCocoDulce.png' WHERE id = 3;
+UPDATE products SET img = '/uploads/CarruselInicio/AlfMaicena.png' WHERE id = 4;
+UPDATE products SET img = '/uploads/CarruselInicio/AlfChocoAmargo.png' WHERE id = 5;
+UPDATE products SET img = '/uploads/CarruselInicio/Lemonpie.png' WHERE id = 6;
+UPDATE products SET img = '/uploads/CarruselInicio/Chocotorta.png' WHERE id = 7;
+UPDATE products SET img = '/uploads/CarruselInicio/TortaOreo.png' WHERE id = 8;
+UPDATE products SET img = '/uploads/CarruselInicio/SelvaNegra.png' WHERE id = 9;
+UPDATE products SET img = '/uploads/CarruselInicio/TartaFrutal.png' WHERE id = 10;
+UPDATE products SET img = '/uploads/CarruselInicio/TorTiramisu.png' WHERE id = 11;
+UPDATE products SET img = '/uploads/CarruselInicio/TorRedVelvet.png' WHERE id = 12;
+UPDATE products SET img = '/uploads/CarruselInicio/TortCheesecakeFrutosRojos.png' WHERE id = 13;
+UPDATE products SET img = '/uploads/CarruselInicio/HueOreo.png' WHERE id = 14;
+UPDATE products SET img = '/uploads/CarruselInicio/HueKinder.png' WHERE id = 15;
+UPDATE products SET img = '/uploads/CarruselInicio/HueNutella.png' WHERE id = 16;
+UPDATE products SET img = '/uploads/CarruselInicio/CupRedVelvet.png' WHERE id = 17;
+UPDATE products SET img = '/uploads/CarruselInicio/CupVainillaYDulceDLeche.png' WHERE id = 18;
+UPDATE products SET img = '/uploads/CarruselInicio/CupLimonAmapola.png' WHERE id = 19;
+UPDATE products SET img = '/uploads/CarruselInicio/CupChocolateIntenso.png' WHERE id = 20;
+UPDATE products SET img = '/uploads/CarruselInicio/EspBrownieNueces.png' WHERE id = 21;
+UPDATE products SET img = '/uploads/CarruselInicio/EspBudinLimon.png' WHERE id = 22;
+UPDATE products SET img = '/uploads/CarruselInicio/EspCookiesTripleChocolate.png' WHERE id = 23;
+UPDATE products SET img = '/uploads/CarruselInicio/EspCheesecakeFrasco.png' WHERE id = 24;
+UPDATE products SET img = '/uploads/CarruselInicio/BomDulceLeche.png' WHERE id = 25;
+UPDATE products SET img = '/uploads/CarruselInicio/BomMaracuya.png' WHERE id = 26;
+UPDATE products SET img = '/uploads/CarruselInicio/BomCrocanteAvellana.png' WHERE id = 27;
+UPDATE products SET img = '/uploads/CarruselInicio/cabsha.jpeg' WHERE id = 28;
+
