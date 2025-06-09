@@ -2,16 +2,9 @@ import api from "./api.js";
 
 document.addEventListener("DOMContentLoaded", async function () {
     // Cargar navbar
-    fetch('navbar.html')
-        .then(res => res.text())
-        .then(html => { 
-            document.getElementById('navbar').innerHTML = html;
-            // Carga el script de login después de insertar el navbar
-            const script = document.createElement('script');
-            script.type = 'module';
-            script.src = 'JS/login.js';
-            document.body.appendChild(script);
-        });
+        fetch('navbar.html')
+            .then(res => res.text())
+            .then(html => { document.getElementById('navbar').innerHTML = html; });
 
     const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
     const perfilInfo = document.getElementById("perfil-info");
