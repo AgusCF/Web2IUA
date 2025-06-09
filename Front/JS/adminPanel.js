@@ -435,7 +435,11 @@ export function editarElemento(tipo, id) {
                 btnActualizar.onclick = async () => {
                     const nuevoEstado = select.value;
                     if (nuevoEstado !== estadoOriginal) {
-                        await api.put(`/orders/${o.id}`, { state: nuevoEstado });
+                        await api.put(`/orders/${o.id}`, {
+                            user_id: o.user_id,
+                            total: o.total,
+                            status: nuevoEstado
+                        });
                         alert("Estado modificado avidado");
                         bsModal.hide();
                     } else {
