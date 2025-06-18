@@ -10,9 +10,6 @@ import { verificarAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// Aplica el middleware a todas las rutas de órdenes
-router.use(verificarAdmin);
-
 router.get('/', getAllProducts); // Obtener todos los productos
 router.get('/:id', getProductById); // Obtener producto por ID
 router.post('/newProduct', verificarAdmin, createProduct); // Crear producto

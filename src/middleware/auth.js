@@ -1,5 +1,3 @@
-import jwt from 'jsonwebtoken';
-
 export function verificarAdmin(req, res, next) {
   if (req.user && req.user.role === 'admin') {
     next();
