@@ -100,10 +100,10 @@ app.get('/uploads/:filename', async (req, res, next) => {
   try {
     const stats = fs.statSync(filePath);
     if (stats.size > 500 * 1024) { // Si es mayor a 500KB, optimiza
-      res.type('image/png');
+      res.type('image/webp');
       return sharp(filePath)
-        .resize({ width: 900 })
-        .png({ quality: 75 })
+        .resize({ width: 800 })
+        .toFormat('webp', { quality: 80 })
         .pipe(res);
     } else {
       return res.sendFile(filePath, { root: '.' });
