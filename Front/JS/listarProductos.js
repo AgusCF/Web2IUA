@@ -130,7 +130,7 @@ function renderModals(productos) {
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
-                            <img src="${getImgUrl(producto.img)}" alt="${producto.name}" class="img-fluid mb-3" loading="lazy" />
+                            <img src="${getImgUrl(producto.img)}" alt="${producto.name}" class="lazyload img-fluid mb-3" loading="lazy" />
                             <p>${producto.modaldescription ?? ''}</p>
                         </div>
                         <div class="modal-footer">

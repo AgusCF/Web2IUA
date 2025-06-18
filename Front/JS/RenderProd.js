@@ -364,7 +364,7 @@ const productos = [
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
               </div>
               <div class="modal-body">
-                <img src="${producto.imagen}" alt="${producto.nombre}" class="img-fluid mb-3" loading="lazy" />
+                <img src="${producto.imagen}" alt="${producto.nombre}" class="lazyload img-fluid mb-3" loading="lazy" />
                 <p>${producto.modalDescripcion}</p>
               </div>
               <div class="modal-footer">
