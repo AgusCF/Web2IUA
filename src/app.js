@@ -61,6 +61,9 @@ app.get('/ping', (req, res) => {
   });
 });
 
+
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+
 // Ruta para subir imágenes de productos
 app.post('/api/products/upload', upload.single('imagen'), async (req, res) => {
   if (!req.file) {
@@ -124,8 +127,6 @@ app.get('/uploads/:filename', async (req, res, next) => {
 app.use((req, res, next) => {
   res.status(404).json({ message: 'Recurso no se encontro encontrado' });
 });
-
-app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 server.on('upgrade', (request, socket, head) => {
   wss.handleUpgrade(request, socket, head, (ws) => {
