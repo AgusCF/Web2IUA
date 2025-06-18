@@ -64,6 +64,13 @@ function renderProductos(productos) {
     const tiposUnicos = [...new Set(productos.map(p => p.type))];
     let usarFondoClaro = true;
 
+    // Ordenar productos: los de la categoría "Especiales" al final
+    productos.sort((a, b) => {
+        if (a.type === "Especiales" && b.type !== "Especiales") return 1;
+        if (a.type !== "Especiales" && b.type === "Especiales") return -1;
+        return 0;
+    });
+
     tiposUnicos.forEach(tipo => {
         const productosPorTipo = productos.filter(p => p.type === tipo);
         const seccion = document.createElement("section");
