@@ -6,7 +6,7 @@ import {
   updateProduct,
   deleteProduct
 } from '../controllers/products.controller.js';
-import { verificarAdmin } from '../middleware/auth.js';
+import { verificarAdmin } from '../middlewares/auth.js';
 
 const router = express.Router();
 

@@ -7,7 +7,7 @@ import {
   deleteOrder,
   getOrdersByUser
 } from '../controllers/orders.controller.js';
-import { verificarAdmin } from '../middleware/auth.js';
+import { verificarAdmin } from '../middlewares/auth.js';
 
 const router = express.Router();
 
