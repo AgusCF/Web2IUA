@@ -7,12 +7,12 @@ import {
   deleteOrder,
   getOrdersByUser
 } from '../controllers/orders.controller.js';
-import { verificarToken } from '../middleware/auth.js';
+import { verificarUsuario, verificarAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
 // Aplica el middleware a todas las rutas de órdenes
-router.use(verificarToken);
+router.use(verificarUsuario, verificarAdmin);
 
 router.get('/', getAllOrders); // Obtener todas las órdenes
 router.get('/client=:tel', getOrdersByUser); // Obtener orden por Tel (debe ir antes que /:id sino genera errores)

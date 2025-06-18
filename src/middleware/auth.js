@@ -1,13 +1,16 @@
 import jwt from 'jsonwebtoken';
 
-export function verificarToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-  if (!token) return res.status(401).json({ message: 'Token requerido' });
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) return res.status(403).json({ message: 'Token inválido o expirado' });
-    req.user = user;
+export function verificarAdmin(req, res, next) {
+  if (req.user && req.user.role === 'admin') {
     next();
-  });
+  } else {
+    return res.status(403).json({ message: 'Acceso denegado. Se requiere rol de administrador.' });
+  }
+}
+export function verificarUsuario(req, res, next) {
+  if (req.user && req.user.role === 'user') {
+    next();
+  } else {
+    return res.status(403).json({ message: 'Acceso denegado. Se requiere rol de usuario.' });
+  }
 }

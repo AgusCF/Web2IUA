@@ -4,7 +4,7 @@ import routerUser from "./user.routes.js";
 import routerProducts from "./products.routes.js";
 import routerOrders from "./orders.routes.js";
 import routerCart from "./cart.routes.js";
-import { verificarToken } from '../middleware/auth.js';
+import { verificarUsuario, verificarAdmin } from '../middleware/auth.js';
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -18,9 +18,9 @@ router.get("/", (req, res) => {
 });
 
 // Rutas protegidas
-router.use("/users", verificarToken, routerUser);
-router.use("/products", verificarToken, routerProducts);
-router.use("/orders", verificarToken, routerOrders);
-router.use("/cart", verificarToken, routerCart);
+router.use("/users", verificarUsuario, verificarAdmin, routerUser);
+router.use("/products", routerProducts);
+router.use("/orders", verificarUsuario, verificarAdmin, routerOrders);
+router.use("/cart", routerCart);
 
 export default router;

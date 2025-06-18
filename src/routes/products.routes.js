@@ -6,13 +6,17 @@ import {
   updateProduct,
   deleteProduct
 } from '../controllers/products.controller.js';
+import { verificarAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
+// Aplica el middleware a todas las rutas de órdenes
+router.use(verificarAdmin);
+
 router.get('/', getAllProducts); // Obtener todos los productos
 router.get('/:id', getProductById); // Obtener producto por ID
-router.post('/newProduct', createProduct); // Crear producto
-router.put('/:id', updateProduct); // Editar producto
-router.delete('/:id', deleteProduct); // Eliminar producto
+router.post('/newProduct', verificarAdmin, createProduct); // Crear producto
+router.put('/:id', verificarAdmin, updateProduct); // Editar producto
+router.delete('/:id', verificarAdmin, deleteProduct); // Eliminar producto
 
 export default router;
