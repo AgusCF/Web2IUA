@@ -125,6 +125,8 @@ app.use((req, res, next) => {
   res.status(404).json({ message: 'Recurso no se encontro encontrado' });
 });
 
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+
 server.on('upgrade', (request, socket, head) => {
   wss.handleUpgrade(request, socket, head, (ws) => {
     wss.emit('connection', ws, request);
