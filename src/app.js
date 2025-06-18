@@ -68,7 +68,7 @@ app.post('/api/products/upload', upload.single('imagen'), async (req, res) => {
   }
 
   const inputPath = req.file.path;
-  const outputPath = `uploads/opt_${req.file.filename}`;
+  const outputPath = `uploads/opt_${Date.now()}.webp`; // Cambiar la extensión a .webp
 
   try {
     // Optimiza la imagen (ajusta calidad y tamaño según tus necesidades)
@@ -80,7 +80,7 @@ app.post('/api/products/upload', upload.single('imagen'), async (req, res) => {
     // Elimina el archivo original si quieres ahorrar espacio
     fs.unlinkSync(inputPath);
 
-    res.json({ imageUrl: `/uploads/opt_${req.file.filename}` });
+    res.json({ imageUrl: `/uploads/${path.basename(outputPath)}` });
   } catch (err) {
     console.error('Error al optimizar imagen:', err);
     res.status(500).json({ message: 'Error al procesar la imagen' });
@@ -101,15 +101,17 @@ app.get('/uploads/:filename', async (req, res, next) => {
     return res.sendFile(filePath, { root: '.' });
   }
 
-  // Si la imagen es muy grande, la optimizamos al vuelo
+  // Si la imagen no es .webp, la convertimos al vuelo
   try {
     const stats = fs.statSync(filePath);
-    if (stats.size > 500 * 1024) { // Si es mayor a 500KB, optimiza
-      res.type('image/webp');
-      return sharp(filePath)
-        .resize({ width: 600 })
-        .toFormat('webp', { quality: 80 })
-        .pipe(res);
+    if (!filename.endsWith('.webp')) {
+      const webpFilePath = filePath.replace(path.extname(filePath), '.webp');
+      await sharp(filePath)
+        .resize({ width: 600 }) // Reducir el ancho máximo a 600px
+        .toFormat('webp', { quality: 80 }) // Convertir a WebP con calidad 80
+        .toFile(webpFilePath);
+
+      return res.sendFile(webpFilePath, { root: '.' });
     } else {
       return res.sendFile(filePath, { root: '.' });
     }
