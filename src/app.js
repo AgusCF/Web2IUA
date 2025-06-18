@@ -69,7 +69,7 @@ app.post('/api/products/upload', upload.single('imagen'), async (req, res) => {
     // Optimiza la imagen (ajusta calidad y tamaño según tus necesidades)
     await sharp(inputPath)
       .resize({ width: 900 }) // Cambia el ancho máximo si lo deseas
-      .jpeg({ quality: 75 })  // O usa .png({ quality: 75 }) según el formato
+      .png({ quality: 75 })  // O usa .png({ quality: 75 }) según el formato
       .toFile(outputPath);
 
     // Elimina el archivo original si quieres ahorrar espacio
@@ -100,10 +100,10 @@ app.get('/uploads/:filename', async (req, res, next) => {
   try {
     const stats = fs.statSync(filePath);
     if (stats.size > 500 * 1024) { // Si es mayor a 500KB, optimiza
-      res.type('image/jpeg');
+      res.type('image/png');
       return sharp(filePath)
         .resize({ width: 900 })
-        .jpeg({ quality: 75 })
+        .png({ quality: 75 })
         .pipe(res);
     } else {
       return res.sendFile(filePath, { root: '.' });
