@@ -9,6 +9,7 @@ import { pool } from './databases/db.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import sharp from 'sharp';
 
 dotenv.config();
 
@@ -56,17 +57,61 @@ app.get('/ping', (req, res) => {
 });
 
 // Ruta para subir imágenes de productos
-app.post('/api/products/upload', upload.single('imagen'), (req, res) => {
-  console.log('Archivo recibido:', req.file);
+app.post('/api/products/upload', upload.single('imagen'), async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'No se subió ninguna imagen' });
   }
-  // Devuelve la URL de la imagen subida
-  res.json({ imageUrl: `/uploads/${req.file.filename}` });
+
+  const inputPath = req.file.path;
+  const outputPath = `uploads/opt_${req.file.filename}`;
+
+  try {
+    // Optimiza la imagen (ajusta calidad y tamaño según tus necesidades)
+    await sharp(inputPath)
+      .resize({ width: 900 }) // Cambia el ancho máximo si lo deseas
+      .jpeg({ quality: 75 })  // O usa .png({ quality: 75 }) según el formato
+      .toFile(outputPath);
+
+    // Elimina el archivo original si quieres ahorrar espacio
+    fs.unlinkSync(inputPath);
+
+    res.json({ imageUrl: `/uploads/opt_${req.file.filename}` });
+  } catch (err) {
+    console.error('Error al optimizar imagen:', err);
+    res.status(500).json({ message: 'Error al procesar la imagen' });
+  }
 });
 
+//  Se quita para que las imagenes funcionen optimizadas
 // Servir la carpeta de imágenes como estática
-app.use('/uploads', express.static('uploads'));
+//app.use('/uploads', express.static('uploads'));
+
+// Nueva ruta para acceder a las imágenes
+app.get('/uploads/:filename', async (req, res, next) => {
+  const { filename } = req.params;
+  const filePath = path.join(uploadDir, filename);
+
+  // Si ya existe la versión optimizada, la servimos
+  if (filename.startsWith('opt_')) {
+    return res.sendFile(filePath, { root: '.' });
+  }
+
+  // Si la imagen es muy grande, la optimizamos al vuelo
+  try {
+    const stats = fs.statSync(filePath);
+    if (stats.size > 500 * 1024) { // Si es mayor a 500KB, optimiza
+      res.type('image/jpeg');
+      return sharp(filePath)
+        .resize({ width: 900 })
+        .jpeg({ quality: 75 })
+        .pipe(res);
+    } else {
+      return res.sendFile(filePath, { root: '.' });
+    }
+  } catch (err) {
+    next();
+  }
+});
 
 // Manejar todas las demás rutas con una respuesta 404
 app.use((req, res, next) => {
