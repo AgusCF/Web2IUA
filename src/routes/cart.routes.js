@@ -6,8 +6,12 @@ import {
   removeCartItem,
   clearCart
 } from '../controllers/cart.controller.js';
+import { verificarToken } from '../middlewares/auth.js';
 
 const router = express.Router();
+
+// Aplica el middleware a todas las rutas de órdenes
+router.use(verificarToken);
 
 router.post('/add', addToCart); // Agregar producto al carrito
 router.get('/:userId', getCart); // Obtener carrito del usuario

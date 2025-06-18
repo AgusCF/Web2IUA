@@ -1,7 +1,11 @@
 import express from 'express';
 import { getAllUsers, getUserById, createUser, updateUser, getUserByTel } from '../controllers/user.Controller.js';
+import { verificarToken } from '../middlewares/auth.js';
 
 const router = express.Router();
+
+// Aplica el middleware a todas las rutas de órdenes
+router.use(verificarToken);
 
 router.get('/', getAllUsers);
 router.get('/by-tel', getUserByTel);

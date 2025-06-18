@@ -6,8 +6,12 @@ import {
   updateProduct,
   deleteProduct
 } from '../controllers/products.controller.js';
+import { verificarToken } from '../middlewares/auth.js';
 
 const router = express.Router();
+
+// Aplica el middleware a todas las rutas de órdenes
+router.use(verificarToken);
 
 router.get('/', getAllProducts); // Obtener todos los productos
 router.get('/:id', getProductById); // Obtener producto por ID

@@ -5,11 +5,15 @@ import routerProducts from "./products.routes.js";
 import routerOrders from "./orders.routes.js";
 import routerCart from "./cart.routes.js";
 import auth  from "../middleware/auth.js";
+import { verificarToken } from '../middlewares/auth.js';
 
 import dotenv from "dotenv";
 dotenv.config();
 
 const router = express.Router();
+
+// Aplica el middleware a todas las rutas de órdenes
+router.use(verificarToken);
 
 //? USUARIOS =============================================
 router.post("/login", autenticarUsuario);
