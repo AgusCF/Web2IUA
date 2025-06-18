@@ -43,6 +43,12 @@
             </main>
         </div>
     </div>
+
+    <!-- Contenedor de Toasts -->
+    <div aria-live="polite" aria-atomic="true" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+        <div id="toast-container"></div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" src="JS/buscador.js"></script>
@@ -50,8 +56,10 @@
     <script type="module" src="JS/authModal.js"></script>
     <script type="module" src="JS/carrito.js"></script>
     <script type="module" src="JS/adminPanel.js"></script>
+    <script type="module" src="JS/toast.js"></script>
     <script type="module">
         import { cargarUsuarios, cargarProductos, cargarOrdenes, editarElemento, verDetalle } from "./JS/adminPanel.js";
+        import { showToast } from "./JS/toast.js";
 
         // Cargar navbar
         fetch('navbar.html')
@@ -62,7 +70,7 @@
         document.addEventListener("DOMContentLoaded", function () {
             const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
             if (!usuario || usuario.role !== "admin") {
-                alert("Acceso denegado. Solo los administradores pueden acceder a esta página.");
+                showToast("Acceso denegado. Solo los administradores pueden acceder a esta página.", "error");
                 window.location.href = "/";
             }
             document.getElementById("logout-btn").onclick = function () {
