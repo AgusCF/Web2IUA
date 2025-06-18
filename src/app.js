@@ -10,8 +10,6 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import sharp from 'sharp';
-import imagemin from 'imagemin';
-import imageminWebp from 'imagemin-webp';
 
 dotenv.config();
 
