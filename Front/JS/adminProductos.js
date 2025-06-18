@@ -6,7 +6,7 @@ const BACKEND_URL = "https://web2iua-back.onrender.com"; // Ajusta si cambia tu 
 
 function getImgUrl(imgPath) {
     if (!imgPath) return '';
-    if (imgPath.startsWith('/uploads/CarruselInicio/')) {
+    if (imgPath.startsWith('/uploads/')) {
         return BACKEND_URL + imgPath;
     }
     return imgPath;

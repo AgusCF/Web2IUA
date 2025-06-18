@@ -5,7 +5,7 @@ import { showToast } from "./toast.js";
 function getImgUrl(imgPath) {
     const BACKEND_URL = "https://web2iua-back.onrender.com";
     if (!imgPath) return '';
-    if (imgPath.startsWith('/uploads/CarruselInicio/')) {
+    if (imgPath.startsWith('/uploads/')) {
         return BACKEND_URL + imgPath;
     }
     return imgPath;
