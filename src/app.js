@@ -62,7 +62,7 @@ app.get('/ping', (req, res) => {
 });
 
 
-app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+//app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 // Ruta para subir imágenes de productos
 app.post('/api/products/upload', upload.single('imagen'), async (req, res) => {
