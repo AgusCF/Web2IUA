@@ -25,6 +25,7 @@ import api from "./api.js";
 
                     if (data.token && data.usuario) {
                         localStorage.setItem("usuarioActual", JSON.stringify(data.usuario));
+                        localStorage.setItem("token", data.token); // Guarda el token
                         const loginModalElem = document.getElementById("loginModal");
                         const loginModal = bootstrap.Modal.getInstance(loginModalElem);
                         loginModal && loginModal.hide();
