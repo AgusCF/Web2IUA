@@ -10,11 +10,18 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import sharp from 'sharp';
+import imagemin from 'imagemin';
+import imageminWebp from 'imagemin-webp';
 
 dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
+
+app.use((req, res, next) => {
+  res.setHeader('Cache-Control', 'public, max-age=31536000');
+  next();
+});
 
 // Antes de configurar multer o usar la carpeta uploads:
 const uploadDir = 'uploads';
@@ -68,8 +75,8 @@ app.post('/api/products/upload', upload.single('imagen'), async (req, res) => {
   try {
     // Optimiza la imagen (ajusta calidad y tamaño según tus necesidades)
     await sharp(inputPath)
-      .resize({ width: 900 }) // Cambia el ancho máximo si lo deseas
-      .png({ quality: 75 })  // O usa .png({ quality: 75 }) según el formato
+      .resize({ width: 600 }) // Reducir el ancho máximo a 600px
+      .toFormat('webp', { quality: 60 }) // Convertir a WebP con calidad 60
       .toFile(outputPath);
 
     // Elimina el archivo original si quieres ahorrar espacio
@@ -102,7 +109,7 @@ app.get('/uploads/:filename', async (req, res, next) => {
     if (stats.size > 500 * 1024) { // Si es mayor a 500KB, optimiza
       res.type('image/webp');
       return sharp(filePath)
-        .resize({ width: 800 })
+        .resize({ width: 600 })
         .toFormat('webp', { quality: 80 })
         .pipe(res);
     } else {
