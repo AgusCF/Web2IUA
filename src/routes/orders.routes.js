@@ -11,14 +11,12 @@ import { verificarUsuario, verificarAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// Aplica el middleware a todas las rutas de órdenes
-router.use(verificarUsuario, verificarAdmin);
-
-router.get('/', getAllOrders); // Obtener todas las órdenes
-router.get('/client=:tel', getOrdersByUser); // Obtener orden por Tel (debe ir antes que /:id sino genera errores)
-router.post('/newOrder', createOrder); // Crear orden (debe ir antes que /:id sino genera errores)
-router.get('/:id', getOrderById); // Obtener orden por ID
-router.put('/:id', updateOrder); // Editar orden
-router.delete('/:id', deleteOrder); // Eliminar orden
+// Rutas de órdenes
+router.get('/', verificarAdmin, getAllOrders); // Solo admin
+router.get('/client=:tel', verificarUsuario, getOrdersByUser); // Usuario autenticado
+router.post('/newOrder', verificarUsuario, createOrder); // Usuario autenticado
+router.get('/:id', verificarUsuario, getOrderById); // Usuario autenticado
+router.put('/:id', verificarAdmin, updateOrder); // Solo admin
+router.delete('/:id', verificarAdmin, deleteOrder); // Solo admin
 
 export default router;
