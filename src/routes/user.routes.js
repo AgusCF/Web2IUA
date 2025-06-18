@@ -1,11 +1,11 @@
 import express from 'express';
 import { getAllUsers, getUserById, createUser, updateUser, getUserByTel } from '../controllers/user.Controller.js';
-import { verificarUsuario, verificarAdmin } from '../middleware/auth.js';
+import { verificarAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
 // Aplica el middleware a todas las rutas de órdenes
-router.use(verificarUsuario, verificarAdmin);
+router.use( , verificarAdmin);
 
 router.get('/', getAllUsers);
 router.get('/by-tel', getUserByTel);
