@@ -1,6 +1,6 @@
 import api from "./api.js";
 import { mostrarCarrito } from "./carrito.js";
-import { showToast } from "./toast.js";
+import { showModalNotificacion } from "./toast.js";
 
 function getImgUrl(imgPath) {
     const BACKEND_URL = "https://web2iua-back.onrender.com";
@@ -20,7 +20,7 @@ function agregarAlCarrito(productId) {
             const modal = new bootstrap.Modal(loginModal);
             modal.show();
         } else {
-            showToast("Debes iniciar sesión para agregar productos al carrito.");
+            showModalNotificacion("Debes iniciar sesión para agregar productos al carrito.");
         }
         return;
     }
@@ -28,7 +28,7 @@ function agregarAlCarrito(productId) {
         .then(res => {
             const user = Array.isArray(res.data) ? res.data[0] : res.data;
             if (!user || !user.id) {
-                showToast("No se pudo identificar el usuario.");
+                showModalNotificacion("No se pudo identificar el usuario.");
                 // Lanzar error para que el .catch lo capture y corte la cadena
                 throw new Error("Usuario no identificado");
             }
@@ -40,8 +40,8 @@ function agregarAlCarrito(productId) {
         })
         .then(res => {
             if (res && res.data && res.data.message) {
-                showToast(res.data.message);
-                // Mostrar el carrito después del showToast
+                showModalNotificacion(res.data.message);
+                // Mostrar el carrito después del showModalNotificacion
                 mostrarCarrito();
                 const carritoModal = document.getElementById("carritoModal");
                 if (carritoModal && window.bootstrap) {
@@ -51,7 +51,7 @@ function agregarAlCarrito(productId) {
             }
         })
         .catch((err) => {
-            showToast("Error al agregar al carrito.");
+            showModalNotificacion("Error al agregar al carrito.");
             console.error(err);
         });
 }
