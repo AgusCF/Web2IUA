@@ -75,7 +75,7 @@
         document.addEventListener("DOMContentLoaded", function () {
             const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
             if (!usuario || usuario.role !== "admin") {
-                showToast("Acceso denegado. Solo los administradores pueden acceder a esta página."");
+                showToast("Acceso denegado. Solo los administradores pueden acceder a esta página.");
                 window.location.href = "/";
             }
             document.getElementById("logout-btn").onclick = function () {
