@@ -2,7 +2,7 @@ import api from "./api.js";
 import { showToast } from "./toast.js";
 
 function getImgUrl(imgPath) {
-    const BACKEND_URL = "https://web2iua-back.onrender.com";
+    const BACKEND_URL = "https://web2iua-back.onrender.com"; // Corregir URL
     if (!imgPath) return '';
     if (imgPath.startsWith('/uploads/')) {
         return BACKEND_URL + imgPath;
@@ -11,7 +11,7 @@ function getImgUrl(imgPath) {
 }
 
 export async function mostrarCarrito() {
-    const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
+    const usuario = JSON.parse(localStorage.getItem("usuarioActual")); // Corregir parseo
     const carritoContenido = document.getElementById("carrito-contenido");
     if (!usuario) {
         carritoContenido.innerHTML = "<div class='text-danger'>Debes iniciar sesión para ver tu carrito.</div>";
@@ -92,8 +92,15 @@ export async function mostrarCarrito() {
             // Buscar el item actual
             const item = items.find(i => i.id == id);
             if (!item) return;
+            // Verificar si hay stock disponible
+            if (item.quantity >= item.stock) {
+                showToast("No hay suficiente stock disponible");
+                return;
+            }
             const nuevaCantidad = item.quantity + 1;
             await api.put(`/cart/update/${id}`, { quantity: nuevaCantidad });
+            localStorage.setItem('carrito', JSON.stringify(items)); // Corregir seteo de carrito
+            renderizarCarrito();
             mostrarCarrito();
         };
     });
@@ -105,6 +112,8 @@ export async function mostrarCarrito() {
             if (!item) return;
             const nuevaCantidad = item.quantity - 1;
             await api.put(`/cart/update/${id}`, { quantity: nuevaCantidad });
+            localStorage.setItem('carrito', JSON.stringify(items)); // Corregir seteo de carrito
+            renderizarCarrito();
             mostrarCarrito();
         };
     });
@@ -112,6 +121,8 @@ export async function mostrarCarrito() {
         btn.onclick = async function() {
             const id = this.getAttribute('data-id');
             await api.delete(`/cart/remove/${id}`);
+            localStorage.setItem('carrito', JSON.stringify(items)); // Corregir seteo de carrito
+            renderizarCarrito();
             mostrarCarrito();
         };
     });
@@ -119,6 +130,8 @@ export async function mostrarCarrito() {
     if (btnVaciar) {
         btnVaciar.onclick = async function() {
             await api.delete(`/cart/clear/${user.id}`);
+            localStorage.setItem('carrito', JSON.stringify([])); // Corregir seteo de carrito
+            renderizarCarrito();
             mostrarCarrito();
         };
     }
@@ -140,6 +153,8 @@ export async function mostrarCarrito() {
                 await api.post('/orders/newOrder', pedido);
                 showToast("Pedido simulado realizado");
                 await api.delete(`/cart/clear/${user.id}`);
+                localStorage.setItem('carrito', JSON.stringify([])); // Corregir seteo de carrito
+                renderizarCarrito();
                 mostrarCarrito();
             } catch (err) {
                 showToast("Error al realizar el pedido");
@@ -164,3 +179,47 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }, 100);
 });
+
+function renderizarCarrito() {
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    const contenedor = document.getElementById('carrito-contenido');
+    if (!contenedor) return;
+
+    if (carrito.length === 0) {
+        contenedor.innerHTML = '<p class="text-center text-muted">El carrito está vacío.</p>';
+        return;
+    }
+
+    let total = 0;
+    let html = '<ul class="list-group mb-3">';
+    carrito.forEach((producto, idx) => {
+        total += producto.precio * producto.cantidad;
+        html += `
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>${producto.nombre}</strong><br>
+                    <small>Cantidad: ${producto.cantidad}</small>
+                </div>
+                <div>
+                    $${(producto.precio * producto.cantidad).toFixed(2)}
+                    <button class="btn btn-sm btn-danger ms-2" onclick="eliminarDelCarrito(${idx})">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            </li>
+        `;
+    });
+    html += `</ul>
+        <div class="text-end fw-bold">Total: $${total.toFixed(2)}</div>
+    `;
+    contenedor.innerHTML = html;
+}
+
+function eliminarDelCarrito(idx) {
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    if (carrito.length > idx) {
+        carrito.splice(idx, 1);
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        renderizarCarrito();
+    }
+}
