@@ -1,6 +1,6 @@
 import api from "./api.js";
 import { mostrarCarrito } from "./carrito.js";
-import { showModalNotificacion } from "./toast.js";
+import { showToast } from "./toast.js";
 
 function getImgUrl(imgPath) {
     const BACKEND_URL = "https://web2iua-back.onrender.com";
@@ -20,7 +20,7 @@ function agregarAlCarrito(productId) {
             const modal = new bootstrap.Modal(loginModal);
             modal.show();
         } else {
-            showModalNotificacion("Debes iniciar sesión para agregar productos al carrito.");
+            showToast("Debes iniciar sesión para agregar productos al carrito.");
         }
         return;
     }
@@ -28,7 +28,7 @@ function agregarAlCarrito(productId) {
         .then(res => {
             const user = Array.isArray(res.data) ? res.data[0] : res.data;
             if (!user || !user.id) {
-                showModalNotificacion("No se pudo identificar el usuario.");
+                showToast("No se pudo identificar el usuario.");
                 return;
             }
             return api.post("/cart/add", {
@@ -50,7 +50,7 @@ function agregarAlCarrito(productId) {
             }
         })
         .catch(() => {
-            showModalNotificacion("Error al agregar al carrito.");
+            showToast("Error al agregar al carrito.");
         });
 }
 

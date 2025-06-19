@@ -104,3 +104,31 @@ html {
 .zoom-link:hover .zoom-img {
   transform: scale(1.08);
 }
+/* Estilo para los toasts */
+.toast {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 300px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.toast .toast-body {
+  margin-right: 16px;
+  color: #333;
+}
+
+.toast .btn-close {
+  background-color: transparent;
+  border: none;
+  color: #6c757d;
+}
+
+.toast .btn-close:hover {
+  color: #5a6268;
+}

@@ -1,5 +1,5 @@
 import api from "./api.js";
-import { showModalNotificacion } from "./toast.js";
+import { showToast } from "./toast.js";
 
 function getImgUrl(imgPath) {
     const BACKEND_URL = "https://web2iua-back.onrender.com";
@@ -138,11 +138,11 @@ export async function mostrarCarrito() {
                 };
                 // Ajusta la ruta según tu backend
                 await api.post('/orders/newOrder', pedido);
-                showModalNotificacion("Pedido simulado realizado");
+                showToast("Pedido simulado realizado");
                 await api.delete(`/cart/clear/${user.id}`);
                 mostrarCarrito();
             } catch (err) {
-                showModalNotificacion("Error al realizar el pedido");
+                showToast("Error al realizar el pedido");
             }
         };
     }

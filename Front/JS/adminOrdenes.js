@@ -1,6 +1,6 @@
 import api from "./api.js";
 import { mostrarModal } from "./adminModal.js";
-import { showModalNotificacion } from "./toast.js"; 
+import { showToast } from "./toast.js"; 
 
 export async function cargarOrdenes(adminContent) {
     adminContent.innerHTML = "<div class='text-center my-4'>Cargando órdenes...</div>";
@@ -144,15 +144,15 @@ export function editarOrden(id) {
                         total: o.total,
                         state: nuevoEstado
                     });
-                    showModalNotificacion("Estado modificado avisado");
+                    showToast("Estado modificado avisado");
                     bsModal.hide();
                 } else {
-                    showModalNotificacion("No hay cambios en el estado.");
+                    showToast("No hay cambios en el estado.");
                 }
             };
             // Handler para contactar cliente
             modal.querySelector('#btn-contactar-cliente').onclick = () => {
-                showModalNotificacion("Cliente contactado");
+                showToast("Cliente contactado");
             };
         });
     });
@@ -206,7 +206,7 @@ export function verDetalleOrden(id) {
         mostrarModal('Detalle de Orden', html, (modal, bsModal) => {
             // Handler para contactar cliente
             modal.querySelector('#btn-contactar-cliente').onclick = () => {
-                showModalNotificacion("Cliente contactado");
+                showToast("Cliente contactado");
             };
         });
     });
