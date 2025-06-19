@@ -29,7 +29,8 @@ function agregarAlCarrito(productId) {
             const user = Array.isArray(res.data) ? res.data[0] : res.data;
             if (!user || !user.id) {
                 showToast("No se pudo identificar el usuario.");
-                return;
+                // Lanzar error para que el .catch lo capture y corte la cadena
+                throw new Error("Usuario no identificado");
             }
             return api.post("/cart/add", {
                 user_id: user.id,
@@ -49,8 +50,9 @@ function agregarAlCarrito(productId) {
                 }
             }
         })
-        .catch(() => {
+        .catch((err) => {
             showToast("Error al agregar al carrito.");
+            console.error(err);
         });
 }
 
