@@ -180,6 +180,50 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 100);
 });
 
+// Agregar producto al carrito
+function agregarAlCarrito(producto) {
+    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    // Buscar si ya existe el producto
+    const idx = carrito.findIndex(p => p.id === producto.id);
+    if (idx !== -1) {
+        carrito[idx].cantidad += 1;
+    } else {
+        producto.cantidad = 1;
+        carrito.push(producto);
+    }
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+    renderizarCarrito();
+}
+
+// Eliminar un producto (por índice)
+function eliminarDelCarrito(idx) {
+    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    carrito.splice(idx, 1);
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+    renderizarCarrito();
+}
+
+// Restar cantidad de un producto
+function restarDelCarrito(id) {
+    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    const idx = carrito.findIndex(p => p.id === id);
+    if (idx !== -1) {
+        carrito[idx].cantidad -= 1;
+        if (carrito[idx].cantidad <= 0) {
+            carrito.splice(idx, 1);
+        }
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        renderizarCarrito();
+    }
+}
+
+// Vaciar el carrito
+function vaciarCarrito() {
+    localStorage.removeItem('carrito');
+    renderizarCarrito();
+}
+
+// Renderizar el carrito (como ya te pasé antes)
 function renderizarCarrito() {
     const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
     const contenedor = document.getElementById('carrito-contenido');
@@ -199,6 +243,7 @@ function renderizarCarrito() {
                 <div>
                     <strong>${producto.nombre}</strong><br>
                     <small>Cantidad: ${producto.cantidad}</small>
+                    <button class="btn btn-sm btn-secondary ms-2" onclick="restarDelCarrito(${producto.id})">-</button>
                 </div>
                 <div>
                     $${(producto.precio * producto.cantidad).toFixed(2)}
@@ -211,15 +256,7 @@ function renderizarCarrito() {
     });
     html += `</ul>
         <div class="text-end fw-bold">Total: $${total.toFixed(2)}</div>
+        <button class="btn btn-warning mt-2" onclick="vaciarCarrito()">Vaciar carrito</button>
     `;
     contenedor.innerHTML = html;
-}
-
-function eliminarDelCarrito(idx) {
-    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    if (carrito.length > idx) {
-        carrito.splice(idx, 1);
-        localStorage.setItem('carrito', JSON.stringify(carrito));
-        renderizarCarrito();
-    }
 }
