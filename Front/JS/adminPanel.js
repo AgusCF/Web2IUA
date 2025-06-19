@@ -1,14 +1,14 @@
 import { verDetalleUsuario, editarUsuario, cargarUsuarios } from "./adminUsuarios.js";
 import { verDetalleProducto, editarProducto, cargarProductos } from "./adminProductos.js";
 import { verDetalleOrden, editarOrden, cargarOrdenes } from "./adminOrdenes.js";
-import { showToast } from "./toast.js";
+import { showModalNotificacion } from "./toast.js";
 
 // Función para cargar el panel de administración
 window.cargarPanelAdmin = function() {
     if (tipo === "usuarios") return cargarUsuarios(document.getElementById("admin-content"));
     if (tipo === "productos") return cargarProductos(document.getElementById("admin-content"));
     if (tipo === "ordenes") return cargarOrdenes(document.getElementById("admin-content"));
-    showToast("Tipo de panel no soportado");
+    showModalNotificacion("Tipo de panel no soportado");
 }
 
 // Definir como funciones normales
@@ -16,14 +16,14 @@ function verDetalle(tipo, id) {
     if (tipo === "usuario") return verDetalleUsuario(id);
     if (tipo === "producto") return verDetalleProducto(id);
     if (tipo === "orden") return verDetalleOrden(id);
-    showToast("Tipo no soportado");
+    showModalNotificacion("Tipo no soportado");
 }
 
 function editarElemento(tipo, id) {
     if (tipo === "usuario") return editarUsuario(id);
     if (tipo === "producto") return editarProducto(id);
     if (tipo === "orden") return editarOrden(id);
-    showToast("Tipo no soportado");
+    showModalNotificacion("Tipo no soportado");
 }
 
 // Asignar a window para los onclick dinámicos

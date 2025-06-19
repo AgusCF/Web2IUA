@@ -108,7 +108,19 @@
     </div>
 </div>
 
-<!-- Contenedor de Toasts centrado -->
-<div aria-live="polite" aria-atomic="true" class="position-fixed top-50 start-50 translate-middle" style="z-index: 1080;">
-    <div id="toast-container"></div>
+<!-- Modal de Notificación -->
+<div class="modal fade" id="notificacionModal" tabindex="-1" aria-labelledby="notificacionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="notificacionModalLabel">Notificación</h5>
+        </div>
+        <div class="modal-body" id="notificacionModalBody">
+            <!-- Mensaje dinámico -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+        </div>
+        </div>
+    </div>
 </div>

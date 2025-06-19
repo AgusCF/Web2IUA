@@ -21,3 +21,10 @@ export function showToast(message, type = "info") {
     toast.show();
     toastEl.addEventListener("hidden.bs.toast", () => toastEl.remove());
 }
+
+export function showModalNotificacion(mensaje, titulo = "Notificación") {
+  document.getElementById('notificacionModalLabel').textContent = titulo;
+  document.getElementById('notificacionModalBody').textContent = mensaje;
+  const modal = new bootstrap.Modal(document.getElementById('notificacionModal'));
+  modal.show();
+}
