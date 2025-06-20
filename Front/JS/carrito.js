@@ -18,13 +18,16 @@ export async function mostrarCarrito() {
     }
     // Obtener el id del usuario
     const resUser = await api.get(`/users/by-tel?tel=${usuario.tel || usuario.telefono}`);
+    console.log("Usuario obtenido:", resUser.data);
     const user = Array.isArray(resUser.data) ? resUser.data[0] : resUser.data;
     if (!user || !user.id) {
         carritoContenido.innerHTML = "<div class='text-danger'>No se pudo identificar el usuario.</div>";
         return;
     }
     // Obtener el carrito
+    console.log("Usuario para carrito:", user);
     const res = await api.get(`/cart/${user.id}`);
+    console.log("Respuesta del carrito:", res.data);
     const items = res.data;
     if (!items.length) {
         carritoContenido.innerHTML = "<p>No tienes productos en el carrito.</p>";
