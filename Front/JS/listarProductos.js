@@ -38,16 +38,18 @@ function agregarAlCarrito(productId) {
                 quantity: 1
             });
         })
-        .then(async res => {s => {
+        .then(res => {
             if (res && res.data && res.data.message) {
                 showModalNotificacion(res.data.message);
                 // Esperar a que mostrarCarrito termine antes de mostrar el modal
-                await mostrarCarrito();
-                const carritoModal = document.getElementById("carritoModal");
-                if (carritoModal && window.bootstrap) {
-                    const modal = new bootstrap.Modal(carritoModal);
-                    modal.show();
-                }
+                return mostrarCarrito();
+            }
+        })
+        .then(() => {
+            const carritoModal = document.getElementById("carritoModal");
+            if (carritoModal && window.bootstrap) {
+                const modal = new bootstrap.Modal(carritoModal);
+                modal.show();
             }
         })
         .catch((err) => {
