@@ -117,27 +117,27 @@ export async function mostrarCarrito() {
             const stock = stockMap[item.product_id];
             const nuevaCantidad = item.quantity + 1;
             if (nuevaCantidad > stock) {
-                showModalNotificacion("No puedes agregar más de lo disponible en stock.");
+                showModalNotificacion("No puedes agregar más de lo disponible en stock.", "Notificación", false);
                 return;
             }
             await api.put(`/cart/update/${id}`, { quantity: nuevaCantidad });
             await mostrarCarrito();
-            showModalNotificacion(`Agregaste ${item.name} al carrito`);
+            showModalNotificacion(`Agregaste ${item.name} al carrito`, "Notificación", false);
         } else if (btn.classList.contains("btn-restar")) {
             const item = items.find(i => i.id == id);
             if (!item) return;
             const nuevaCantidad = item.quantity - 1;
             await api.put(`/cart/update/${id}`, { quantity: nuevaCantidad });
             await mostrarCarrito();
-            showModalNotificacion(`Restaste ${item.name} del carrito`);
+            showModalNotificacion(`Restaste ${item.name} del carrito`, "Notificación", false);
         } else if (btn.classList.contains("btn-eliminar")) {
             await api.delete(`/cart/remove/${id}`);
             await mostrarCarrito();
-            showModalNotificacion("Producto eliminado del carrito");
+            showModalNotificacion("Producto eliminado del carrito", "Notificación", false);
         } else if (btn.id === "btn-vaciar-carrito") {
             await api.delete(`/cart/clear/${user.id}`);
             await mostrarCarrito();
-            showModalNotificacion("Carrito vaciado");
+            showModalNotificacion("Carrito vaciado", "Notificación", false);
         } else if (btn.id === "btn-realizar-pedido") {
             try {
                 const pedido = {
@@ -150,12 +150,12 @@ export async function mostrarCarrito() {
                     total: items.reduce((acc, item) => acc + item.price * item.quantity, 0)
                 };
                 await api.post('/orders/newOrder', pedido);
-                showModalNotificacion("Pedido simulado realizado");
+                showModalNotificacion("Pedido simulado realizado", "Notificación", false);
                 await api.delete(`/cart/clear/${user.id}`);
                 await mostrarCarrito();
-                showModalNotificacion("Carrito vaciado tras realizar el pedido");
+                showModalNotificacion("Carrito vaciado tras realizar el pedido", "Notificación", false);
             } catch (err) {
-                showModalNotificacion("Error al realizar el pedido");
+                showModalNotificacion("Error al realizar el pedido", "ERROR", false);
             }
         }
     };

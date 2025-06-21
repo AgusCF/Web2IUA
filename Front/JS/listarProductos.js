@@ -20,7 +20,7 @@ function agregarAlCarrito(productId) {
             const modal = new bootstrap.Modal(loginModal);
             modal.show();
         } else {
-            showModalNotificacion("Debes iniciar sesión para agregar productos al carrito.");
+            showModalNotificacion("Debes iniciar sesión para agregar productos al carrito.", "Notificación", false);
         }
         return;
     }
@@ -28,7 +28,7 @@ function agregarAlCarrito(productId) {
         .then(res => {
             const user = Array.isArray(res.data) ? res.data[0] : res.data;
             if (!user || !user.id) {
-                showModalNotificacion("No se pudo identificar el usuario.");
+                showModalNotificacion("No se pudo identificar el usuario.", "Notificación", false);
                 // Lanzar error para que el .catch lo capture y corte la cadena
                 throw new Error("Usuario no identificado");
             }
@@ -40,7 +40,7 @@ function agregarAlCarrito(productId) {
         })
         .then(res => {
             if (res && res.data && res.data.message) {
-                showModalNotificacion(res.data.message);
+                showModalNotificacion(res.data.message, "Notificación", false);
                 // Esperar a que mostrarCarrito termine antes de mostrar el modal
                 return mostrarCarrito();
             }
@@ -53,7 +53,7 @@ function agregarAlCarrito(productId) {
             }
         })
         .catch((err) => {
-            showModalNotificacion("Error al agregar al carrito.");
+            showModalNotificacion("Error al agregar al carrito.", "ERROR", false);
             console.error(err);
         });
 }

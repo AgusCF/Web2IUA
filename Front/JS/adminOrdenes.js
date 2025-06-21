@@ -144,15 +144,15 @@ export function editarOrden(id) {
                         total: o.total,
                         state: nuevoEstado
                     });
-                    showModalNotificacion("Estado modificado avisado");
+                    showModalNotificacion("Estado modificado avisado", "Notificación");
                     bsModal.hide();
                 } else {
-                    showModalNotificacion("No hay cambios en el estado.");
+                    showModalNotificacion("No hay cambios en el estado.", "Notificación");
                 }
             };
             // Handler para contactar cliente
             modal.querySelector('#btn-contactar-cliente').onclick = () => {
-                showModalNotificacion("Cliente contactado");
+                showModalNotificacion("Cliente contactado", "Notificación");
             };
         });
     });
@@ -206,7 +206,7 @@ export function verDetalleOrden(id) {
         mostrarModal('Detalle de Orden', html, (modal, bsModal) => {
             // Handler para contactar cliente
             modal.querySelector('#btn-contactar-cliente').onclick = () => {
-                showModalNotificacion("Cliente contactado");
+                showModalNotificacion("Cliente contactado", "Notificación");
             };
         });
     });

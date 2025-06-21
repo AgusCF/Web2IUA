@@ -8,7 +8,7 @@ window.cargarPanelAdmin = function() {
     if (tipo === "usuarios") return cargarUsuarios(document.getElementById("admin-content"));
     if (tipo === "productos") return cargarProductos(document.getElementById("admin-content"));
     if (tipo === "ordenes") return cargarOrdenes(document.getElementById("admin-content"));
-    showModalNotificacion("Tipo de panel no soportado");
+    showModalNotificacion("Tipo de panel no soportado", "Notificación");
 }
 
 // Definir como funciones normales
@@ -16,14 +16,14 @@ function verDetalle(tipo, id) {
     if (tipo === "usuario") return verDetalleUsuario(id);
     if (tipo === "producto") return verDetalleProducto(id);
     if (tipo === "orden") return verDetalleOrden(id);
-    showModalNotificacion("Tipo no soportado");
+    showModalNotificacion("Tipo no soportado", "Notificación");
 }
 
 function editarElemento(tipo, id) {
     if (tipo === "usuario") return editarUsuario(id);
     if (tipo === "producto") return editarProducto(id);
     if (tipo === "orden") return editarOrden(id);
-    showModalNotificacion("Tipo no soportado");
+    showModalNotificacion("Tipo no soportado", "Notificación");
 }
 
 // Asignar a window para los onclick dinámicos
