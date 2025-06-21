@@ -25,6 +25,8 @@ export async function mostrarCarrito() {
     }
     // Obtener el carrito
     const res = await api.get(`/cart/${user.id}`);
+    console.log("res:", res);
+    console.log("Carrito:", res.data);
     const items = res.data;
     if (!items.length) {
         carritoContenido.innerHTML = "<p>No tienes productos en el carrito.</p>";
