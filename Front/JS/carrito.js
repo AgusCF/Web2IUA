@@ -24,11 +24,7 @@ export async function mostrarCarrito() {
         return;
     }
     // Obtener el carrito
-    console.log("Usuario:", user);
-    console.log("Obteniendo carrito para el usuario:", user.id);
     const res = await api.get(`/cart/${user.id}`);
-    console.log("res:", res);
-    console.log("Carrito:", res.data);
     const items = res.data;
     if (!items.length) {
         carritoContenido.innerHTML = "<p>No tienes productos en el carrito.</p>";
@@ -97,9 +93,11 @@ export async function mostrarCarrito() {
     `;
 
     // Handlers para sumar/restar/eliminar/vaciar
-    carritoContenido.querySelectorAll('.btn-sumar').forEach(btn => {
-        btn.onclick = async function() {
-            const id = this.getAttribute('data-id');
+    carritoContenido.onclick = async function(e) {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+        const id = btn.getAttribute("data-id");
+        if (btn.classList.contains("btn-sumar")) {
             const item = items.find(i => i.id == id);
             if (!item) return;
             const stock = stockMap[item.product_id];
@@ -110,37 +108,19 @@ export async function mostrarCarrito() {
             }
             await api.put(`/cart/update/${id}`, { quantity: nuevaCantidad });
             mostrarCarrito();
-        };
-    });
-    carritoContenido.querySelectorAll('.btn-restar').forEach(btn => {
-        btn.onclick = async function() {
-            const id = this.getAttribute('data-id');
-            // Buscar el item actual
+        } else if (btn.classList.contains("btn-restar")) {
             const item = items.find(i => i.id == id);
             if (!item) return;
             const nuevaCantidad = item.quantity - 1;
             await api.put(`/cart/update/${id}`, { quantity: nuevaCantidad });
             mostrarCarrito();
-        };
-    });
-    carritoContenido.querySelectorAll('.btn-eliminar').forEach(btn => {
-        btn.onclick = async function() {
-            const id = this.getAttribute('data-id');
+        } else if (btn.classList.contains("btn-eliminar")) {
             await api.delete(`/cart/remove/${id}`);
             mostrarCarrito();
-        };
-    });
-    const btnVaciar = carritoContenido.querySelector('#btn-vaciar-carrito');
-    if (btnVaciar) {
-        btnVaciar.onclick = async function() {
+        } else if (btn.id === "btn-vaciar-carrito") {
             await api.delete(`/cart/clear/${user.id}`);
             mostrarCarrito();
-        };
-    }
-    const btnRealizarPedido = carritoContenido.querySelector('#btn-realizar-pedido');
-    if (btnRealizarPedido) {
-        btnRealizarPedido.onclick = async function() {
-            // Simulación de grabado de orden
+        } else if (btn.id === "btn-realizar-pedido") {
             try {
                 const pedido = {
                     user_id: user.id,
@@ -151,7 +131,6 @@ export async function mostrarCarrito() {
                     })),
                     total
                 };
-                // Ajusta la ruta según tu backend
                 await api.post('/orders/newOrder', pedido);
                 showToast("Pedido simulado realizado");
                 await api.delete(`/cart/clear/${user.id}`);
@@ -159,8 +138,8 @@ export async function mostrarCarrito() {
             } catch (err) {
                 showToast("Error al realizar el pedido");
             }
-        };
-    }
+        }
+    };
 }
 
 document.addEventListener("DOMContentLoaded", function () {
