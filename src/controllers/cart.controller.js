@@ -35,6 +35,12 @@ export const getCart = async (req, res) => {
     if (!userId || userId === 'undefined') {
         return res.status(400).json({ message: 'ID de usuario es requerido' });
     }
+
+    // Mensaje de prueba para corroborar ejecución
+    return res.json({ message: 'La función getCart se está ejecutando correctamente', userId });
+
+    // El resto del código quedaría comentado o eliminado temporalmente
+    /*
     try {
         const result = await pool.query(
         `SELECT c.id, c.product_id, c.quantity, p.name, p.price, p.img
@@ -49,6 +55,7 @@ export const getCart = async (req, res) => {
         console.error('Error al obtener el carrito:', error);
         res.status(500).json({ message: 'Error al obtener el carrito' });
     }
+    */
 };
 
 // Actualizar cantidad de un producto en el carrito
