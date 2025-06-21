@@ -11,7 +11,7 @@ function getImgUrl(imgPath) {
     return imgPath;
 }
 
-function agregarAlCarrito(productId) {
+async function agregarAlCarrito(productId) {
     const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
     if (!usuario) {
         // Mostrar el modal de login si no está logueado
@@ -24,38 +24,60 @@ function agregarAlCarrito(productId) {
         }
         return;
     }
-    api.get(`/users/by-tel?tel=${usuario.tel || usuario.telefono}`)
-        .then(res => {
-            const user = Array.isArray(res.data) ? res.data[0] : res.data;
-            if (!user || !user.id) {
-                showModalNotificacion("No se pudo identificar el usuario.", "Notificación", false);
-                // Lanzar error para que el .catch lo capture y corte la cadena
-                throw new Error("Usuario no identificado");
-            }
-            return api.post("/cart/add", {
+
+    try {
+        // 1. Obtener usuario
+        const resUser = await api.get(`/users/by-tel?tel=${usuario.tel || usuario.telefono}`);
+        const user = Array.isArray(resUser.data) ? resUser.data[0] : resUser.data;
+        if (!user || !user.id) {
+            showModalNotificacion("No se pudo identificar el usuario.", "Notificación", false);
+            return;
+        }
+
+        // 2. Obtener el carrito actual del usuario
+        const resCart = await api.get(`/cart/${user.id}`);
+        const items = resCart.data || [];
+
+        // 3. Verificar si el producto ya está en el carrito
+        const itemEnCarrito = items.find(item => item.product_id == productId);
+
+        // 4. Obtener el stock actual del producto
+        const resProd = await api.get(`/products/${productId}`);
+        const stock = resProd.data.stock;
+
+        let cantidadActual = itemEnCarrito ? itemEnCarrito.quantity : 0;
+        let cantidadAAgregar = 1;
+        if (cantidadActual + cantidadAAgregar > stock) {
+            showModalNotificacion("No puedes agregar más de lo disponible en stock.", "Notificación", false);
+            return;
+        }
+
+        // 5. Agregar o actualizar el producto en el carrito
+        if (itemEnCarrito) {
+            // Actualizar cantidad
+            await api.put(`/cart/update/${itemEnCarrito.id}`, { quantity: cantidadActual + cantidadAAgregar });
+            showModalNotificacion("Cantidad actualizada en el carrito.", "Notificación", false);
+        } else {
+            // Agregar nuevo producto
+            await api.post("/cart/add", {
                 user_id: user.id,
                 product_id: productId,
-                quantity: 1
+                quantity: cantidadAAgregar
             });
-        })
-        .then(res => {
-            if (res && res.data && res.data.message) {
-                showModalNotificacion(res.data.message, "Notificación", false);
-                // Esperar a que mostrarCarrito termine antes de mostrar el modal
-                return mostrarCarrito();
-            }
-        })
-        .then(() => {
-            const carritoModal = document.getElementById("carritoModal");
-            if (carritoModal && window.bootstrap) {
-                const modal = new bootstrap.Modal(carritoModal);
-                modal.show();
-            }
-        })
-        .catch((err) => {
-            showModalNotificacion("Error al agregar al carrito.", "ERROR", false);
-            console.error(err);
-        });
+            showModalNotificacion("Producto agregado al carrito.", "Notificación", false);
+        }
+
+        // Refrescar el carrito y mostrar modal
+        await mostrarCarrito();
+        const carritoModal = document.getElementById("carritoModal");
+        if (carritoModal && window.bootstrap) {
+            const modal = new bootstrap.Modal(carritoModal);
+            modal.show();
+        }
+    } catch (err) {
+        showModalNotificacion("Error al agregar al carrito.", "ERROR", false);
+        console.error(err);
+    }
 }
 
 function renderProductos(productos) {
