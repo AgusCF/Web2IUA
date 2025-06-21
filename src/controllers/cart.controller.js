@@ -41,6 +41,7 @@ export const getCart = async (req, res) => {
         WHERE c.user_id = $1`,
         [userId]
         );
+        console.log('Carrito obtenido:', result.rows);
         res.json(result.rows);
     } catch (error) {
         console.error('Error al obtener el carrito:', error);
