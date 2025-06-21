@@ -107,19 +107,19 @@ export async function mostrarCarrito() {
                 return;
             }
             await api.put(`/cart/update/${id}`, { quantity: nuevaCantidad });
-            await mostrarCarrito();
+            await showToast(`Agregaste ${item.name} al carrito`);
         } else if (btn.classList.contains("btn-restar")) {
             const item = items.find(i => i.id == id);
             if (!item) return;
             const nuevaCantidad = item.quantity - 1;
             await api.put(`/cart/update/${id}`, { quantity: nuevaCantidad });
-            await mostrarCarrito();
+            await showToast(`Restaste ${item.name} del carrito`);
         } else if (btn.classList.contains("btn-eliminar")) {
             await api.delete(`/cart/remove/${id}`);
-            await mostrarCarrito();
+            await showToast("Producto eliminado del carrito");
         } else if (btn.id === "btn-vaciar-carrito") {
             await api.delete(`/cart/clear/${user.id}`);
-            await mostrarCarrito();
+            await showToast("Carrito vaciado");
         } else if (btn.id === "btn-realizar-pedido") {
             try {
                 const pedido = {
@@ -134,11 +134,12 @@ export async function mostrarCarrito() {
                 await api.post('/orders/newOrder', pedido);
                 showToast("Pedido simulado realizado");
                 await api.delete(`/cart/clear/${user.id}`);
-                await mostrarCarrito();
+                await showToast("Carrito vaciado tras realizar el pedido");
             } catch (err) {
                 showToast("Error al realizar el pedido");
             }
         }
+        mostrarCarrito()
     };
 }
 
