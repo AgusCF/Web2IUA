@@ -132,8 +132,7 @@ html {
 .toast .btn-close:hover {
   color: #5a6268;
 }
-button:disabled {
-    background-color: red;
-    color: white; /* Opcional: para mejor contraste */
-    cursor: not-allowed;
+.btn-danger {
+    background-color: red !important;
+    color: white !important;
 }
