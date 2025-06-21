@@ -24,6 +24,8 @@ export async function mostrarCarrito() {
         return;
     }
     // Obtener el carrito
+    console.log("Usuario:", user);
+    console.log("Obteniendo carrito para el usuario:", user.id);
     const res = await api.get(`/cart/${user.id}`);
     console.log("res:", res);
     console.log("Carrito:", res.data);
