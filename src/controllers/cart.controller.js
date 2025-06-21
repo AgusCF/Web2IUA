@@ -30,7 +30,9 @@ export const addToCart = async (req, res) => {
 // Obtener carrito del usuario
 export const getCart = async (req, res) => {
     const { userId } = req.params;
-    if (!userId) {
+    console.log('Obteniendo carrito para el usuario:', userId);
+    // Validar que se haya pasado el userId
+    if (!userId || userId === 'undefined') {
         return res.status(400).json({ message: 'ID de usuario es requerido' });
     }
     try {
