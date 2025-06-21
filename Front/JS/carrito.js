@@ -71,7 +71,7 @@ export async function mostrarCarrito() {
                                 <div class="d-flex justify-content-center align-items-center">
                                     <button class="btn btn-sm btn-outline-secondary btn-restar" data-id="${item.id}" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
                                     <span class="mx-2">${item.quantity}</span>
-                                    <button class="btn btn-sm btn-outline-secondary btn-sumar ${item.quantity >= stock ? 'btn-danger text-white' : ''}" data-id="${item.id}" ${deshabilitarSumar}>+</button>
+                                    <button class="btn btn-sm btn-outline-secondary btn-sumar ${item.quantity >= stock ? 'btn-danger text-red' : ''}" data-id="${item.id}" ${deshabilitarSumar}>+</button>
                                 </div>
                             </td>
                             <td>$${subtotal}</td>
