@@ -10,27 +10,18 @@ function getImgUrl(imgPath) {
     return imgPath;
 }
 
-export async function mostrarCarrito() {
+// Obtiene los datos del carrito y el stock de cada producto
+export async function obtenerDatosCarrito() {
     const usuario = JSON.parse(localStorage.getItem("usuarioActual"));
-    const carritoContenido = document.getElementById("carrito-contenido");
-    if (!usuario) {
-        carritoContenido.innerHTML = "<div class='text-danger'>Debes iniciar sesión para ver tu carrito.</div>";
-        return;
-    }
-    // Obtener el id del usuario
+    if (!usuario) return { user: null, items: [], stockMap: {} };
+
     const resUser = await api.get(`/users/by-tel?tel=${usuario.tel || usuario.telefono}`);
     const user = Array.isArray(resUser.data) ? resUser.data[0] : resUser.data;
-    if (!user || !user.id) {
-        carritoContenido.innerHTML = "<div class='text-danger'>No se pudo identificar el usuario.</div>";
-        return;
-    }
-    // Obtener el carrito
+    if (!user || !user.id) return { user: null, items: [], stockMap: {} };
+
     const res = await api.get(`/cart/${user.id}`);
     const items = res.data;
-    if (!items.length) {
-        carritoContenido.innerHTML = "<p>No tienes productos en el carrito.</p>";
-        return;
-    }
+    if (!items.length) return { user, items: [], stockMap: {} };
 
     // Obtener el stock de cada producto en paralelo
     const stockMap = {};
@@ -39,6 +30,16 @@ export async function mostrarCarrito() {
         stockMap[item.product_id] = resProd.data.stock;
     }));
 
+    return { user, items, stockMap };
+}
+
+// Renderiza el HTML del carrito
+export function renderizarCarrito({ items, stockMap }) {
+    const carritoContenido = document.getElementById("carrito-contenido");
+    if (!items.length) {
+        carritoContenido.innerHTML = "<p>No tienes productos en el carrito.</p>";
+        return;
+    }
     let total = 0;
     carritoContenido.innerHTML = `
         <div class="table-responsive">
@@ -92,6 +93,18 @@ export async function mostrarCarrito() {
         </table>
         </div>
     `;
+}
+
+// Lógica de modificación y recarga del carrito
+export async function mostrarCarrito() {
+    const carritoContenido = document.getElementById("carrito-contenido");
+    const { user, items, stockMap } = await obtenerDatosCarrito();
+
+    if (!user) {
+        carritoContenido.innerHTML = "<div class='text-danger'>Debes iniciar sesión para ver tu carrito.</div>";
+        return;
+    }
+    renderizarCarrito({ items, stockMap });
 
     // Handlers para sumar/restar/eliminar/vaciar
     carritoContenido.onclick = async function(e) {
@@ -134,7 +147,7 @@ export async function mostrarCarrito() {
                         quantity: item.quantity,
                         price: item.price
                     })),
-                    total
+                    total: items.reduce((acc, item) => acc + item.price * item.quantity, 0)
                 };
                 await api.post('/orders/newOrder', pedido);
                 showModalNotificacion("Pedido simulado realizado");
@@ -157,7 +170,6 @@ document.addEventListener("DOMContentLoaded", function () {
             clearInterval(esperarNavbar);
             carritoLink.addEventListener("click", function (e) {
                 e.preventDefault();
-                mostrarCarrito();
                 mostrarCarrito();
                 const modal = new bootstrap.Modal(carritoModal);
                 modal.show();
