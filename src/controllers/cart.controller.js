@@ -30,6 +30,9 @@ export const addToCart = async (req, res) => {
 // Obtener carrito del usuario
 export const getCart = async (req, res) => {
     const { userId } = req.params;
+    if (!userId) {
+        return res.status(400).json({ message: 'ID de usuario es requerido' });
+    }
     try {
         const result = await pool.query(
         `SELECT c.id, c.product_id, c.quantity, p.name, p.price, p.img
