@@ -158,13 +158,6 @@ export async function mostrarCarrito() {
                 showModalNotificacion("Error al realizar el pedido");
             }
         }
-    const { user, items, stockMap } = await obtenerDatosCarrito();
-
-    if (!user) {
-        carritoContenido.innerHTML = "<div class='text-danger'>Debes iniciar sesión para ver tu carrito.</div>";
-        return;
-    }
-    renderizarCarrito({ items, stockMap });
     };
 }
 
