@@ -16,8 +16,20 @@ export function showToast(message) {
 }
 
 export function showModalNotificacion(mensaje, titulo = "Notificación") {
-  document.getElementById('notificacionModalLabel').textContent = titulo;
-  document.getElementById('notificacionModalBody').textContent = mensaje;
-  const modal = new bootstrap.Modal(document.getElementById('notificacionModal'));
-  modal.show();
+  // Cierra cualquier modal abierto de Bootstrap
+  document.querySelectorAll('.modal.show').forEach(modalEl => {
+    const modalInstance = bootstrap.Modal.getInstance(modalEl);
+    if (modalInstance) modalInstance.hide();
+  });
+
+  // Espera a que se cierren los modales anteriores antes de mostrar la notificación
+  setTimeout(() => {
+    document.getElementById('notificacionModalLabel').textContent = titulo;
+    document.getElementById('notificacionModalBody').textContent = mensaje;
+    const modal = new bootstrap.Modal(document.getElementById('notificacionModal'), {
+      backdrop: 'static',
+      focus: true
+    });
+    modal.show();
+  }, 300); // 300ms para animación de cierre
 }

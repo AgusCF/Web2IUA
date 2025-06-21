@@ -136,3 +136,6 @@ html {
     background-color: red !important;
     color: white !important;
 }
+#notificacionModal .modal-dialog {
+  z-index: 2000 !important;
+}
