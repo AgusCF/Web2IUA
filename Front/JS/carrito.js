@@ -18,22 +18,26 @@ export async function mostrarCarrito() {
     }
     // Obtener el id del usuario
     const resUser = await api.get(`/users/by-tel?tel=${usuario.tel || usuario.telefono}`);
-    console.log("Usuario obtenido:", resUser.data);
     const user = Array.isArray(resUser.data) ? resUser.data[0] : resUser.data;
     if (!user || !user.id) {
         carritoContenido.innerHTML = "<div class='text-danger'>No se pudo identificar el usuario.</div>";
         return;
     }
     // Obtener el carrito
-    console.log("Usuario para carrito:", user);
     const res = await api.get(`/cart/${user.id}`);
-    console.log("Respuesta del res:", res);
-    console.log("Respuesta del carrito:", res.data);
     const items = res.data;
     if (!items.length) {
         carritoContenido.innerHTML = "<p>No tienes productos en el carrito.</p>";
         return;
     }
+
+    // Obtener el stock de cada producto en paralelo
+    const stockMap = {};
+    await Promise.all(items.map(async item => {
+        const resProd = await api.get(`/products/${item.product_id}`);
+        stockMap[item.product_id] = resProd.data.stock;
+    }));
+
     let total = 0;
     carritoContenido.innerHTML = `
         <div class="table-responsive">
@@ -52,8 +56,8 @@ export async function mostrarCarrito() {
                 ${items.map(item => {
                     const subtotal = item.price * item.quantity;
                     total += subtotal;
-                    // Deshabilitar "+" si cantidad >= stock
-                    const deshabilitarSumar = item.quantity >= item.stock ? 'disabled' : '';
+                    const stock = stockMap[item.product_id];
+                    const deshabilitarSumar = item.quantity >= stock ? 'disabled' : '';
                     return `
                         <tr>
                             <td>${item.name}</td>
@@ -92,14 +96,13 @@ export async function mostrarCarrito() {
     carritoContenido.querySelectorAll('.btn-sumar').forEach(btn => {
         btn.onclick = async function() {
             const id = this.getAttribute('data-id');
-            // Buscar el item actual
             const item = items.find(i => i.id == id);
             if (!item) return;
+            const stock = stockMap[item.product_id];
             const nuevaCantidad = item.quantity + 1;
-            if (nuevaCantidad > item.stock) {
+            if (nuevaCantidad > stock) {
                 showToast("No puedes agregar más de lo disponible en stock.");
                 return;
-                
             }
             await api.put(`/cart/update/${id}`, { quantity: nuevaCantidad });
             mostrarCarrito();
