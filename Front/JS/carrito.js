@@ -1,5 +1,5 @@
 import api from "./api.js";
-import { showToast } from "./toast.js";
+import { showModalNotificacion } from "./toast.js";
 
 function getImgUrl(imgPath) {
     const BACKEND_URL = "https://web2iua-back.onrender.com";
@@ -104,23 +104,22 @@ export async function mostrarCarrito() {
             const stock = stockMap[item.product_id];
             const nuevaCantidad = item.quantity + 1;
             if (nuevaCantidad > stock) {
-                showToast("No puedes agregar más de lo disponible en stock.");
-                return;
+                return showModalNotificacion("No puedes agregar más de lo disponible en stock.");
             }
             await api.put(`/cart/update/${id}`, { quantity: nuevaCantidad });
-            await showToast(`Agregaste ${item.name} al carrito`);
+            return showModalNotificacion(`Agregaste ${item.name} al carrito`);
         } else if (btn.classList.contains("btn-restar")) {
             const item = items.find(i => i.id == id);
             if (!item) return;
             const nuevaCantidad = item.quantity - 1;
             await api.put(`/cart/update/${id}`, { quantity: nuevaCantidad });
-            await showToast(`Restaste ${item.name} del carrito`);
+            return showModalNotificacion(`Restaste ${item.name} del carrito`);
         } else if (btn.classList.contains("btn-eliminar")) {
             await api.delete(`/cart/remove/${id}`);
-            await showToast("Producto eliminado del carrito");
+            return showModalNotificacion("Producto eliminado del carrito");
         } else if (btn.id === "btn-vaciar-carrito") {
             await api.delete(`/cart/clear/${user.id}`);
-            await showToast("Carrito vaciado");
+            return showModalNotificacion("Carrito vaciado");
         } else if (btn.id === "btn-realizar-pedido") {
             try {
                 const pedido = {
@@ -133,14 +132,14 @@ export async function mostrarCarrito() {
                     total
                 };
                 await api.post('/orders/newOrder', pedido);
-                showToast("Pedido simulado realizado");
+                showModalNotificacion("Pedido simulado realizado");
                 await api.delete(`/cart/clear/${user.id}`);
-                await showToast("Carrito vaciado tras realizar el pedido");
+                return showModalNotificacion("Carrito vaciado tras realizar el pedido");
             } catch (err) {
-                showToast("Error al realizar el pedido");
+                showModalNotificacion("Error al realizar el pedido");
             }
         }
-        mostrarCarrito()
+        return mostrarCarrito()
     };
 }
 
@@ -153,6 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
             clearInterval(esperarNavbar);
             carritoLink.addEventListener("click", function (e) {
                 e.preventDefault();
+                mostrarCarrito();
                 mostrarCarrito();
                 const modal = new bootstrap.Modal(carritoModal);
                 modal.show();
