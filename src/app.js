@@ -5,6 +5,7 @@ import cors from 'cors';
 import { wss } from './websocket.js';
 import bodyParser from 'body-parser';
 import router from './routes/index.routes.js';
+import routerTecno from './routes/tecno.routes.js';
 import { pool } from './databases/db.js';
 import multer from 'multer';
 import path from 'path';
@@ -45,6 +46,7 @@ app.use(cors({
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api', router); // Usar el router para manejar las rutas de la API
+app.use('/tecno', routerTecno); // Usar el router para manejar las rutas de la API
 
 router.get('/pingFront', (req, res) => {
   res.status(200).send('pong');

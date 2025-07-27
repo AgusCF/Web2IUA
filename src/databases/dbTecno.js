@@ -8,7 +8,7 @@ const { Pool } = pkg;
 
 // Configuración del Pool de PostgreSQL
 export const pool = new Pool({
-    connectionString: process.env.DATABASE_URL, // Usa DATABASE_URL directamente
+    connectionString: process.env.DATABASE_URL_TECNO, // Usa DATABASE_URL directamente
     ssl: {
         require: true, // Requerir SSL
         rejectUnauthorized: false, // Permitir certificados no verificados (opcional según tu entorno)
@@ -16,10 +16,10 @@ export const pool = new Pool({
 });
 
 // Crear conexión con Neon usando el módulo @neondatabase/serverless
-export const sql = neon(process.env.DATABASE_URL);
+export const sql = neon(process.env.DATABASE_URL_TECNO);
 
 // Función para verificar la conexión al iniciar
-export async function verifyDatabaseConnection() {
+export async function verifyDatabaseConnectionTecno() {
     try {
         console.log("Verificando conexión con el Pool...");
         const client = await pool.connect(); // Intenta conectar usando el Pool
@@ -28,7 +28,7 @@ export async function verifyDatabaseConnection() {
 
         console.log("Verificando conexión con Neon (directo)...");
         const result = await sql`SELECT 1 AS test`; // Intenta una consulta básica con Neon
-        console.log("✔️ Conexión a Neon establecida correctamente Web2:", result);
+        console.log("✔️ Conexión a Neon establecida correctamente Tecno:", result);
     } catch (error) {
         console.error("❌ Error al conectar a la base de datos:", error.message);
         throw error; // Propaga el error para manejo en otros lugares si es necesario
@@ -36,4 +36,4 @@ export async function verifyDatabaseConnection() {
 }
 
 // Llama a la función de verificación al iniciar
-verifyDatabaseConnection();
+verifyDatabaseConnectionTecno();
