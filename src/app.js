@@ -40,8 +40,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 app.use(cors({
-  origin: 'https://web2iua.onrender.com',
-  credentials: true // si necesitas enviar cookies o cabeceras de autenticación
+  origin: ['https://web2iua.onrender.com', 'http://localhost:3000', 'http://10.0.2.2:5002'], // Agregar localhost y emulador Android
+  credentials: true, // si necesitas enviar cookies o cabeceras de autenticación
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -62,7 +64,6 @@ app.get('/ping', (req, res) => {
     }
   });
 });
-
 
 //app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
@@ -86,6 +87,37 @@ app.post('/api/products/upload', upload.single('imagen'), async (req, res) => {
     fs.unlinkSync(inputPath);
 
     res.json({ imageUrl: `/uploads/${path.basename(outputPath)}` });
+  } catch (err) {
+    console.error('Error al optimizar imagen:', err);
+    res.status(500).json({ message: 'Error al procesar la imagen' });
+  }
+});
+
+// Ruta para subir imágenes para la sección tecno
+app.post('/tecno/products/upload', upload.single('imagen'), async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: 'No se subió ninguna imagen' });
+  }
+
+  const inputPath = req.file.path;
+  const outputPath = `uploads/tecno_${Date.now()}.webp`; // Prefijo 'tecno_' para identificar
+
+  try {
+    // Optimización específica para móvil (mayor compresión)
+    await sharp(inputPath)
+      .resize({ width: 400 }) // Tamaño más pequeño para móviles
+      .toFormat('webp', { quality: 70 }) // Calidad balanceada para móvil
+      .toFile(outputPath);
+
+    // Elimina el archivo original
+    fs.unlinkSync(inputPath);
+
+    // Devolver URL completa para usar en la app móvil
+    const baseUrl = req.protocol + '://' + req.get('host');
+    res.json({ 
+      imageUrl: `${baseUrl}/uploads/${path.basename(outputPath)}`,
+      relativePath: `/uploads/${path.basename(outputPath)}`
+    });
   } catch (err) {
     console.error('Error al optimizar imagen:', err);
     res.status(500).json({ message: 'Error al procesar la imagen' });
