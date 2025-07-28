@@ -120,10 +120,9 @@ export const updatedPassword = async (req, res) => {
 
 // Autenticar un usuario y generar un token JWT
 export const autenticarUsuario = async (req, res) => {
-  const { tel, telefono, password } = req.body;
-  const telefonoFinal = tel || telefono;
+  const { email, password } = req.body;
   try {
-    const result = await pool.query('SELECT * FROM users WHERE tel = $1', [telefonoFinal]);
+    const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
     if (result.rows.length === 0) {
       return res.status(404).json({ message: "El usuario no existe" });
     }
@@ -133,7 +132,7 @@ export const autenticarUsuario = async (req, res) => {
       return res.status(401).json({ message: "Contraseña incorrecta" });
     }
     const token = jwt.sign(
-      { id: user.id, username: user.username, tel: user.telefonoFinal, role: user.role },
+      { id: user.id, username: user.username, email: user.email, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: "10m" }
     );
@@ -141,7 +140,7 @@ export const autenticarUsuario = async (req, res) => {
         token,
         usuario: {
             username: user.username,
-            tel: user.tel,
+            email: user.email,
             role: user.role
         }
     });
