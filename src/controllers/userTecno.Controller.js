@@ -39,12 +39,15 @@ export const getUserById = async (req, res) => {
 
 // Crear usuario (Registro)
 export const createUser = async (req, res) => {
-  const { username, telefono, password, role = 'client' } = req.body;
-  
+  const { username, telefono, password, email, role = 'client' } = req.body;
+
   // Validaciones básicas
-  if (!username || !telefono || !password) {
-    return res.status(400).json({ message: 'Todos los campos son requeridos' });
+  if (!username || !password || !email) {
+    return res.status(400).json({ message: 'Username, email y password son requeridos' });
   }
+
+  // Si no llega teléfono, guardar como string vacío
+  const telefonoFinal = telefono ? telefono : "";
 
   // Validar formato de contraseña
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
@@ -55,16 +58,16 @@ export const createUser = async (req, res) => {
   }
 
   try {
-    // Verificar si el usuario ya existe
-    const existingUser = await pool.query('SELECT * FROM users WHERE tel = $1', [telefono]);
+    // Verificar si el usuario ya existe por email
+    const existingUser = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
     if (existingUser.rows.length > 0) {
-      return res.status(409).json({ message: 'El usuario ya existe con este teléfono' });
+      return res.status(409).json({ message: 'El usuario ya existe con este email' });
     }
 
     // Crear nuevo usuario
     const result = await pool.query(
-      'INSERT INTO users (username, password, tel, role) VALUES ($1, $2, $3, $4) RETURNING id, username, tel, role',
-      [username, password, telefono, role]
+      'INSERT INTO users (username, password, tel, email, role) VALUES ($1, $2, $3, $4, $5) RETURNING id, username, tel, email, role',
+      [username, password, telefonoFinal, email, role]
     );
     
     res.status(201).json({
