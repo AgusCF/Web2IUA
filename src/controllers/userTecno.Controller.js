@@ -39,15 +39,12 @@ export const getUserById = async (req, res) => {
 
 // Crear usuario (Registro)
 export const createUser = async (req, res) => {
-  const { username, telefono, password, email, role = 'client' } = req.body;
+  const { username, telefono = '', password, email, role = 'client' } = req.body;
 
   // Validaciones básicas
   if (!username || !password || !email) {
     return res.status(400).json({ message: 'Username, email y password son requeridos' });
   }
-
-  // Si no llega teléfono, guardar como string vacío
-  const telefonoFinal = telefono ? telefono : "";
 
   // Validar formato de contraseña
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
