@@ -64,7 +64,7 @@ export const createUser = async (req, res) => {
     // Crear nuevo usuario
     const result = await pool.query(
       'INSERT INTO users (username, password, tel, email, role) VALUES ($1, $2, $3, $4, $5) RETURNING id, username, tel, email, role',
-      [username, password, telefonoFinal, email, role]
+      [username, password, telefono, email, role]
     );
     
     res.status(201).json({
