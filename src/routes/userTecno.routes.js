@@ -1,10 +1,11 @@
 import express from 'express';
 import { 
     getAllUsers, 
+    getUserByTel,
     getUserById, 
     createUser, 
     updateUser, 
-    getUserByTel,
+    updatedPassword,
     getUserByMail
 } from '../controllers/userTecno.Controller.js';
 
