@@ -52,7 +52,7 @@ export const getUserById = async (req, res) => {
 
 // Crear usuario (Registro)
 export const createUser = async (req, res) => {
-  const { username, telefono = '', password, email, role = 'client' } = req.body;
+  const { username, tel = '', password, email, role = 'client' } = req.body;
 
   // Validaciones básicas
   if (!username || !password || !email) {
@@ -77,7 +77,7 @@ export const createUser = async (req, res) => {
     // Crear nuevo usuario
     const result = await pool.query(
       'INSERT INTO users (username, password, tel, email, role) VALUES ($1, $2, $3, $4, $5) RETURNING id, username, tel, email, role',
-      [username, password, telefono, email, role]
+      [username, password, tel, email, role]
     );
     
     res.status(201).json({
@@ -92,7 +92,7 @@ export const createUser = async (req, res) => {
 
 // Actualizar usuario
 export const updateUser = async (req, res) => {
-  const { username, telefono, password, role } = req.body;
+  const { username, tel, password, role } = req.body;
   try {
     // No encriptar la contraseña
     const result = await pool.query(
@@ -102,7 +102,7 @@ export const updateUser = async (req, res) => {
         password = COALESCE($3, password), 
         role = COALESCE($4, role)
       WHERE id = $5 RETURNING *`,
-      [username, telefono, password, role, req.params.id]
+      [username, tel, password, role, req.params.id]
     );
     if (result.rows.length === 0) return res.status(404).send('Usuario no encontrado');
     res.json(result.rows[0]);
