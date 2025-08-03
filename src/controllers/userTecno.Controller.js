@@ -25,6 +25,19 @@ export const getUserByTel = async (req, res) => {
   }
 };
 
+// Obtener usuario por email
+export const getUserByMail = async (req, res) => {
+  const { email } = req.query;
+  if (!email) return res.status(400).json({ message: "Falta el email" });
+  try {
+    const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    if (result.rows.length === 0) return res.status(404).json({ message: "Usuario no encontrado" });
+    res.json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ message: "Error al buscar usuario" });
+  }
+};
+
 // Obtener usuario por ID
 export const getUserById = async (req, res) => {
   try {
