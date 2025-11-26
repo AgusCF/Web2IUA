@@ -11,10 +11,10 @@ import {
 const router = express.Router();
 
 router.post('/add', addToFavorites); // Agregar producto a favoritos
-router.get('/:userId', getFavorites); // Obtener favoritos del usuario
-router.get('/check/:userId/:productId', checkFavorite); // Verificar si está en favoritos
+router.get('/:user_id', getFavorites); // ✅ Cambiado :userId → :user_id
+router.get('/check/:user_id/:product_id', checkFavorite); // ✅ Cambiado parámetros
 router.delete('/remove/:id', removeFavorite); // Eliminar producto de favoritos por ID
-router.delete('/user/:userId/product/:productId', removeFavoriteByUserAndProduct); // Eliminar por user_id y product_id
-router.delete('/clear/:userId', clearFavorites); // Vaciar favoritos
+router.delete('/user/:user_id/product/:product_id', removeFavoriteByUserAndProduct); // ✅ Cambiado parámetros
+router.delete('/clear/:user_id', clearFavorites); // ✅ Cambiado :userId → :user_id
 
 export default router;

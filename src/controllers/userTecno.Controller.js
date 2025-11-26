@@ -1,10 +1,11 @@
 import { pool } from '../databases/dbTecno.js';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt'; // ✅ Importar bcrypt
 
 // Obtener todos los usuarios
 export const getAllUsers = async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM users ORDER BY id ASC');
+    const result = await pool.query('SELECT id, username, tel, email, role, createdat, updatedat FROM users ORDER BY id ASC');
     res.json(result.rows);
   } catch (error) {
     console.error('Error al obtener usuarios:', error);
@@ -17,7 +18,7 @@ export const getUserByTel = async (req, res) => {
   const { tel } = req.query;
   if (!tel) return res.status(400).json({ message: "Falta el teléfono" });
   try {
-    const result = await pool.query('SELECT * FROM users WHERE tel = $1', [tel]);
+    const result = await pool.query('SELECT id, username, tel, email, role, createdat, updatedat FROM users WHERE tel = $1', [tel]);
     if (result.rows.length === 0) return res.status(404).json({ message: "Usuario no encontrado" });
     res.json(result.rows[0]);
   } catch (error) {
@@ -30,7 +31,7 @@ export const getUserByMail = async (req, res) => {
   const { email } = req.query;
   if (!email) return res.status(400).json({ message: "Falta el email" });
   try {
-    const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    const result = await pool.query('SELECT id, username, tel, email, role, createdat, updatedat FROM users WHERE email = $1', [email]);
     if (result.rows.length === 0) return res.status(404).json({ message: "Usuario no encontrado" });
     res.json(result.rows[0]);
   } catch (error) {
@@ -41,7 +42,7 @@ export const getUserByMail = async (req, res) => {
 // Obtener usuario por ID
 export const getUserById = async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM users WHERE id = $1', [req.params.id]);
+    const result = await pool.query('SELECT id, username, tel, email, role, createdat, updatedat FROM users WHERE id = $1', [req.params.id]);
     if (result.rows.length === 0) return res.status(404).send('Usuario no encontrado');
     res.json(result.rows[0]);
   } catch (error) {
@@ -50,7 +51,7 @@ export const getUserById = async (req, res) => {
   }
 };
 
-// Crear usuario (Registro)
+// Crear usuario (Registro) - ✅ CON ENCRIPCIÓN
 export const createUser = async (req, res) => {
   const { username, tel = '', password, email, role = 'client' } = req.body;
 
@@ -74,10 +75,14 @@ export const createUser = async (req, res) => {
       return res.status(409).json({ message: 'El usuario ya existe con este email' });
     }
 
-    // Crear nuevo usuario
+    // ✅ ENCRIPTAR CONTRASEÑA
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Crear nuevo usuario con contraseña encriptada
     const result = await pool.query(
       'INSERT INTO users (username, password, tel, email, role) VALUES ($1, $2, $3, $4, $5) RETURNING id, username, tel, email, role',
-      [username, password, tel, email, role]
+      [username, hashedPassword, tel, email, role]
     );
     
     res.status(201).json({
@@ -90,20 +95,42 @@ export const createUser = async (req, res) => {
   }
 };
 
-// Actualizar usuario
+// Actualizar usuario - ✅ MANEJAR ENCRIPCIÓN CONDICIONAL
 export const updateUser = async (req, res) => {
   const { username, tel, password, role } = req.body;
+  
   try {
-    // No encriptar la contraseña
-    const result = await pool.query(
-      `UPDATE users SET 
-        username = COALESCE($1, username), 
-        tel = COALESCE($2, tel), 
-        password = COALESCE($3, password), 
-        role = COALESCE($4, role)
-      WHERE id = $5 RETURNING *`,
-      [username, tel, password, role, req.params.id]
-    );
+    let query;
+    let values;
+    
+    if (password) {
+      // ✅ Si se proporciona nueva contraseña, encriptarla
+      const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+      if (!passwordRegex.test(password)) {
+        return res.status(400).json({ 
+          message: "La contraseña debe tener al menos 8 caracteres, incluyendo una letra y un número" 
+        });
+      }
+      
+      const hashedPassword = await bcrypt.hash(password, 10);
+      query = `UPDATE users SET 
+                username = COALESCE($1, username), 
+                tel = COALESCE($2, tel), 
+                password = COALESCE($3, password), 
+                role = COALESCE($4, role)
+              WHERE id = $5 RETURNING id, username, tel, email, role`;
+      values = [username, tel, hashedPassword, role, req.params.id];
+    } else {
+      // No actualizar contraseña
+      query = `UPDATE users SET 
+                username = COALESCE($1, username), 
+                tel = COALESCE($2, tel), 
+                role = COALESCE($3, role)
+              WHERE id = $4 RETURNING id, username, tel, email, role`;
+      values = [username, tel, role, req.params.id];
+    }
+    
+    const result = await pool.query(query, values);
     if (result.rows.length === 0) return res.status(404).send('Usuario no encontrado');
     res.json(result.rows[0]);
   } catch (error) {
@@ -112,17 +139,28 @@ export const updateUser = async (req, res) => {
   }
 };
 
-// Cambiar la contraseña de un usuario
+// Cambiar la contraseña de un usuario - ✅ CON ENCRIPCIÓN
 export const updatedPassword = async (req, res) => {
   const { id } = req.params;
   const { password } = req.body;
+  
   const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
   if (!passwordRegex.test(password)) {
-    return res.status(400).json({ message: "La contraseña debe tener al menos 8 caracteres, incluyendo una letra y un número" });
+    return res.status(400).json({ 
+      message: "La contraseña debe tener al menos 8 caracteres, incluyendo una letra y un número" 
+    });
   }
+  
   try {
-    // Guarda la contraseña en texto plano
-    const result = await pool.query('UPDATE users SET password = $1 WHERE id = $2 RETURNING *', [password, id]);
+    // ✅ ENCRIPTAR NUEVA CONTRASEÑA
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    
+    const result = await pool.query(
+      'UPDATE users SET password = $1 WHERE id = $2 RETURNING id, username, email', 
+      [hashedPassword, id]
+    );
+    
     if (result.rows.length === 0) return res.status(404).json({ message: "Usuario no encontrado" });
     return res.json({ message: "Contraseña actualizada correctamente" });
   } catch (error) {
@@ -131,31 +169,47 @@ export const updatedPassword = async (req, res) => {
   }
 };
 
-// Autenticar un usuario y generar un token JWT
+// Autenticar un usuario - ✅ CON COMPARACIÓN ENCRIPTADA
 export const autenticarUsuario = async (req, res) => {
   const { email, password } = req.body;
+  
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email y contraseña son requeridos" });
+  }
+  
   try {
     const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
     if (result.rows.length === 0) {
       return res.status(404).json({ message: "El usuario no existe" });
     }
+    
     const user = result.rows[0];
-    // Comparación directa de contraseñas
-    if (password !== user.password) {
+    
+    // ✅ COMPARAR CONTRASEÑA ENCRIPTADA
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    if (!isValidPassword) {
       return res.status(401).json({ message: "Contraseña incorrecta" });
     }
+    
     const token = jwt.sign(
-      { id: user.id, username: user.username, email: user.email, role: user.role },
+      { 
+        id: user.id, 
+        username: user.username, 
+        email: user.email, 
+        role: user.role 
+      },
       process.env.JWT_SECRET,
       { expiresIn: "10m" }
     );
+    
     return res.json({
-        token,
-        usuario: {
-            username: user.username,
-            email: user.email,
-            role: user.role
-        }
+      token,
+      usuario: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.role
+      }
     });
   } catch (error) {
     console.error('Error al autenticar usuario:', error);
