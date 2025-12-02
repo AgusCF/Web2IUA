@@ -19,7 +19,7 @@ export const addToCart = async (req, res) => {
 
         // Buscar si ya existe en el carrito
         const existing = await pool.query(
-            'SELECT * FROM CartItems WHERE user_id = $1 AND product_id = $2',
+            'SELECT * FROM cart_items WHERE user_id = $1 AND product_id = $2',
             [user_id, product_id]
         );
 
@@ -38,13 +38,13 @@ export const addToCart = async (req, res) => {
         // Insertar o actualizar
         if (existing.rows.length > 0) {
             await pool.query(
-                'UPDATE CartItems SET quantity = $1 WHERE user_id = $2 AND product_id = $3',
+                'UPDATE cart_items SET quantity = $1 WHERE user_id = $2 AND product_id = $3',
                 [newQuantity, user_id, product_id]
             );
             return res.json({ message: 'Cantidad actualizada en el carrito' });
         } else {
             await pool.query(
-                'INSERT INTO CartItems (user_id, product_id, quantity) VALUES ($1, $2, $3)',
+                'INSERT INTO cart_items (user_id, product_id, quantity) VALUES ($1, $2, $3)',
                 [user_id, product_id, quantity]
             );
             return res.json({ message: 'Producto agregado al carrito' });
@@ -67,7 +67,7 @@ export const getCart = async (req, res) => {
     try {
         const result = await pool.query(
             `SELECT c.id, c.product_id, c.quantity, p.name, p.price, p.img
-            FROM CartItems c
+            FROM cart_items c
             JOIN Products p ON c.product_id = p.id
             WHERE c.user_id = $1`,
             [userId]
@@ -89,7 +89,7 @@ export const updateCartItem = async (req, res) => {
         // Obtener el producto relacionado con el ítem del carrito
         const itemRes = await pool.query(
             `SELECT ci.product_id, ci.quantity AS current_quantity, p.stock
-             FROM CartItems ci
+             FROM cart_items ci
              JOIN Products p ON ci.product_id = p.id
              WHERE ci.id = $1`,
             [id]
@@ -110,7 +110,7 @@ export const updateCartItem = async (req, res) => {
 
         // Actualizar cantidad
         await pool.query(
-            'UPDATE CartItems SET quantity = $1 WHERE id = $2',
+            'UPDATE cart_items SET quantity = $1 WHERE id = $2',
             [quantity, id]
         );
 
@@ -126,7 +126,7 @@ export const updateCartItem = async (req, res) => {
 export const removeCartItem = async (req, res) => {
     const { id } = req.params;
     try {
-        await pool.query('DELETE FROM CartItems WHERE id = $1', [id]);
+        await pool.query('DELETE FROM cart_items WHERE id = $1', [id]);
         res.json({ message: 'Producto eliminado del carrito' });
     } catch (error) {
         console.error('Error al eliminar producto del carrito:', error);
@@ -138,7 +138,7 @@ export const removeCartItem = async (req, res) => {
 export const clearCart = async (req, res) => {
     const { userId } = req.params;
     try {
-        await pool.query('DELETE FROM CartItems WHERE user_id = $1', [userId]);
+        await pool.query('DELETE FROM cart_items WHERE user_id = $1', [userId]);
         res.json({ message: 'Carrito vaciado' });
     } catch (error) {
         console.error('Error al vaciar carrito:', error);
