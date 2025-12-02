@@ -3,6 +3,8 @@ import { autenticarUsuario, createUser } from "../controllers/userTecno.Controll
 import routerUser from "./userTecno.routes.js";
 import routerProducts from "./productsTecno.routes.js";
 import routerFavorites from "./fav.routes.js";
+import routerCart from "./cartTecno.routes.js";
+
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -20,5 +22,6 @@ router.get("/", (req, res) => {
 router.use("/users", routerUser);
 router.use("/products", routerProducts);
 router.use("/fav", routerFavorites);
+router.use("/cart", routerCart);
 
 export default router;
