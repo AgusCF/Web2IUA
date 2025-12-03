@@ -41,9 +41,14 @@ const CartItem = sequelize.define('CartItem', {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
   },
+  stock: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+  },
 }, {
   tableName: 'cart_items',
-  timestamps: false, // ya manejamos added_at y updated_at manualmente
+  timestamps: false,
   indexes: [
     {
       unique: true,
